@@ -1,0 +1,16 @@
+__pycache__
+*.ipynb
+database/
+examples/
+.vscode/
+.conda/
+backup/
+scripts/
+test/
+.mypy_cache/
+.env
+venv/
+sql_tests/
+test
+.idea/
+/files/

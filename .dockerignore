@@ -1,0 +1,10 @@
+__pycache__/
+.vscode/
+pruebas.py
+pruebas.ipynb
+test/
+*.ipynb
+.conda/
+.ipynb_checkpoints/
+.mypy_cache/
+backup/

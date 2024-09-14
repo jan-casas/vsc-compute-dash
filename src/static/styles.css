@@ -1,0 +1,369 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/Open_Sans/static/OpenSans-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Colfax';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/Colfax/ColfaxAIRegular.otf') format('opentype');
+}
+
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #6e6e80;
+}
+
+.default-modal-css {
+    background-color: white !important;
+}
+
+.code-docs {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 15px;
+    background-color: rgb(247, 247, 248);
+}
+
+
+h1 {
+    font-family: 'Colfax', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #202123;
+}
+
+
+h2 {
+    font-family: 'Colfax', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: #202123;
+}
+
+h3 {
+    font-family: 'Colfax', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #202123;
+}
+
+h5 {
+    font-family: 'Colfax', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #202123;
+}
+
+h6 {
+    font-family: 'Colfax', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #6e6e80;
+}
+
+p {
+    font-size: 14px;
+}
+
+span {
+    font-family: 'Colfax', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #6e6e80;
+}
+
+
+.dropUp .Select-menu-outer {
+    top: 0;
+    -webkit-transform: translateY(3px) translateY(-100%);
+    transform: translateY(3px) translateY(-100%);
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+}
+
+.default-modal-css {
+    background-color: white !important;
+}
+
+.code-docs {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 15px;
+    background-color: rgb(247, 247, 248);
+}
+
+
+.hljs {
+    background-color: transparent;
+}
+
+.row {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+}
+
+
+img {
+    width: 54px;
+    height: 54px;
+}
+
+.app-header {
+    align-items: center;
+    background-color: white !important;
+    border-bottom: 1px solid #dedee3;
+    display: flex;
+    height: 60px;
+    /* height: var(--app-header-height); */
+    justify-content: space-between;
+    overflow: auto;
+    padding: 0 24px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+
+.green-gradient-bg {
+    display: flex;
+    align-items: center;
+    align-self: start;
+    /* margin: 10px; */
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(to bottom right, #27b50e, #2ee5b7);
+    border-radius: 4px;
+
+}
+
+
+.blue-gradient-bg {
+    display: flex;
+    align-items: center;
+    align-self: start;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(to bottom right, #1c8cff, #00c6ff);
+    border-radius: 4px;
+}
+
+.red-gradient-bg {
+    display: flex;
+    align-items: center;
+    align-self: start;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(to bottom right, #ff0000, #ff5e00);
+    border-radius: 4px;
+}
+
+.purple-gradient-bg {
+    display: flex;
+    align-items: center;
+    align-self: start;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(to bottom right, #8a2be2, #4b0082);
+    border-radius: 4px;
+}
+
+.yellow-gradient-bg {
+    display: flex;
+    align-items: center;
+    align-self: start;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(to bottom right, #ffd700, #ff8c00);
+    border-radius: 4px;
+}
+
+.pink-gradient-bg {
+    display: flex;
+    align-items: center;
+    align-self: start;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(to bottom right, #ff69b4, #ff1493);
+    border-radius: 4px;
+}
+
+
+.icon-item {
+    cursor: pointer;
+    display: flex;
+    min-width: 0;
+    align-content: center;
+    width: 54px;
+    height: 54px;
+}
+
+
+.icon-item-icon {
+    border-radius: 4px;
+    color: #fff;
+    flex: 0 0 auto;
+    font-size: 24px;
+    line-height: 0;
+    padding: 15px;
+}
+
+
+.icon-item-tag {
+    background-color: #ececf1;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    margin-left: 12px;
+    padding: 0 4px;
+}
+
+.item-tag {
+    border-radius: 3px;
+    border-color: #cecedb;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 4px;
+    padding: 1px 6px;
+}
+
+
+.search-input {
+    border: 1px solid #ececf1;
+    color: #6e6e80;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+.query-input {
+    background-color: #f7f7f8;
+    border-radius: 4px;
+    border: 0px solid #ececf1;
+    color: #202123;
+    font-size: 14px;
+    font-weight: 400;
+    height: 75px;
+    padding: 6px 12px;
+    width: 100%;
+    resize: vertical;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    display: block;
+    overflow-y: auto;
+}
+
+.query-input:focus {
+    background-color: #f7f7f8;
+    border-radius: 4px;
+    border: 1.5px solid #292929;
+    outline: none;
+    color: #202123;
+    font-size: 14px;
+    font-weight: 400;
+    height: 75px;
+    /* line-height: 20px; */
+    /* margin-left: 12px; */
+    padding: 6px 12px;
+    width: 100%;
+    resize: vertical;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    display: block;
+    overflow-y: auto;
+}
+
+.response-area {
+    background-color: #ffead2;
+    border-radius: 4px;
+    border: 0px solid #ececf1;
+    color: #202123;
+    font-size: 14px;
+    font-weight: 400;
+    height: 75px;
+    /* line-height: 20px; */
+    /* margin-left: 12px; */
+    padding: 6px 12px;
+    width: 100%;
+    resize: vertical;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    display: block;
+    overflow-y: auto;
+}
+
+
+.button-primary {
+    font-size: 14px;
+    padding: 6px 12px;
+    color: #fff;
+    background-color: #00c6ff;
+    border-radius: 4px;
+    border: 1px solid #00c6ff;
+}
+
+.mr-1 {
+    font-family: 'Colfax', sans-serif;
+}
+
+.btn-primary {
+    font-family: 'Colfax', sans-serif;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.collapse-container {
+    position: absolute;
+    z-index: 1;
+}
+
+.btn-custom {
+    background-color: white;
+    color: #6e6e80;
+    border: 0px solid #00c6ff;
+}
+
+.btn-custom:hover {
+    background-color: #00c6ff;
+    color: white;
+}
+
+.btn-custom:active {
+    background-color: #6e6e80;
+    color: white;
+}
+
+
+#modal .modal-header {
+    background-color: #f7f7f8;
+}
+
+
+.form-control {
+    font-family: 'Colfax', sans-serif;
+}
+
+a {
+    color: #9a9a9a;
+}
