@@ -75,7 +75,7 @@ def toggle_modal_help(n1, is_open):
      dash.dependencies.Input("speckle_data_sidebar", "n_clicks")],
     [dash.dependencies.State("collapse", "is_open")],
 )
-def toggle_collapse(n1, n2, n3, is_open):  # Add n3 to the function parameters
+def toggle_collapse(n1, n2, n3, is_open):
     """
     Toggles the collapse.
 
@@ -89,6 +89,7 @@ def toggle_collapse(n1, n2, n3, is_open):  # Add n3 to the function parameters
     :type is_open: bool
     :return: The collapse.
     """
+    print('Toggle Collapse')
     ctx = dash.callback_context
 
     if not ctx.triggered:
@@ -101,7 +102,8 @@ def toggle_collapse(n1, n2, n3, is_open):  # Add n3 to the function parameters
     elif button_id == 'bake-button' and n2:
         return False
     elif button_id == 'speckle_data_sidebar' and n3:  # Add this condition
-        return False if is_open else is_open  # Close the collapse if it's open, otherwise leave it as is
+        return False if is_open else is_open  # Close the collapse if it's open, otherwise leave
+        # it as is
     return is_open
 
 

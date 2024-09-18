@@ -21,6 +21,7 @@ CORS(app, origins=[
 
 # Define Dash app
 dash_app = dash.Dash(__name__, server=app,
-                     external_stylesheets=external_stylesheets, use_pages=True, pages_folder='views')
+                     external_stylesheets=external_stylesheets, use_pages=True,
+                     pages_folder='views')
 logging.basicConfig(level=logging.INFO, handlers=[logging.StreamHandler(sys.stdout)],
                     format='%(asctime)s - %(levelname)s - %(message)s')

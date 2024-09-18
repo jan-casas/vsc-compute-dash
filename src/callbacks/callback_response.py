@@ -8,21 +8,17 @@ from specklepy.api.client import SpeckleClient
 from specklepy.api.credentials import get_default_account
 from specklepy.api.wrapper import StreamWrapper
 
+from config.settings import SPECKLE_HOST, SPECKLE_INITIAL_COMMIT_ID, SPECKLE_MODEL_ID
 from src.core_callbacks import dash_app
-from src.static.style import (CONTENT_STYLE, CONTENT_STYLE1, SIDEBAR_HIDDEN,
-                              SIDEBAR_STYLE)
-from src.utils import parallel_plot
+from src.static.style import (content_style_dict, content_style1_dict, sidebar_hidden_dict,
+                              sidebar_style_dict)
+from src.utils.utils_plotly import parallel_plot
 from src.utils.utils_speckle import client, get_commits, process_commits
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/apps/utils_plotly.py')
 sys.path.insert(0, 'core_callbacks.py')
 sys.path.insert(0, 'callbacks/utils_speckle.py')
-
-# Constants
-HOST = 'https://speckle.xyz/'
-STREAM_ID = '0e5d383e76'
-BRANCH_COMPUTE_TESTING = 'https://speckle.xyz/streams/0e5d383e76/branches/compute%2Ffacade-testing'
 
 # Store the commits per session
 store_commits_names = []
@@ -65,22 +61,25 @@ def merge_commits(selected_commits: Optional[List[str]] = None) -> str:
         str: The url of the iframe.
     """
     # create and authenticate a client
-    client = SpeckleClient(host=HOST)
+    client = SpeckleClient(host=SPECKLE_HOST)
     account = get_default_account()
     client.authenticate_with_account(account)
 
     # get latest commits from the stream and the base one
     latest_commit, _, _, transport = get_commits(
-        stream_id=STREAM_ID, client=client)
-    base_commit_url = f"https://speckle.xyz/streams/{STREAM_ID}/commits/36680e09fb"
+        stream_id=SPECKLE_MODEL_ID, client=client)
+    base_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_MODEL_ID}/models"
+                       f"/{SPECKLE_MODEL_ID}{SPECKLE_INITIAL_COMMIT_ID}")
     commits = [base_commit_url]
 
     if selected_commits is None:
-        latest_commit_url = f"https://speckle.xyz/streams/{STREAM_ID}/commits/9c2637ae37"
+        latest_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_MODEL_ID}/models"
+                             f"/{SPECKLE_MODEL_ID}{SPECKLE_INITIAL_COMMIT_ID}")
         commits.append(latest_commit_url)
     else:
         for selected_commit in selected_commits:
-            selected_commit_url = f"https://speckle.xyz/streams/{STREAM_ID}/commits/{selected_commit}"
+            selected_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_MODEL_ID}/models"
+                                   f"/{SPECKLE_MODEL_ID}{selected_commit}")
             commits.append(selected_commit_url)
 
     print("Commits:", commits)
@@ -94,7 +93,8 @@ def merge_commits(selected_commits: Optional[List[str]] = None) -> str:
     overlay = ",".join(commit_ids[1:])
 
     embed_url = (f"https://speckle.xyz/embed?stream={stream_id}&commit={commit_ids[0]}&overlay="
-                 f"{overlay}&transparent=true&autoload=true&hidecontrols=true&hidesidebar=true&hideselectioninfo=false")
+                 f"{overlay}&transparent=true&autoload=true&hidecontrols=true&hidesidebar=true"
+                 f"&hideselectioninfo=false")
 
     return embed_url
 
@@ -104,7 +104,8 @@ def merge_commits(selected_commits: Optional[List[str]] = None) -> str:
     [dash.dependencies.Input("dropdown_commit", "value"),
      dash.dependencies.Input("dropdown_branches", "value")],
 )
-def update_latest_commit(dropdown_commit: Optional[str] = None, dropdown_branches: Optional[List[str]] = None) -> str:
+def update_latest_commit(dropdown_commit: Optional[str] = None,
+                         dropdown_branches: Optional[List[str]] = None) -> str:
     """Updates the iframe with the latest commit.
 
     :param dropdown_commit: The selected branch.
@@ -120,7 +121,8 @@ def update_latest_commit(dropdown_commit: Optional[str] = None, dropdown_branche
     latest_commit_id_branch_selected = []
     if dropdown_branches is not None:
         for branch in dropdown_branches:
-            latest_commit_id_branch_selected.append(get_latest_commit(STREAM_ID, client, name_branch=branch))
+            latest_commit_id_branch_selected.append(
+                get_latest_commit(SPECKLE_MODEL_ID, client, name_branch=branch))
 
     dropdowns_values = latest_commit_id_branch_selected + [
         dropdown_commit] if dropdown_commit is not None else latest_commit_id_branch_selected
@@ -138,7 +140,8 @@ def update_branch_commits():
     logging.info("Updated branch commits")
     try:
         # Initialize speckle login
-        latest_commit, commits, commit_data, transport = get_commits(stream_id=STREAM_ID, client=client, limit=10)
+        latest_commit, commits, commit_data, transport = get_commits(stream_id=SPECKLE_MODEL_ID,
+                                                                     client=client, limit=10)
         new_commits = [commit for commit in commit_data if commit['id'] not in store_commits_names]
         # Initialize the dicts
         if len(store_commits_names) == 0:
@@ -155,7 +158,8 @@ def update_branch_commits():
         df_branches = pd.DataFrame.from_dict(data_dict, orient='index')
 
         if all(isinstance(col, str) for col in df_branches.columns):
-            selected_attributes_df_branches = df_branches.loc[:, df_branches.columns.str.contains('@')]
+            selected_attributes_df_branches = df_branches.loc[:,
+                                              df_branches.columns.str.contains('@')]
         else:
             return None, None
 
@@ -176,7 +180,8 @@ def update_data(n_clicks):
     if n_clicks is not None:
         df_branches, selected_attributes_df_branches = update_branch_commits()
         if df_branches is not None and selected_attributes_df_branches is not None:
-            return df_branches.to_json(date_format='iso', orient='split'), selected_attributes_df_branches.to_json(
+            return df_branches.to_json(date_format='iso',
+                                       orient='split'), selected_attributes_df_branches.to_json(
                 date_format='iso', orient='split')
     return None, None
 
@@ -238,26 +243,27 @@ def update_table(fig_parallel, branches_data, branches_attributes_data):
         curr_dims = fig_parallel['data'][0].get('dimensions', None)
 
         # Get constraintrange for each dimension save it in a dict
-        constraintrange_dict = {}
+        constraint_range_dict = {}
         for i, col in enumerate(curr_dims):
             dim = col['label']
             if 'constraintrange' in col:
-                constraintrange_dict[dim] = col['constraintrange']
+                constraint_range_dict[dim] = col['constraintrange']
 
         # Filter the dataframe based on the given ranges in each colunm
         filtered_df = selected_attributes_df_branches.copy()
         for i, col in enumerate(curr_dims):
             dim = col['label']
-            if dim in constraintrange_dict:
-                constraintrange = constraintrange_dict[dim]
-                filtered_df = filtered_df[(filtered_df[dim] >= constraintrange[0]) & (
-                        filtered_df[dim] <= constraintrange[1])]
+            if dim in constraint_range_dict:
+                constraint_range = constraint_range_dict[dim]
+                filtered_df = filtered_df[(filtered_df[dim] >= constraint_range[0]) & (
+                        filtered_df[dim] <= constraint_range[1])]
 
         try:
             filtered_df_only_commit = df_branches.loc[
                 filtered_df.index, ['authorName', 'commitId', 'message']]
             return filtered_df_only_commit.to_dict('records'), [{'label': i, 'value': i} for i in
-                                                                filtered_df_only_commit['commitId'].unique()]
+                                                                filtered_df_only_commit[
+                                                                    'commitId'].unique()]
 
         except:
             return {}, []
@@ -279,36 +285,29 @@ def update_table(fig_parallel, branches_data, branches_attributes_data):
 def toggle_sidebar(n1, n2, nclick):  # Add n2 to the function parameters
     """
     Toggles the sidebar.
-
-    :param n1: The number of times the button has been clicked.
-    :type n1: int
-    :param n2: The number of times the button has been clicked.
-    :type n2: int
-    :param nclick: The number of times the button has been clicked.
-    :type nclick: str
-    :return: The sidebar style, the content style and the number of times the button has been clicked.
     """
     ctx = dash.callback_context
 
+    sidebar_style, content_style, cur_nclick = None, None, None
     if not ctx.triggered:
-        sidebar_style = SIDEBAR_HIDDEN
-        content_style = CONTENT_STYLE
+        sidebar_style = sidebar_hidden_dict
+        content_style = content_style_dict
         cur_nclick = 'HIDDEN'
     else:
         button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
         if button_id == 'speckle_data_sidebar' and n1:
             if nclick == "SHOW":
-                sidebar_style = SIDEBAR_HIDDEN
-                content_style = CONTENT_STYLE1
+                sidebar_style = sidebar_hidden_dict
+                content_style = content_style1_dict
                 cur_nclick = "HIDDEN"
             else:
-                sidebar_style = SIDEBAR_STYLE
-                content_style = CONTENT_STYLE
+                sidebar_style = sidebar_style_dict
+                content_style = content_style_dict
                 cur_nclick = "SHOW"
         elif button_id == 'update_speckle_iframe' and n2:  # Add this condition
-            sidebar_style = SIDEBAR_HIDDEN
-            content_style = CONTENT_STYLE
+            sidebar_style = sidebar_hidden_dict
+            content_style = content_style_dict
             cur_nclick = 'HIDDEN'
 
     return sidebar_style, content_style, cur_nclick

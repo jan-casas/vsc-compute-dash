@@ -19,6 +19,8 @@ from specklepy.api.credentials import get_default_account
 from specklepy.objects import Base
 from specklepy.transports.server import ServerTransport
 
+from config.settings import PASSWORD
+
 # Mapping parameter
 # class Concrete(Base):
 #     density: str = 2400

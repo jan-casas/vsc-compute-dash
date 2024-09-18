@@ -18,10 +18,19 @@ AZURE_CHATBOT = os.getenv("AZURE_CHATBOT")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Flask
-USER = 'admin'
-PASSWORD = 'secret'
+USER = os.getenv("USER")
+PASSWORD = os.getenv("PASSWORD")
 
 # API
-IQAIR_WEATHER_API = '668e80e4-2704-4327-9ff7-6c671a673904'
-AZURE_CHATBOT = 'j1tY_j1KQgc.VdI2DWSQsRtw_DcRP0of7bU9O0Rlos4jlLJKuqNWN1Q'
-OPENAI_API_KEY = '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'
+IQAIR_WEATHER_API = os.getenv("IQAIR_WEATHER_API")
+AZURE_CHATBOT = os.getenv("AZURE_CHATBOT")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# Speckle
+SPECKLE_HOST = os.getenv("SPECKLE_HOST", "https://app.speckle.system")
+SPECKLE_PROJECT = os.getenv("SPECKLE_PROJECT", "013613abb4")
+SPECKLE_MODEL_ID = os.getenv("SPECKLE_STREAM_ID", "c6734eae44")
+SPECKLE_INITIAL_COMMIT_ID = os.getenv("SPECKLE_INITIAL_COMMIT_ID", "@a33f2acd4c")
+MODEL_TESTING = os.getenv("MODEL_TESTING",
+                          "https://app.speckle.systems/projects/013613abb4/models/c6734eae44"
+                          "@a33f2acd4c")

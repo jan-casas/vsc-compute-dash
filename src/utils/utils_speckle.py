@@ -12,16 +12,18 @@ speckle_logger = logging.getLogger('specklepy')
 speckle_logger.setLevel(logging.CRITICAL)
 
 
-def get_commits(stream_id: str, client, limit: int = 10, name_branch: str = 'compute/facade-testing'):
+def get_commits(stream_id: str, client, limit: int = 10, name_branch: str = 'main'):
     """
-    Returns the latest commit, all commit data, the latest commit object, and an authenticated server transport.
+    Returns the latest commit, all commit data, the latest commit object, and an authenticated
+    server transport.
 
     Args:
             stream_id (str): The ID of the stream.
             host (str, optional): The host URL. Defaults to 'https://speckle.xyz/'.
 
     Returns:
-            Tuple[Base, List[Dict], Base, ServerTransport]: A tuple containing the latest commit object,
+            Tuple[Base, List[Dict], Base, ServerTransport]: A tuple containing the latest commit
+            object,
             a list of all commit data,
             the latest commit object, and an authenticated server transport.
     """
@@ -197,5 +199,6 @@ def get_branch_names(client, stream_id='0e5d383e76') -> Tuple[str, List[str]]:
 client = initialize_client()
 initial_branch, branch_names = get_branch_names(client)
 
-# TODO: ojo que solo está cogiendo el valor de la primera fila de cada comit, no los 130... (debería hacer
+# TODO: ojo que solo está cogiendo el valor de la primera fila de cada comit, no los 130... (
+#  debería hacer
 #  agregaciones sobre esto)

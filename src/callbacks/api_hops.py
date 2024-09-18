@@ -1,8 +1,8 @@
-import hops.callbacks.hops_callback as hs
+import ghhops_server as hs
 import psycopg2
 from flask import Flask
 
-from src.config.settings import PGHOST, PGUSER, PGPASSWORD
+from src.config.settings import HOST, DB_USER, DB_PASSWORD
 
 # register hops app as middleware
 app_hops = Flask(__name__)
@@ -34,13 +34,16 @@ def insert_data(pg_dbname, pg_tables, query_sql, drop, local, online_path) -> No
     """
     # Use f-strings to make the connection string more readable
     if local:
-        conn_string = f"host={PGHOST} port=5432 dbname={pg_dbname} user={PGUSER} password={PGPASSWORD}"
+        conn_string = (f"host={HOST} port=5432 dbname={pg_dbname} user={DB_USER} password="
+                       f"{DB_PASSWORD}")
     else:
         with open(online_path, "r") as f:
             lines = f.readlines()
             clean_lines = [l.split("=")[1].split("\n")[0] for l in lines]
-            conn_string = (f"host={clean_lines[0]} port={clean_lines[1]} dbname={clean_lines[2]} user={clean_lines[3]} "
-                           f"password={clean_lines[4]}")
+            conn_string = (
+                f"host={clean_lines[0]} port={clean_lines[1]} dbname={clean_lines[2]} user="
+                f"{clean_lines[3]} "
+                f"password={clean_lines[4]}")
 
     with psycopg2.connect(conn_string) as conn:
         conn.autocommit = True
@@ -58,7 +61,8 @@ def insert_data(pg_dbname, pg_tables, query_sql, drop, local, online_path) -> No
         hs.HopsBoolean("local", "local"),
     ],
     outputs=[
-        hs.HopsString("values_db", "values_db", "Data from Arduino sensors", hs.HopsParamAccess.LIST),
+        hs.HopsString("values_db", "values_db", "Data from Arduino sensors",
+                      hs.HopsParamAccess.LIST),
     ],
 )
 def get_data(query_sql, local):
