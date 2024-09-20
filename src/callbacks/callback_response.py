@@ -8,110 +8,39 @@ from specklepy.api.client import SpeckleClient
 from specklepy.api.credentials import get_default_account
 from specklepy.api.wrapper import StreamWrapper
 
-from config.settings import SPECKLE_HOST, SPECKLE_INITIAL_COMMIT_ID, SPECKLE_MODEL_ID
+from config.settings import SPECKLE_HOST, SPECKLE_INITIAL_COMMIT_ID, SPECKLE_MODEL_ID, \
+    SPECKLE_PROJECT
 from src.core_callbacks import dash_app
 from src.static.style import (content_style_dict, content_style1_dict, sidebar_hidden_dict,
                               sidebar_style_dict)
 from src.utils.utils_plotly import parallel_plot
-from src.utils.utils_speckle import client, get_commits, process_commits
+from src.utils.utils_speckle import client, commits_data, process_commits, merge_commits
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/apps/utils_plotly.py')
 sys.path.insert(0, 'core_callbacks.py')
-sys.path.insert(0, 'callbacks/utils_speckle.py')
+sys.path.insert(0, 'callbacks/deprecated-utils_speckle.py')
 
 # Store the commits per session
+# TODO: Improve this using a database
 store_commits_names = []
 store_dict_attributes = {}
 
 
-# todo: this 2 funcitons must go to utils/speckje
-# Callback for the commit management
-def get_latest_commit(stream_id: str, client, name_branch: str = 'compute/facade-testing') -> str:
-    """
-    Gets the latest commit from the stream.
-
-    Args:
-        stream_id (str): The stream id.
-        client ([type]): The speckle client.
-        name_branch (str, optional): The name of the branch. Defaults to 'compute/facade-testing'.
-
-    Returns:
-        str: The latest commit.
-    """
-    branches = client.branch.list(stream_id)
-    commits = []
-    for branch in branches:
-        if branch.__dict__['name'] == name_branch:
-            commits = branch.__dict__['commits'].__dict__['items']
-            break
-    latest_commit = commits[0].__dict__['id']
-
-    return latest_commit
-
-
-def merge_commits(selected_commits: Optional[List[str]] = None) -> str:
-    """
-    Merge the base commit and the selected commits into a single dataframe.
-
-    Args:
-        selected_commits (Optional[List[str]], optional): The selected commits. Defaults to None.
-
-    Returns:
-        str: The url of the iframe.
-    """
-    # create and authenticate a client
-    client = SpeckleClient(host=SPECKLE_HOST)
-    account = get_default_account()
-    client.authenticate_with_account(account)
-
-    # get latest commits from the stream and the base one
-    latest_commit, _, _, transport = get_commits(
-        stream_id=SPECKLE_MODEL_ID, client=client)
-    base_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_MODEL_ID}/models"
-                       f"/{SPECKLE_MODEL_ID}{SPECKLE_INITIAL_COMMIT_ID}")
-    commits = [base_commit_url]
-
-    if selected_commits is None:
-        latest_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_MODEL_ID}/models"
-                             f"/{SPECKLE_MODEL_ID}{SPECKLE_INITIAL_COMMIT_ID}")
-        commits.append(latest_commit_url)
-    else:
-        for selected_commit in selected_commits:
-            selected_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_MODEL_ID}/models"
-                                   f"/{SPECKLE_MODEL_ID}{selected_commit}")
-            commits.append(selected_commit_url)
-
-    print("Commits:", commits)
-
-    # create a list of stream wrappers (the stream wrapper is a wrapper around the commit object)
-    wrappers = [StreamWrapper(commit_url) for commit_url in commits]
-    stream_id = wrappers[0].stream_id
-    commit_ids = [wrapper.commit_id for wrapper in wrappers]
-
-    # the overlay is for all commits after the first in the array
-    overlay = ",".join(commit_ids[1:])
-
-    embed_url = (f"https://speckle.xyz/embed?stream={stream_id}&commit={commit_ids[0]}&overlay="
-                 f"{overlay}&transparent=true&autoload=true&hidecontrols=true&hidesidebar=true"
-                 f"&hideselectioninfo=false")
-
-    return embed_url
-
-
+# ------------- CALLBACK SPECKLE ----------------
 @dash_app.callback(
     dash.dependencies.Output("speckle-iframe", "src"),
     [dash.dependencies.Input("dropdown_commit", "value"),
      dash.dependencies.Input("dropdown_branches", "value")],
 )
 def update_latest_commit(dropdown_commit: Optional[str] = None,
-                         dropdown_branches: Optional[List[str]] = None) -> str:
+                         dropdown_models: Optional[List[str]] = None) -> str:
     """Updates the iframe with the latest commit.
 
     :param dropdown_commit: The selected branch.
     :type dropdown_commit: str
-    :param dropdown_branches: The selected commits.
-    :type dropdown_branches: List[str]
+    :param dropdown_models: The selected commits.
+    :type dropdown_models: List[str]
     :return: The url of the iframe.
     """
     # if dropdown_commit is None:
@@ -119,38 +48,37 @@ def update_latest_commit(dropdown_commit: Optional[str] = None,
     # else:
     # TODO: Get the commit id before merge commits (dropdown_branches)
     latest_commit_id_branch_selected = []
-    if dropdown_branches is not None:
-        for branch in dropdown_branches:
-            latest_commit_id_branch_selected.append(
-                get_latest_commit(SPECKLE_MODEL_ID, client, name_branch=branch))
+    if dropdown_models is not None:
+        for model in dropdown_models:
+            latest_commit, commit_data = commits_data(client, SPECKLE_PROJECT, model)
+            latest_commit_id_branch_selected.append(latest_commit)
 
-    dropdowns_values = latest_commit_id_branch_selected + [
-        dropdown_commit] if dropdown_commit is not None else latest_commit_id_branch_selected
+    dropdowns_values = [latest_commit_id_branch_selected[0].id] + (
+        [dropdown_commit] if dropdown_commit is not None else [])
     print("The list of commits is:", dropdowns_values)
-    merged_url = merge_commits(selected_commits=dropdowns_values)
+
+    merged_url = merge_commits(client, SPECKLE_MODEL_ID, dropdowns_values)
     return merged_url
 
 
 def update_branch_commits():
     """
     Updates the branch commits.
-
-    :return: The branch commits.
     """
     logging.info("Updated branch commits")
     try:
         # Initialize speckle login
-        latest_commit, commits, commit_data, transport = get_commits(stream_id=SPECKLE_MODEL_ID,
-                                                                     client=client, limit=10)
+        latest_commit, commit_data = commits_data(client, SPECKLE_PROJECT,
+                                                  SPECKLE_MODEL_ID)
         new_commits = [commit for commit in commit_data if commit['id'] not in store_commits_names]
         # Initialize the dicts
         if len(store_commits_names) == 0:
-            dict_attributes = process_commits(commits, transport)
+            dict_attributes = process_commits(client, SPECKLE_MODEL_ID, commit_data)
             store_dict_attributes.update(dict_attributes)
             store_commits_names.extend(commit['id'] for commit in new_commits)
         # Update the dicts with the new commits
         if new_commits:
-            dict_attributes = process_commits(new_commits, transport)
+            dict_attributes = process_commits(new_commits, )
             store_dict_attributes.update(dict_attributes)
             store_commits_names.extend(commit['id'] for commit in new_commits)
 
@@ -186,7 +114,7 @@ def update_data(n_clicks):
     return None, None
 
 
-# Callback for the Speckle OP Panel
+# ------------- CALLBACK PLOTLY ----------------
 @dash_app.callback(
     dash.dependencies.Output('speckle_parallel_data', 'figure'),
     [dash.dependencies.Input('speckle_parallel_data', 'restyleData'),
@@ -273,6 +201,7 @@ def update_table(fig_parallel, branches_data, branches_attributes_data):
         return {}, []
 
 
+# ------------- CALLBACK LAYOUT ----------------
 @dash_app.callback(
     [
         dash.dependencies.Output("sidebar_data", "style"),

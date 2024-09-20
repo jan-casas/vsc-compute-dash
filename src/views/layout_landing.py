@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 from dash import dash_table, dcc, html
 
 from src.static.style import (content_style_dict, sidebar_hidden_dict)
-from src.utils.utils_speckle import branch_names, initial_branch
+from src.utils.utils_speckle import models_names, default_model
 from src.views.default_components import default_header, default_toast, default_modal
 
 sys.path.insert(0, '/static/style.py')
@@ -70,8 +70,8 @@ compute_speckle_layout = dbc.Row([
             dbc.Col(
                 dcc.Dropdown(
                     id='dropdown-compute-commit',
-                    options=[{'label': i, 'value': i} for i in branch_names],
-                    value=branch_names[3],
+                    options=[{'label': i, 'value': i} for i in models_names],
+                    value=models_names[3],
                     placeholder="Selecciona un commit sobre el que realizar el procesamiento",
                     # className='dropUp'
                 ),
@@ -86,8 +86,8 @@ compute_speckle_layout = dbc.Row([
         dbc.Row([
             html.Span(children='Select the branches you want to visualize'),
             dcc.Dropdown(id='dropdown_branches',
-                         options=[{'label': i, 'value': i} for i in branch_names],
-                         value=[initial_branch],
+                         options=[{'label': i, 'value': i} for i in models_names],
+                         value=[default_model],
                          multi=True,
                          # className='dropUp'
                          ),
@@ -164,8 +164,8 @@ compute_parameters = dbc.Row(
                                 dbc.Col(
                                     dcc.Dropdown(
                                         id='dropdown-compute-data',
-                                        options=[{'label': i, 'value': i} for i in branch_names],
-                                        value=branch_names[3],
+                                        options=[{'label': i, 'value': i} for i in models_names],
+                                        value=models_names[3],
                                         placeholder="Selecciona un commit sobre el que realizar el "
                                                     "procesamiento"),
                                     # width=6,

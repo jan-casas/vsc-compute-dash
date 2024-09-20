@@ -27,7 +27,7 @@ AZURE_CHATBOT = os.getenv("AZURE_CHATBOT")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Speckle
-SPECKLE_HOST = os.getenv("SPECKLE_HOST", "https://app.speckle.system")
+SPECKLE_HOST = os.getenv("SPECKLE_HOST", "https://app.speckle.systems")
 SPECKLE_PROJECT = os.getenv("SPECKLE_PROJECT", "013613abb4")
 SPECKLE_MODEL_ID = os.getenv("SPECKLE_STREAM_ID", "c6734eae44")
 SPECKLE_INITIAL_COMMIT_ID = os.getenv("SPECKLE_INITIAL_COMMIT_ID", "@a33f2acd4c")

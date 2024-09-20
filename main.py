@@ -1,5 +1,4 @@
 import subprocess
-
 from src.core_api import *
 from src.core_callbacks import *
 from callbacks import (callback_layout, callback_response)
@@ -19,7 +18,8 @@ def start_other_project(node_path=r'C:\Program Files\nodejs\node.exe',
 
 
 if __name__ == '__main__':
-    # 1. Ejecutar Rhino Compute en Local (Esto debería estar ejecutando en una VM de Windows)
-    # 2. Cambiar las ip del compute.rhino3d.appserver a la ip de la ip de la aplicacción de Flask
-    # start_other_project()  # TODO: This is a hack. It should be started in a separate container.
+    # TODO: This is a hack. It should be started in a separate container (Windows VM). You mus t
+    #  change the ip of the compute.rhino3d.appserver to the ip of the Flask application.
+    # start_other_project()
+
     app.run(debug=False, host='0.0.0.0', port=80)

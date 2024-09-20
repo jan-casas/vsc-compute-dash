@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional, Any
 
 from specklepy.api import operations
 from specklepy.api.client import SpeckleClient
@@ -8,160 +8,16 @@ from specklepy.api.credentials import get_default_account
 from specklepy.objects import Base
 from specklepy.transports.server import ServerTransport
 
+from config.settings import SPECKLE_MODEL_ID, SPECKLE_HOST, SPECKLE_INITIAL_COMMIT_ID, \
+    SPECKLE_PROJECT
+
 speckle_logger = logging.getLogger('specklepy')
 speckle_logger.setLevel(logging.CRITICAL)
 
-
-def get_commits(stream_id: str, client, limit: int = 10, name_branch: str = 'main'):
-    """
-    Returns the latest commit, all commit data, the latest commit object, and an authenticated
-    server transport.
-
-    Args:
-            stream_id (str): The ID of the stream.
-            host (str, optional): The host URL. Defaults to 'https://speckle.xyz/'.
-
-    Returns:
-            Tuple[Base, List[Dict], Base, ServerTransport]: A tuple containing the latest commit
-            object,
-            a list of all commit data,
-            the latest commit object, and an authenticated server transport.
-    """
-    # Filter by branch name. Get all commits from the stream
-    branches = client.branch.list(stream_id)
-    commits = []
-    for branch in branches:
-        if branch.__dict__['name'] == name_branch:
-            commits = branch.__dict__['commits'].__dict__['items']
-            break
-    latest_commit = commits[0]
-
-    # create a df with the dict_latest_commit and values of the commit and remove 'authorAvatar'
-    dict_latest_commit = latest_commit.__dict__
-    dict_latest_commit.pop('authorAvatar')
-
-    # Commit data
-    commit_data = []
-    for commit in commits:
-        dict_latest_commit = commit.__dict__
-        if 'authorAvatar' in dict_latest_commit:
-            dict_latest_commit.pop('authorAvatar')
-        commit_data.append(dict_latest_commit)
-
-    # create an authenticated server transport from the client and receive the commit obj
-    transport = ServerTransport(client=client, stream_id=stream_id)
-    obj_id = latest_commit.referencedObject
-
-    res = operations.receive(obj_id, transport)
-
-    return latest_commit, commits, commit_data, transport
+model_id = SPECKLE_MODEL_ID
 
 
-def access_branch_objects(tree_objects: Base) -> List[Base]:
-    """
-    Extracts branch objects from a tree object.
-
-    Args:
-        tree_objects (Base): A tree object.
-
-    Returns:
-        List[Base]: A list of branch objects.
-    """
-    return tree_objects['@{0}']
-
-
-def access_commit_data(loop_commit: Base, transport: ServerTransport, limit: int = 20) -> Dict:
-    """
-    Accesses commit data and returns a dictionary of attributes.
-
-    Args:
-        loop_commit (Base): A commit object.
-        transport (ServerTransport): An authenticated server transport.
-        limit (int, optional): The maximum number of objects to return. Defaults to 20.
-
-    Returns:
-        Dict: A dictionary of attributes.
-    """
-    try:
-        # get obj id from commit
-        obj_id = loop_commit.referencedObject
-        # receive objects from commit
-        commit_data = operations.receive(obj_id, transport)
-
-        tree = commit_data.__dict__['@Data']['id']
-        tree_objects = operations.receive(tree, transport)
-
-        branch_objects = access_branch_objects(tree_objects)
-        branch_objects_limit = branch_objects[:limit]
-
-        dict_attributes_plot: Dict = {}
-        for i, b in enumerate(branch_objects_limit):
-            # add items attributes
-            dict_attributes_plot[i] = {}
-            keys_object = b.get_serializable_attributes()
-            keys_object.remove('@obj')
-            for k in keys_object:
-                if k.startswith('@'):
-                    dict_attributes_plot[i][k] = b[k]
-
-            # add commit values
-            dict_attributes_plot[i].update({
-                "authorName": loop_commit.authorName,
-                "commitId": loop_commit.id,
-                "message": loop_commit.message,
-                "totalChildrenCount": loop_commit.totalChildrenCount
-            })
-
-        return dict_attributes_plot
-    except Exception as e:
-        logging.exception(f'Error in access_commit_data in {loop_commit.id}')
-        return None
-
-
-def process_commit(commit, transport) -> Dict:
-    """
-    Processes commits sequentially and returns a dictionary of attributes.
-
-    Args:
-        commit (Base): A commit object.
-        transport (ServerTransport): An authenticated server transport.
-
-    Returns:
-        Dict: A dictionary of attributes.
-    """
-    try:
-        start = time.time()
-        result = access_commit_data(commit, transport)
-        end = time.time()
-        print("Time: ", end - start)
-        return result
-    except Exception as e:
-        pass
-
-
-def process_commits(commits, transport) -> Dict:
-    """
-    Processes commits in parallel and returns a dictionary of attributes.
-
-    Args:
-        commits (List[Base]): A list of commit objects.
-        transport (ServerTransport): An authenticated server transport.
-
-    Returns:
-        Dict: A dictionary of attributes.
-    """
-    dict_attributes = {}
-    start = time.time()
-    for i, commit in enumerate(commits):
-        result = process_commit(commit, transport)
-        if result is not None:
-            dict_attributes[i] = result
-    end = time.time()
-    logging.info(f'Processed {len(dict_attributes)} commits in {end - start} seconds.')
-    return dict_attributes
-
-
-def initialize_client(host: str = 'https://speckle.xyz/') -> SpeckleClient:
+def initialize_client(host: str = 'https://app.speckle.systems/') -> SpeckleClient:
     """
     Initialize the client.
 
@@ -174,31 +30,180 @@ def initialize_client(host: str = 'https://speckle.xyz/') -> SpeckleClient:
     client = SpeckleClient(host)
     account = get_default_account()
     client.authenticate_with_account(account)
-
     return client
 
 
-def get_branch_names(client, stream_id='0e5d383e76') -> Tuple[str, List[str]]:
+def model_data(client: SpeckleClient, project_id: str) -> Tuple[str, List[str]]:
     """
     Get the names of the branches of a stream.
 
     Args:
         client (SpeckleClient): A Speckle client.
-        stream_id (str, optional): The ID of the stream. Defaults to '0e5d383e76'.
+        project_id (str, optional): The ID of the stream. Defaults to '0e5d383e76'.
 
     Returns:
         Tuple[str, List[str]]: A tuple containing the initial branch and a list of branch names.
     """
-    branches = client.branch.list(stream_id)
-    branch_names = [branch.name for branch in branches]
-    initial_branch = branch_names[0]
+    models = client.branch.list(project_id)
+    models_names = [branch.name for branch in models]
+    initial_model = models_names[0] if models_names else None
+    return initial_model, models_names
 
-    return initial_branch, branch_names
+
+def commits_data(client: SpeckleClient, project_id, model_id: str, name_branch: str = 'main'):
+    """
+    Returns the latest commit, all commit data, the latest commit object, and an authenticated
+    server transport.
+
+    Args:
+        client (SpeckleClient): A Speckle client.
+        model_id (str): The ID of the stream.
+        limit (int, optional): The number of commits to retrieve. Defaults to 10.
+        name_branch (str, optional): The name of the branch. Defaults to 'main'.
+
+    Returns:
+        Tuple[Base, List[Dict[str, Any]], Base, ServerTransport]: A tuple containing the latest
+        commit
+        object, a list of all commit data, the latest commit object, and an authenticated server
+        transport.
+    """
+    branches = client.branch.list(project_id)
+    commits = []
+    for branch in branches:
+        if branch.name == name_branch:
+            commits = branch.commits.items
+            break
+
+    if not commits:
+        raise ValueError(f"No commits found for branch '{name_branch}' in stream '{model_id}'")
+
+    latest_commit = commits[0]
+
+    commit_data = []
+    for commit in commits:
+        commit_dict = commit.__dict__
+        commit_dict.pop('authorAvatar', None)
+        commit_data.append(commit_dict)
+
+    return latest_commit, commit_data
 
 
+def commit_info_available(commit: Dict[str, Any]) -> List[str]:
+    """
+    Get available commit information keys.
+
+    Args:
+        commit (Dict[str, Any]): A commit dictionary.
+
+    Returns:
+        List[str]: A list of available commit information keys.
+    """
+    return list(commit.keys())
+
+
+# TODO: REVISA ESTA FUNCIÓN
+def process_commits(client: SpeckleClient, branch_id: str, commits: List[Base],
+                    info_keys: List[str]) -> Dict[int, List[str]]:
+    """
+    Processes commits, retrieves commit information, and filters based on provided keys.
+
+    Args:
+        client (SpeckleClient): A Speckle client.
+        branch_id (str): The ID of the stream.
+        commits (List[Base]): A list of commit objects.
+        info_keys (List[str]): A list of keys to filter.
+
+    Returns:
+        Dict[int, List[str]]: A dictionary of filtered commit information keys.
+    """
+    dict_attributes = {}
+    start = time.time()
+    for i, commit in enumerate(commits):
+        try:
+            transport = ServerTransport(client=client, stream_id=branch_id)
+            obj_id = commit['referencedObject']
+            collection_data = operations.receive(obj_id, transport)
+            elements = collection_data.elements
+
+            for element in elements:
+                element_id = element['id']
+                operations.receive(element_id, transport)
+
+            object_info = elements[0].elements[0].__dict__.keys()
+        except Exception as e:
+            logging.exception(f'Error in commit_info for commit {commit.id}: {e}')
+            object_info = None
+
+        if object_info is not None:
+            available_keys = list(object_info)
+            logging.info(f'Available commit info: {available_keys}')
+            filtered_info = [key for key in available_keys if key in info_keys]
+            dict_attributes[i] = filtered_info
+
+    end = time.time()
+    logging.info(f'Processed {len(dict_attributes)} commits in {end - start} seconds.')
+    return dict_attributes
+
+
+def object_info(client: SpeckleClient, model_id: str, obj_id: str) -> Base:
+    """
+    Retrieve object information.
+
+    Args:
+        client (SpeckleClient): A Speckle client.
+        model_id (str): The ID of the stream.
+        obj_id (str): The ID of the object.
+
+    Returns:
+        Base: The object data.
+    """
+    transport = ServerTransport(client=client, stream_id=model_id)
+    return operations.receive(obj_id, transport)
+
+
+def merge_commits(client, model_id, selected_commits: Optional[List[str]] = None) -> str:
+    """
+    Merge the base commit and the selected commits into a single dataframe.
+
+    Args:
+        selected_commits (Optional[List[str]], optional): The selected commits. Defaults to None.
+
+    Returns:
+        str: The url of the iframe.
+    """
+    # Get latest commits from the stream and the base one
+    latest_commit, _, _ = commits_data(client, SPECKLE_PROJECT, model_id)
+    base_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
+                       f"/{selected_commits[0]}")
+    commits = [base_commit_url]
+
+    if selected_commits is None or len(selected_commits) == 1:
+        pass
+    else:
+        for selected_commit in selected_commits[1:]:
+            commits.append(selected_commit)
+
+    print("Commits:", commits)
+
+    embed_url = ','.join(commits)
+
+    # # create a list of stream wrappers (the stream wrapper is a wrapper around the commit object)
+    # wrappers = [StreamWrapper(commit_url) for commit_url in commits]
+    # stream_id = wrappers[0].stream_id
+    # commit_ids = [wrapper.commit_id for wrapper in wrappers]
+    #
+    # # Overlay is for all commits after the first in the array
+    # overlay = ",".join(commit_ids[1:])
+    #
+    # # FIXME: https://app.speckle.systems/projects/013613abb4/models/c6734eae44@a67852a5ef,
+    #  cd91d7878f
+    # embed_url = (f"https://speckle.xyz/embed?stream={stream_id}&commit={commit_ids[0]}&overlay="
+    #              f"{overlay}&transparent=true&autoload=true&hidecontrols=true&hidesidebar=true"
+    #              f"&hideselectioninfo=false")
+
+    return embed_url
+
+
+# Initialize Speckle clients and obtain initial data
 client = initialize_client()
-initial_branch, branch_names = get_branch_names(client)
-
-# TODO: ojo que solo está cogiendo el valor de la primera fila de cada comit, no los 130... (
-#  debería hacer
-#  agregaciones sobre esto)
+default_model, models_names = model_data(client, SPECKLE_PROJECT)
