@@ -44,7 +44,7 @@ def update_latest_commit(dropdown_commit: Optional[str] = None,
     return merged_url
 
 
-def update_branch_commits():
+def update_branch_commits(names_branch):
     """
     Updates the branch commits.
     """
@@ -52,7 +52,7 @@ def update_branch_commits():
     try:
         # Initialize speckle login
         filter_branches, latest_commit, commit_data = commits_data(client, SPECKLE_PROJECT,
-                                                                   SPECKLE_MODEL_ID)
+                                                                   SPECKLE_MODEL_ID, names_branch)
         new_commits = [commit for commit in commit_data if commit['id'] not in store_commits_names]
         # Initialize the dicts
         if len(store_commits_names) == 0:
@@ -83,13 +83,14 @@ def update_branch_commits():
 @dash_app.callback(
     [dash.dependencies.Output('store-branches', 'data'),
      dash.dependencies.Output('store-branches-attributes', 'data')],
-    [dash.dependencies.Input('speckle_data_sidebar', 'n_clicks')]
+    [dash.dependencies.Input('speckle_data_sidebar', 'n_clicks'),
+     dash.dependencies.Input("dropdown_branches", "value")]
     # [dash.dependencies.State("collapse", "is_open")]
 )
-def update_data(n_clicks):
+def update_data(n_clicks, dropdown_branches):
     logging.info("Updated data n_clicks %s", n_clicks)
     if n_clicks is not None:
-        df_branches, selected_attributes_df_branches = update_branch_commits()
+        df_branches, selected_attributes_df_branches = update_branch_commits(dropdown_branches)
         if df_branches is not None and selected_attributes_df_branches is not None:
             return df_branches.to_json(date_format='iso',
                                        orient='split'), selected_attributes_df_branches.to_json(

@@ -14,7 +14,6 @@ PORT = os.getenv("DB_PORT")
 
 # Azure chatbot
 AZURE_CHATBOT = os.getenv("AZURE_CHATBOT")
-
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Flask

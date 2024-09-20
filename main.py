@@ -20,6 +20,6 @@ def start_other_project(node_path=r'C:\Program Files\nodejs\node.exe',
 if __name__ == '__main__':
     # TODO: This is a hack. It should be started in a separate container (Windows VM). You mus t
     #  change the ip of the compute.rhino3d.appserver to the ip of the Flask application.
-    # start_other_project()
+    start_other_project()
 
     app.run(debug=False, host='0.0.0.0', port=80)

@@ -52,10 +52,11 @@ def commits_data(client: SpeckleClient, project_id, model_id: str, names_branch:
     server transport.
 
     Args:
+        project_id:
+        names_branch:
         client (SpeckleClient): A Speckle client.
         model_id (str): The ID of the stream.
-        limit (int, optional): The number of commits to retrieve. Defaults to 10.
-        name_branch (str, optional): The name of the branch. Defaults to 'main'.
+        names_branch (str, optional): The name of the branch. Defaults to 'main'.
 
     Returns:
         Tuple[Base, List[Dict[str, Any]], Base, ServerTransport]: A tuple containing the latest
