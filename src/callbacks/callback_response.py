@@ -4,11 +4,8 @@ from typing import List, Optional
 
 import dash
 import pandas as pd
-from specklepy.api.client import SpeckleClient
-from specklepy.api.credentials import get_default_account
-from specklepy.api.wrapper import StreamWrapper
 
-from config.settings import SPECKLE_HOST, SPECKLE_INITIAL_COMMIT_ID, SPECKLE_MODEL_ID, \
+from config.settings import SPECKLE_MODEL_ID, \
     SPECKLE_PROJECT
 from src.core_callbacks import dash_app
 from src.static.style import (content_style_dict, content_style1_dict, sidebar_hidden_dict,
@@ -43,21 +40,7 @@ def update_latest_commit(dropdown_commit: Optional[str] = None,
     :type dropdown_models: List[str]
     :return: The url of the iframe.
     """
-    # if dropdown_commit is None:
-    #     merged_url = merge_commits()
-    # else:
-    # TODO: Get the commit id before merge commits (dropdown_branches)
-    latest_commit_id_branch_selected = []
-    if dropdown_models is not None:
-        for model in dropdown_models:
-            latest_commit, commit_data = commits_data(client, SPECKLE_PROJECT, model)
-            latest_commit_id_branch_selected.append(latest_commit)
-
-    dropdowns_values = [latest_commit_id_branch_selected[0].id] + (
-        [dropdown_commit] if dropdown_commit is not None else [])
-    print("The list of commits is:", dropdowns_values)
-
-    merged_url = merge_commits(client, SPECKLE_MODEL_ID, dropdowns_values)
+    merged_url = merge_commits(client, SPECKLE_MODEL_ID, dropdown_models)
     return merged_url
 
 
@@ -68,8 +51,8 @@ def update_branch_commits():
     logging.info("Updated branch commits")
     try:
         # Initialize speckle login
-        latest_commit, commit_data = commits_data(client, SPECKLE_PROJECT,
-                                                  SPECKLE_MODEL_ID)
+        filter_branches, latest_commit, commit_data = commits_data(client, SPECKLE_PROJECT,
+                                                                   SPECKLE_MODEL_ID)
         new_commits = [commit for commit in commit_data if commit['id'] not in store_commits_names]
         # Initialize the dicts
         if len(store_commits_names) == 0:

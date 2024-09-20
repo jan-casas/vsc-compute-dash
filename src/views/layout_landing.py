@@ -87,7 +87,7 @@ compute_speckle_layout = dbc.Row([
             html.Span(children='Select the branches you want to visualize'),
             dcc.Dropdown(id='dropdown_branches',
                          options=[{'label': i, 'value': i} for i in models_names],
-                         value=[default_model],
+                         value=[models_names[0]],
                          multi=True,
                          # className='dropUp'
                          ),

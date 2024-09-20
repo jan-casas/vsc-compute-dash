@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import List, Tuple, Dict, Optional, Any
+from typing import List, Tuple, Dict, Any
 
 from specklepy.api import operations
 from specklepy.api.client import SpeckleClient
@@ -8,11 +8,7 @@ from specklepy.api.credentials import get_default_account
 from specklepy.objects import Base
 from specklepy.transports.server import ServerTransport
 
-from config.settings import SPECKLE_MODEL_ID, SPECKLE_HOST, SPECKLE_INITIAL_COMMIT_ID, \
-    SPECKLE_PROJECT
-
-speckle_logger = logging.getLogger('specklepy')
-speckle_logger.setLevel(logging.CRITICAL)
+from config.settings import SPECKLE_MODEL_ID, SPECKLE_HOST, SPECKLE_PROJECT
 
 model_id = SPECKLE_MODEL_ID
 
@@ -45,12 +41,12 @@ def model_data(client: SpeckleClient, project_id: str) -> Tuple[str, List[str]]:
         Tuple[str, List[str]]: A tuple containing the initial branch and a list of branch names.
     """
     models = client.branch.list(project_id)
-    models_names = [branch.name for branch in models]
+    models_names = [model.name for model in models]
     initial_model = models_names[0] if models_names else None
     return initial_model, models_names
 
 
-def commits_data(client: SpeckleClient, project_id, model_id: str, name_branch: str = 'main'):
+def commits_data(client: SpeckleClient, project_id, model_id: str, names_branch: List[str]):
     """
     Returns the latest commit, all commit data, the latest commit object, and an authenticated
     server transport.
@@ -68,16 +64,18 @@ def commits_data(client: SpeckleClient, project_id, model_id: str, name_branch: 
         transport.
     """
     branches = client.branch.list(project_id)
+    filter_branches = list(b for b in branches if b.name in names_branch)
+    filter_branches_names = [b.id for b in filter_branches]
+
     commits = []
-    for branch in branches:
-        if branch.name == name_branch:
-            commits = branch.commits.items
-            break
+    for branch in filter_branches:
+        commits = branch.commits.items
+        break
 
     if not commits:
-        raise ValueError(f"No commits found for branch '{name_branch}' in stream '{model_id}'")
+        raise ValueError(f"No commits found for branch '{names_branch}' in stream '{model_id}'")
 
-    latest_commit = commits[0]
+    latest_commit = commits[-1]
 
     commit_data = []
     for commit in commits:
@@ -85,7 +83,7 @@ def commits_data(client: SpeckleClient, project_id, model_id: str, name_branch: 
         commit_dict.pop('authorAvatar', None)
         commit_data.append(commit_dict)
 
-    return latest_commit, commit_data
+    return names_branch, filter_branches_names, latest_commit, commit_data
 
 
 def commit_info_available(commit: Dict[str, Any]) -> List[str]:
@@ -103,7 +101,7 @@ def commit_info_available(commit: Dict[str, Any]) -> List[str]:
 
 # TODO: REVISA ESTA FUNCIÓN
 def process_commits(client: SpeckleClient, branch_id: str, commits: List[Base],
-                    info_keys: List[str]) -> Dict[int, List[str]]:
+                    info_keys: List[str] = None) -> Dict[int, List[str]]:
     """
     Processes commits, retrieves commit information, and filters based on provided keys.
 
@@ -161,45 +159,23 @@ def object_info(client: SpeckleClient, model_id: str, obj_id: str) -> Base:
     return operations.receive(obj_id, transport)
 
 
-def merge_commits(client, model_id, selected_commits: Optional[List[str]] = None) -> str:
+def merge_commits(client, model_id, selected_models: List[str]) -> str:
     """
     Merge the base commit and the selected commits into a single dataframe.
 
     Args:
-        selected_commits (Optional[List[str]], optional): The selected commits. Defaults to None.
+        selected_models (Optional[List[str]], optional): The selected commits. Defaults to None.
 
     Returns:
         str: The url of the iframe.
     """
     # Get latest commits from the stream and the base one
-    latest_commit, _, _ = commits_data(client, SPECKLE_PROJECT, model_id)
-    base_commit_url = (f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
-                       f"/{selected_commits[0]}")
-    commits = [base_commit_url]
-
-    if selected_commits is None or len(selected_commits) == 1:
-        pass
-    else:
-        for selected_commit in selected_commits[1:]:
-            commits.append(selected_commit)
-
-    print("Commits:", commits)
-
-    embed_url = ','.join(commits)
-
-    # # create a list of stream wrappers (the stream wrapper is a wrapper around the commit object)
-    # wrappers = [StreamWrapper(commit_url) for commit_url in commits]
-    # stream_id = wrappers[0].stream_id
-    # commit_ids = [wrapper.commit_id for wrapper in wrappers]
-    #
-    # # Overlay is for all commits after the first in the array
-    # overlay = ",".join(commit_ids[1:])
-    #
-    # # FIXME: https://app.speckle.systems/projects/013613abb4/models/c6734eae44@a67852a5ef,
-    #  cd91d7878f
-    # embed_url = (f"https://speckle.xyz/embed?stream={stream_id}&commit={commit_ids[0]}&overlay="
-    #              f"{overlay}&transparent=true&autoload=true&hidecontrols=true&hidesidebar=true"
-    #              f"&hideselectioninfo=false")
+    names_branch, filter_branches_names, latest_commit, _ = commits_data(client, SPECKLE_PROJECT,
+                                                                         model_id,
+                                                                         selected_models)
+    base_commit_url = f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
+    embed_url = ','.join(filter_branches_names)
+    embed_url = f"{base_commit_url}/{embed_url}"
 
     return embed_url
 
