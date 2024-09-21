@@ -49,4 +49,4 @@ def update_slider_values(n_clicks, data):
         None
     """
     if n_clicks is not None:
-        requests.post('http://localhost/api/slider_values', json={'slider-values-store': data})
+        requests.post('http://localhost:80/api/slider_values', json={'slider-values-store': data})

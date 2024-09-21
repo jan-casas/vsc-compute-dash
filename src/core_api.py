@@ -1,13 +1,17 @@
 """
-API to communicate values modified in the webapp to the Rhino Compute server. This API is used to update the slider.
+API to communicate values modified in the webapp to the Rhino Compute server. This API is used to
+update the slider.
 
 """
+import logging
+import sqlite3
 
-import psycopg2
-from flask import jsonify, request
+import dash
+from flask import jsonify
 
-from core_callbacks import *
-from src.config.settings import DATABASE, DB_PASSWORD, DB_USER, HOST, PORT
+from core_callbacks import app, dash_app
+
+conn = sqlite3.connect('compute.db')
 
 
 # Endpoints API compute.webapp
@@ -31,68 +35,81 @@ dash_app.clientside_callback(
 )
 
 
-@app.route('/api/slider_values', methods=['POST', 'GET'])
-def update_slider_values():
-    """
-    Endpoint for updating the slider values in the database. If the request is a POST request, the slider values are
-    updated in the database. If the request is a GET request, the latest slider values are retrieved from the database.
-    """
+def post_slider_values(cur, request):
     # If POST request, update the slider values in the database
+    data = request.get_json()
+    if data is None:
+        return jsonify({'error': 'No data provided'}), 400
+    slider_values = data.get('slider-values-store')
+    if slider_values is None:
+        return jsonify({'error': 'No slider values provided'}), 400
+
+    try:
+        # Create the table if it doesn't exist
+        cur.execute("""
+                CREATE TABLE IF NOT EXISTS slider_values (
+                    id SERIAL PRIMARY KEY,
+                    radius INTEGER,
+                    counte INTEGER,
+                    span INTEGER,
+                    commit_message TEXT
+                )
+            """)
+
+        # Insert the slider values into the table
+        cur.execute("""
+                INSERT INTO slider_values (radius, counte, span, commit_message)
+                VALUES (?, ?, ?, ?)
+            """, (slider_values['radius'], slider_values['count'], slider_values['span'],
+                  slider_values['commit_message']))
+        conn.commit()
+        logging.info('Slider values updated successfully')
+    except sqlite3.Error as e:
+        return jsonify({'error': 'Database error: {}'.format(e)}), 500
+    finally:
+        conn.close()
+
+    return jsonify({'message': 'Slider values updated successfully'})
+
+
+def get_slider_values(cur):
+    try:
+        # Select the latest slider values from the table
+        cur.execute("""
+            SELECT radius, counte, span, commit_message
+            FROM slider_values
+            ORDER BY id DESC
+            LIMIT 1
+        """)
+        result = cur.fetchone()
+        if result is None:
+            return jsonify({'error': 'No slider values found'}), 404
+        radius_value, counte_value, span_value, commit_message = result
+        return jsonify({'radius': radius_value, 'counte': counte_value, 'span': span_value,
+                        'commit_message': commit_message})
+    except sqlite3.Error as e:
+        return jsonify({'error': 'Database error: {}'.format(e)}), 500
+    finally:
+        conn.close()
+
+
+@app.route('/api/slider_values', methods=['POST', 'GET'])
+def update_slider_values(request):
+    """
+    Endpoint for updating the slider values in the database. If the request is a POST request,
+    the slider values are
+    updated in the database. If the request is a GET request, the latest slider values are
+    retrieved from the database.
+    """
+    # Connect to the SQLite database
+    cur = conn.cursor()
+    logging.info('Connected to the database')
+
     if request.method == 'POST':
-        data = request.get_json()
-        if data is None:
-            return jsonify({'error': 'No data provided'}), 400
-        slider_values = data.get('slider-values-store')
-        if slider_values is None:
-            return jsonify({'error': 'No slider values provided'}), 400
-
-        try:
-            # Connect to the database
-            with psycopg2.connect(host=HOST, database=DATABASE, user=DB_USER, password=DB_PASSWORD, port=PORT) as conn:
-                with conn.cursor() as cur:
-                    # Create the table if it doesn't exist
-                    cur.execute("""
-                        CREATE TABLE IF NOT EXISTS slider_values (
-                            id SERIAL PRIMARY KEY,
-                            radius INTEGER,
-                            counte INTEGER,
-                            span INTEGER,
-                            commit_message TEXT
-                        )
-                    """)
-
-                    # Insert the slider values into the table
-                    cur.execute("""
-                        INSERT INTO slider_values (radius, counte, span, commit_message)
-                        VALUES (%s, %s, %s, %s)
-                    """, (slider_values['radius'], slider_values['count'], slider_values['span'],
-                          slider_values['commit_message']))
-        except psycopg2.Error as e:
-            return jsonify({'error': 'Database error: {}'.format(e.pgerror)}), 500
-
-        return jsonify({'message': 'Slider values updated successfully'})
-
+        return post_slider_values(cur, request)
     # If GET request, get the latest slider values from the database
     elif request.method == 'GET':
-        try:
-            # Connect to the database
-            with psycopg2.connect(host=HOST, database=DATABASE, user=DB_USER, password=DB_PASSWORD, port=PORT) as conn:
-                with conn.cursor() as cur:
-                    # Select the latest slider values from the table
-                    cur.execute("""
-                        SELECT radius, counte, span, commit_message
-                        FROM slider_values
-                        ORDER BY id DESC
-                        LIMIT 1
-                    """)
-                    result = cur.fetchone()
-                    if result is None:
-                        return jsonify({'error': 'No slider values found'}), 404
-                    radius_value, counte_value, span_value, commit_message = result
-                    return jsonify({'radius': radius_value, 'counte': counte_value, 'span': span_value,
-                                    'commit_message': commit_message})
-        except psycopg2.Error as e:
-            return jsonify({'error': 'Database error: {}'.format(e.pgerror)}), 500
+        return get_slider_values(cur)
 
     else:
         return jsonify({'error': 'Method not allowed'}), 405

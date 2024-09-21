@@ -5,8 +5,8 @@ import dash_bootstrap_components as dbc
 from dash import dash_table, dcc, html
 
 from src.static.style import (content_style_dict, sidebar_hidden_dict)
-from src.utils.utils_speckle import models_names, default_model
-from src.views.default_components import default_header, default_toast, default_modal
+from src.utils.utils_speckle import models_names
+from src.views.default_components import default_header, default_modal
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
@@ -95,7 +95,7 @@ compute_speckle_layout = dbc.Row([
                         src='https://app.speckle.systems/projects/013613abb4/models/cd91d7878f'
                             '&transparent=true&autoload'
                             '=true&hidesidebar=true&hidecontrols=true',
-                        width='100%', height='800px'),
+                        width='100vw', height='820px'),
 
         ])
     )

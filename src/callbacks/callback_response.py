@@ -51,17 +51,20 @@ def update_branch_commits(names_branch):
     logging.info("Updated branch commits")
     try:
         # Initialize speckle login
-        filter_branches, latest_commit, commit_data = commits_data(client, SPECKLE_PROJECT,
-                                                                   SPECKLE_MODEL_ID, names_branch)
+        names_branch, filter_branches, latest_commit, commit_data = commits_data(client,
+                                                                                 SPECKLE_PROJECT,
+                                                                                 SPECKLE_MODEL_ID,
+                                                                                 names_branch)
         new_commits = [commit for commit in commit_data if commit['id'] not in store_commits_names]
         # Initialize the dicts
         if len(store_commits_names) == 0:
-            dict_attributes = process_commits(client, SPECKLE_MODEL_ID, commit_data)
+            dict_attributes = process_commits(client, SPECKLE_PROJECT, commit_data)
             store_dict_attributes.update(dict_attributes)
             store_commits_names.extend(commit['id'] for commit in new_commits)
         # Update the dicts with the new commits
         if new_commits:
-            dict_attributes = process_commits(new_commits, )
+            dict_attributes = process_commits(client, SPECKLE_PROJECT,
+                                              new_commits)
             store_dict_attributes.update(dict_attributes)
             store_commits_names.extend(commit['id'] for commit in new_commits)
 
@@ -128,6 +131,17 @@ def update_parallel_plot(restyledata, branches_attributes_data, par_coord_data):
         return {}
 
 
+def filter_commit_data(df_branches, filtered_df):
+    try:
+        filtered_df_only_commit = df_branches.loc[
+            filtered_df.index, ['authorName', 'commitId', 'message']]
+        return (filtered_df_only_commit.to_dict('records'),
+                [{'label': i, 'value': i} for i in filtered_df_only_commit['commitId'].unique()])
+
+    except Exception as e:
+        return {}, []
+
+
 @dash_app.callback(
     [dash.dependencies.Output('table_data', 'data'),
      dash.dependencies.Output('dropdown_commit', 'options')],
@@ -142,10 +156,15 @@ def update_table(fig_parallel, branches_data, branches_attributes_data):
     :param fig_parallel: The parallel plot figure.
     :type fig_parallel: dict
     :return: The table data.
+
+    Args:
+        branches_attributes_data:
+        branches_data:
     """
     logging.info("Updated table data")
 
     try:
+        selected_attributes_df_branches, df_branches = None, None
         if branches_data is not None and branches_attributes_data is not None:
             df_branches = pd.read_json(branches_data, orient='split')
             selected_attributes_df_branches = pd.read_json(branches_attributes_data, orient='split')
@@ -161,7 +180,7 @@ def update_table(fig_parallel, branches_data, branches_attributes_data):
             if 'constraintrange' in col:
                 constraint_range_dict[dim] = col['constraintrange']
 
-        # Filter the dataframe based on the given ranges in each colunm
+        # Filter the dataframe based on the given ranges in each column
         filtered_df = selected_attributes_df_branches.copy()
         for i, col in enumerate(curr_dims):
             dim = col['label']
@@ -170,15 +189,8 @@ def update_table(fig_parallel, branches_data, branches_attributes_data):
                 filtered_df = filtered_df[(filtered_df[dim] >= constraint_range[0]) & (
                         filtered_df[dim] <= constraint_range[1])]
 
-        try:
-            filtered_df_only_commit = df_branches.loc[
-                filtered_df.index, ['authorName', 'commitId', 'message']]
-            return filtered_df_only_commit.to_dict('records'), [{'label': i, 'value': i} for i in
-                                                                filtered_df_only_commit[
-                                                                    'commitId'].unique()]
-
-        except:
-            return {}, []
+        table_data, dropdown_commits = filter_commit_data(df_branches, filtered_df)
+        return table_data, dropdown_commits
 
     except Exception as e:
         logging.exception(e)

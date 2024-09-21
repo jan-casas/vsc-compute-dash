@@ -100,17 +100,14 @@ def commit_info_available(commit: Dict[str, Any]) -> List[str]:
     return list(commit.keys())
 
 
-# TODO: REVISA ESTA FUNCIÓN
-def process_commits(client: SpeckleClient, branch_id: str, commits: List[Base],
-                    info_keys: List[str] = None) -> Dict[int, List[str]]:
+def process_commits(client: SpeckleClient, project_id: str, commits: List[Base]) -> Dict[int, List[str]]:
     """
     Processes commits, retrieves commit information, and filters based on provided keys.
 
     Args:
         client (SpeckleClient): A Speckle client.
-        branch_id (str): The ID of the stream.
+        project_id (str): The ID of the stream.
         commits (List[Base]): A list of commit objects.
-        info_keys (List[str]): A list of keys to filter.
 
     Returns:
         Dict[int, List[str]]: A dictionary of filtered commit information keys.
@@ -119,7 +116,7 @@ def process_commits(client: SpeckleClient, branch_id: str, commits: List[Base],
     start = time.time()
     for i, commit in enumerate(commits):
         try:
-            transport = ServerTransport(client=client, stream_id=branch_id)
+            transport = ServerTransport(client=client, stream_id=project_id)
             obj_id = commit['referencedObject']
             collection_data = operations.receive(obj_id, transport)
             elements = collection_data.elements
@@ -130,14 +127,12 @@ def process_commits(client: SpeckleClient, branch_id: str, commits: List[Base],
 
             object_info = elements[0].elements[0].__dict__.keys()
         except Exception as e:
-            logging.exception(f'Error in commit_info for commit {commit.id}: {e}')
+            logging.exception(f'Error in commit_info for commit {commit} {e}')
             object_info = None
 
         if object_info is not None:
-            available_keys = list(object_info)
-            logging.info(f'Available commit info: {available_keys}')
-            filtered_info = [key for key in available_keys if key in info_keys]
-            dict_attributes[i] = filtered_info
+            # FIXME: Is not capturing the brep information
+            dict_attributes[i] = list(object_info)
 
     end = time.time()
     logging.info(f'Processed {len(dict_attributes)} commits in {end - start} seconds.')
@@ -176,7 +171,8 @@ def merge_commits(client, model_id, selected_models: List[str]) -> str:
                                                                          selected_models)
     base_commit_url = f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
     embed_url = ','.join(filter_branches_names)
-    embed_url = f"{base_commit_url}/{embed_url}"
+    embed_url = (f"{base_commit_url}/"
+                 f"{embed_url}#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D")
 
     return embed_url
 
