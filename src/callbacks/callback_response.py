@@ -33,12 +33,6 @@ store_dict_attributes = {}
 def update_latest_commit(dropdown_commit: Optional[str] = None,
                          dropdown_models: Optional[List[str]] = None) -> str:
     """Updates the iframe with the latest commit.
-
-    :param dropdown_commit: The selected branch.
-    :type dropdown_commit: str
-    :param dropdown_models: The selected commits.
-    :type dropdown_models: List[str]
-    :return: The url of the iframe.
     """
     merged_url = merge_commits(client, SPECKLE_MODEL_ID, dropdown_models)
     return merged_url

@@ -6,7 +6,7 @@ from dash import dash_table, dcc, html
 
 from src.static.style import (content_style_dict, sidebar_hidden_dict)
 from src.utils.utils_speckle import models_names
-from src.views.default_components import default_header, default_modal
+from src.views.default_components import default_header, default_modal, default_toast
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
@@ -222,5 +222,5 @@ layout = dbc.Col([
     compute_parameters,
     dbc.Row(compute_speckle_layout, style={'margin-top': '60px'}),
     content,
-    # default_toast,
+    default_toast
 ])

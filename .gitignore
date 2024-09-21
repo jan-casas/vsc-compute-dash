@@ -16,3 +16,5 @@ test
 /files/
 !/src/utils/deprecated-utils_speckle.py
 !/testing_speckle_methods.ipynb
+todo.md
+/compute.db

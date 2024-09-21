@@ -12,12 +12,12 @@ external_stylesheets = [dbc.themes.BOOTSTRAP,
 
 # Define Flask app
 app = Flask(__name__)
-# Enable CORS for all endpoints of the app (the js app return errors if not)
-CORS(app)
-CORS(app, origins=[
-    'http://localhost:3000',  # JS app Rhino.compute    TODO Change this to the production URL
-    'http://localhost:8000'  # Python app Dashboard
-])
+
+# Enable CORS for the specified origins and HTTP methods
+CORS(app, resources={r"/api/*": {"origins": [
+    'http://localhost:3000',  # JS app (Rhino.compute)
+    'http://127.0.0.1:80'  # Python app (Dashboard)
+]}}, methods=['GET', 'POST', 'OPTIONS'])
 
 # Define Dash app
 dash_app = dash.Dash(__name__, server=app,

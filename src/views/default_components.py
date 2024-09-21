@@ -4,8 +4,6 @@ from dash import html, dcc
 # HEADER
 default_header = dbc.NavbarSimple(
     children=[
-        dbc.Button("Why this?", id="open_help_button", color="link", className="mr-1", n_clicks=0,
-                   outline=True),
         dbc.Button("Speckle OP", id="speckle_data_sidebar", color="link", className="mr-1",
                    n_clicks=0, outline=True,
                    style={"margin-right": "10px"}),
