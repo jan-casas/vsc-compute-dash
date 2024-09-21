@@ -24,27 +24,6 @@ def toggle_toast(n):
     return False
 
 
-# Callback for modals
-@dash_app.callback(
-    dash.dependencies.Output("modal", "is_open"),
-    [dash.dependencies.Input("open_chat_button", "n_clicks")],
-    [dash.dependencies.State("modal", "is_open")],
-)
-def toggle_modal(n1, is_open):
-    """
-    Toggles the modal.
-
-    :param n1: The number of times the button has been clicked.
-    :type n1: int
-    :param is_open: The modal state.
-    :type is_open: bool
-    :return: The modal.
-    """
-    if n1:
-        return not is_open
-    return is_open
-
-
 # Callback for the collapse
 @dash_app.callback(
     dash.dependencies.Output("collapse", "is_open"),
