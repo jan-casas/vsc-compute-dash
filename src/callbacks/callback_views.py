@@ -3,6 +3,8 @@ import time
 import dash
 
 from src.core_callbacks import dash_app
+from static.style import sidebar_hidden_dict, content_style_dict, content_style1_dict, \
+    sidebar_style_dict
 from utils.utils import openai_chat
 
 
@@ -64,3 +66,43 @@ def get_random_message(n_clicks):
             "Create a random funny and short git commit message. (max 20 words)"))
         return commit_message
     return None
+
+
+@dash_app.callback(
+    [
+        dash.dependencies.Output("sidebar_data", "style"),
+        dash.dependencies.Output("page-content", "style"),
+        dash.dependencies.Output("side_click", "data")],
+    [dash.dependencies.Input("speckle_data_sidebar", "n_clicks"),
+     dash.dependencies.Input("update_speckle_iframe", "n_clicks")],  # Add this line
+    [dash.dependencies.State("side_click", "data")]
+)
+def toggle_sidebar(n1, n2, nclick):  # Add n2 to the function parameters
+    """
+    Toggles the sidebar.
+    """
+    ctx = dash.callback_context
+
+    sidebar_style, content_style, cur_nclick = None, None, None
+    if not ctx.triggered:
+        sidebar_style = sidebar_hidden_dict
+        content_style = content_style_dict
+        cur_nclick = 'HIDDEN'
+    else:
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+        if button_id == 'speckle_data_sidebar' and n1:
+            if nclick == "SHOW":
+                sidebar_style = sidebar_hidden_dict
+                content_style = content_style1_dict
+                cur_nclick = "HIDDEN"
+            else:
+                sidebar_style = sidebar_style_dict
+                content_style = content_style_dict
+                cur_nclick = "SHOW"
+        elif button_id == 'update_speckle_iframe' and n2:  # Add this condition
+            sidebar_style = sidebar_hidden_dict
+            content_style = content_style_dict
+            cur_nclick = 'HIDDEN'
+
+    return sidebar_style, content_style, cur_nclick

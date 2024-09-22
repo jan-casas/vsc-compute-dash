@@ -60,21 +60,20 @@ default_footer = html.Footer([
 ], style={'width': '100%', 'margin-left': 'auto', 'margin-right': 'auto', 'margin-top': '50px',
           'background-color': '#f7f7f8', 'height': '200px'})
 
-default_toast = html.Div(
-    dbc.Toast(
-        children="La petición se ha realizado correctamente, en breve aparecerá actualizado el "
-                 "modelo.",
-        id="positioned-toast",
-        header="Recibido! 🤯",
-        is_open=False,
-        dismissable=True,
-        # icon="success",
-        # top: 66 positions the toast below the navbar
-        style={"position": "fixed", "top": 66,
-               "right": 10, "width": 350, "zIndex": 9999},
-        # color="info",
-        duration=5000,
-    ),
+default_toast = html.Div(dbc.Toast(
+    children="La petición se ha realizado correctamente, en breve aparecerá actualizado el "
+             "modelo.",
+    id="positioned-toast",
+    header="Recibido! 🤯",
+    is_open=False,
+    dismissable=True,
+    # icon="success",
+    # top: 66 positions the toast below the navbar
+    style={"position": "fixed", "top": 66,
+           "right": 10, "width": 350, "zIndex": 9999},
+    # color="info",
+    duration=5000,
+),
 )
 
 default_modal = html.Div([

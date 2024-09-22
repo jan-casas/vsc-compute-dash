@@ -15,10 +15,8 @@ sys.path.insert(0, '/utils/utils_plotly.py')
 dash.register_page(__name__, path="/", title='VSC - Compute',
                    image_url='/static/assets/icons/hoja.ico')
 
-# Define the app landing layouts
-compute_speckle_layout = dbc.Row([
-    dbc.Col([
-        dcc.Markdown('''
+layout_sidebar_analysis = dbc.Col([
+    dcc.Markdown('''
             ### Speckle Optimal Commit
 
             This is a plot of the attributes of the objects in the stream. The plot is 
@@ -30,75 +28,83 @@ compute_speckle_layout = dbc.Row([
             that is currently 
             being displayed. This will give you the most likely commit that you want to use.        
         ''', style={'margin-top': '20px', 'font-size': '15px', 'font-family': 'Arial'}),
-        dcc.Dropdown(
-            id='dropdown_commit',
-        ),
-        dcc.Graph(
-            id='speckle_parallel_data',
-            figure={}
-        ),
-        dash_table.DataTable(
-            id='table_data',
-            columns=[{"name": i, "id": i}
-                     for i in ['authorName', 'commitId', 'message']],
-            style_cell={
-                'fontFamily': 'Arial',
-                'fontSize': 14
-            },
-            page_action='native',
-            page_size=5,
-        )
-    ],
-        id="sidebar_data",
-        style=sidebar_hidden_dict,
+    dcc.Dropdown(
+        id='dropdown_commit',
     ),
-    dbc.Col(
-        dbc.Row([
-            html.Span(children='Select the Compute Script you want to run'),
-            dbc.Col(
-                dcc.Dropdown(
-                    id='dropdown-compute-manufacturers',
-                    options=[{'label': i, 'value': i} for i in
-                             ['Corbalán/uglass_facade_tint', 'Garnica/wood_panel_wall',
-                              'Garnica/wood_panel_floor',
-                              'Garnica/wood_panel_ceiling']],
-                    value='Corbalán/uglass_facade_tint',
-                    placeholder="Selecciona un fabricante y el sistema constructivo",
-                    # className='dropUp'
-                ),
-            ),
-            dbc.Col(
-                dcc.Dropdown(
-                    id='dropdown-compute-commit',
-                    options=[{'label': i, 'value': i} for i in models_names],
-                    value=models_names[3],
-                    placeholder="Selecciona un commit sobre el que realizar el procesamiento",
-                    # className='dropUp'
-                ),
-            ),
-            html.Iframe(id="compute-iframe",
-                        src='http://localhost:3000/examples/docString_panels/',
-                        width='100%', height='800px'),
-
-        ])
+    dcc.Graph(
+        id='speckle_parallel_data',
+        figure={}
     ),
-    dbc.Col(
-        dbc.Row([
-            html.Span(children='Select the branches you want to visualize'),
-            dcc.Dropdown(id='dropdown_branches',
-                         options=[{'label': i, 'value': i} for i in models_names],
-                         value=[models_names[0]],
-                         multi=True,
-                         # className='dropUp'
-                         ),
-            html.Iframe(id="speckle-iframe",
-                        src='https://app.speckle.systems/projects/013613abb4/models/cd91d7878f'
-                            '&transparent=true&autoload'
-                            '=true&hidesidebar=true&hidecontrols=true',
-                        width='100vw', height='820px'),
-
-        ])
+    dash_table.DataTable(
+        id='table_data',
+        columns=[{"name": i, "id": i}
+                 for i in ['authorName', 'commitId', 'message']],
+        style_cell={
+            'fontFamily': 'Arial',
+            'fontSize': 14
+        },
+        page_action='native',
+        page_size=5,
     )
+],
+    id="sidebar_data",
+    style=sidebar_hidden_dict,
+)
+
+layout_compute = dbc.Col(
+    dbc.Row([
+        html.Span(children='Select the Compute Script you want to run'),
+        dbc.Col(
+            dcc.Dropdown(
+                id='dropdown-compute-manufacturers',
+                options=[{'label': i, 'value': i} for i in
+                         ['Corbalán/uglass_facade_tint', 'Garnica/wood_panel_wall',
+                          'Garnica/wood_panel_floor',
+                          'Garnica/wood_panel_ceiling']],
+                value='Corbalán/uglass_facade_tint',
+                placeholder="Selecciona un fabricante y el sistema constructivo",
+                # className='dropUp'
+            ),
+        ),
+        dbc.Col(
+            dcc.Dropdown(
+                id='dropdown-compute-commit',
+                options=[{'label': i, 'value': i} for i in models_names],
+                value=models_names[3],
+                placeholder="Selecciona un commit sobre el que realizar el procesamiento",
+                # className='dropUp'
+            ),
+        ),
+        html.Iframe(id="compute-iframe",
+                    src='http://localhost:3000/examples/docString_panels/',
+                    width='100%', height='800px'),
+
+    ])
+)
+
+layout_speckle = dbc.Col(
+    dbc.Row([
+        html.Span(children='Select the branches you want to visualize'),
+        dcc.Dropdown(id='dropdown_branches',
+                     options=[{'label': i, 'value': i} for i in models_names],
+                     value=[models_names[0]],
+                     multi=True,
+                     # className='dropUp'
+                     ),
+        html.Iframe(id="speckle-iframe",
+                    src='https://app.speckle.systems/projects/013613abb4/models/cd91d7878f'
+                        '&transparent=true&autoload'
+                        '=true&hidesidebar=true&hidecontrols=true',
+                    width='100vw', height='820px'),
+
+    ])
+)
+
+# Define the app landing layouts
+compute_speckle_layout = dbc.Row([
+    layout_sidebar_analysis,
+    layout_compute,
+    layout_speckle
 ],
     style={'width': 'calc(100% - 12rem)', 'margin-left': '6rem', 'margin-right': '6rem'})
 

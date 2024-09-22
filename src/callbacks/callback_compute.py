@@ -8,6 +8,7 @@ from flask import jsonify, request
 from src.core_callbacks import app, dash_app
 
 
+# Interaction with the sliders values
 @dash_app.callback(
     dash.dependencies.Output('slider-values-store', 'data'),  # Add this line
     [dash.dependencies.Input('compute-span-slider', 'value'),

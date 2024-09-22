@@ -1,6 +1,6 @@
 import subprocess
 from src.core_callbacks import *
-from src.callbacks import (callback_layout, callback_response, callback_compute)
+from src.callbacks import (callback_views, callback_speckle, callback_compute)
 
 """
 import subprocess
@@ -35,4 +35,4 @@ def start_appserver(node_path=r'C:\Program Files\nodejs\node.exe',
 if __name__ == '__main__':
     # start_compute()
     # start_appserver()
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=False, host='0.0.0.0', port=80)
