@@ -1,6 +1,5 @@
 import logging
-import time
-from typing import List, Tuple, Dict, Any
+from typing import List, Tuple, Dict
 
 import pandas as pd
 from specklepy.api import operations
@@ -78,7 +77,9 @@ def model_data(names_models: List[str]):
         transport.
     """
     branches = client.branch.list(project_id)
-    filter_branches = list(b for b in branches if b.name == names_models)
+    filter_branches = []
+    for model in names_models:
+        filter_branches += [b for b in branches if b.name == model]
     selected_model = [b.id for b in filter_branches]
 
     commits = []

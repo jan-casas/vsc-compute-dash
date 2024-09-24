@@ -42,6 +42,8 @@ def update_data(n_clicks, dropdown_models):
         return None, None
 
     else:
+        selected_model = [selected_model] if not isinstance(selected_model,
+                                                            list) else selected_model
         selected_commit_metadata, selected_commit_data = update_commit(selected_model)
         if selected_commit_metadata is not None and selected_commit_data is not None:
             data_store_branches = selected_commit_metadata.to_json(
@@ -93,12 +95,16 @@ def update_table(fig_parallel, selected_commit_metadata, selected_commit_data):
         selected_commit_metadata:
     """
     try:
+        useless_field = ['id', 'totalChildrenCount', 'applicationId']
+        if not fig_parallel:
+            return [], []
+
         # Get the selected commit data
         df_obj_data, df_commit_metadata = None, None
         if selected_commit_metadata is not None and selected_commit_data is not None:
             df_commit_metadata = pd.read_json(selected_commit_metadata, orient='split')
-            df_obj_data = pd.read_json(selected_commit_data, orient='split')
-            df_obj_data.drop(columns=['id', 'commitId', 'applicationId'])
+            df_obj_data = pd.read_json(selected_commit_data, orient='split').drop(
+                columns=useless_field)
 
         curr_dims = fig_parallel['data'][0].get('dimensions', None)
 
@@ -118,17 +124,18 @@ def update_table(fig_parallel, selected_commit_metadata, selected_commit_data):
 
         # Filter the dataframe based on the given ranges in each column
         df = df_obj_data.copy()
-        for i, col in enumerate(curr_dims):
-            dim = col['label']
-            if dim in constraint_range_dict:
-                constraint_range = constraint_range_dict[dim]
-                df = df[(df[dim] >= constraint_range[0]) & (
-                        df[dim] <= constraint_range[1])]
+        if curr_dims is not None:
+            for i, col in enumerate(curr_dims):
+                dim = col['label']
+                if dim in useless_field or dim == 'commitId':
+                    continue
+                if dim in constraint_range_dict:
+                    constraint_range = constraint_range_dict[dim]
+                    df = df[(df[dim] >= constraint_range[0]) & (df[dim] <= constraint_range[1])]
 
-        table_data, dropdown_commits = (df.to_dict('records'),
-                                        [{'label': i, 'value': i} for i in
-                                         df['commitId'].unique()])
-
+        table_data = df_commit_metadata.to_dict('records')
+        dropdown_commits = [{'label': i, 'value': i} for i in
+                            df_commit_metadata['commitId'].unique()]
         return table_data, dropdown_commits
 
     except Exception as e:

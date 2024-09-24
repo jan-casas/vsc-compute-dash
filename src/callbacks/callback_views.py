@@ -38,7 +38,6 @@ def toggle_collapse(n1, n2, n3, is_open):
     """
     Toggles the collapse.
     """
-    print('Toggle Collapse')
     ctx = dash.callback_context
 
     if not ctx.triggered:

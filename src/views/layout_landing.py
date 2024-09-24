@@ -39,6 +39,7 @@ layout_sidebar_analysis = dbc.Col([
         id='table_data',
         columns=[{"name": i, "id": i}
                  for i in ['authorName', 'commitId', 'message']],
+        data=[],
         style_cell={
             'fontFamily': 'Arial',
             'fontSize': 14

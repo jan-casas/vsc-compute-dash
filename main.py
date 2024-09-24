@@ -4,7 +4,6 @@ from src.callbacks import (callback_views, callback_speckle, callback_compute)
 
 """
 import subprocess
-from src.core_api import *
 from src.core_callbacks import *
 from src.callbacks import (callback_layout, callback_response, callback_compute)
 """

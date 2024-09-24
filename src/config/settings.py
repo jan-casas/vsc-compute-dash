@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -33,3 +34,12 @@ SPECKLE_INITIAL_COMMIT_ID = os.getenv("SPECKLE_INITIAL_COMMIT_ID", "@a33f2acd4c"
 MODEL_TESTING = os.getenv("MODEL_TESTING",
                           "https://app.speckle.systems/projects/013613abb4/models/c6734eae44"
                           "@a33f2acd4c")
+
+# Logging
+# logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
+# Suppress all Speckle-related logs
+for logger_name in logging.root.manager.loggerDict:
+    if logger_name.startswith('specklepy'):
+        logger = logging.getLogger(logger_name)
+        logger.setLevel(logging.CRITICAL)
+        logger.propagate = False
