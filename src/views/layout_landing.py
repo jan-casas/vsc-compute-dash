@@ -12,6 +12,9 @@ sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
 
 compute_models_names = [name for name in models_names if name.startswith('compute/')]
+compute_scripts = ['Corbalán/uglass_facade_tint', 'Garnica/wood_panel_wall',
+                   'Garnica/wood_panel_floor',
+                   'Garnica/wood_panel_ceiling']
 
 # Register this page
 dash.register_page(__name__, path="/", title='VSC - Compute',
@@ -60,10 +63,7 @@ layout_compute = dbc.Col(
         dbc.Col(
             dcc.Dropdown(
                 id='dropdown-compute-manufacturers',
-                options=[{'label': i, 'value': i} for i in
-                         ['Corbalán/uglass_facade_tint', 'Garnica/wood_panel_wall',
-                          'Garnica/wood_panel_floor',
-                          'Garnica/wood_panel_ceiling']],
+                options=[{'label': i, 'value': i} for i in compute_scripts],
                 value='Corbalán/uglass_facade_tint',
                 placeholder="Selecciona un fabricante y el sistema constructivo",
                 # className='dropUp'
@@ -72,15 +72,23 @@ layout_compute = dbc.Col(
         dbc.Col(
             dcc.Dropdown(
                 id='dropdown-compute-commit',
-                options=[{'label': i, 'value': i} for i in models_names],
-                value=models_names[3],
+                options=[{'label': i, 'value': i} for i in compute_models_names],
+                value=compute_models_names[0],
                 placeholder="Selecciona un commit sobre el que realizar el procesamiento",
                 # className='dropUp'
             ),
         ),
-        html.Iframe(id="compute-iframe",
+        dcc.Loading(
+            id="loading-compute-iframe",
+            type="default",
+            children=[
+                html.Iframe(
+                    id="compute-iframe",
                     src='http://localhost:3000/examples/docString_panels/',
-                    width='100%', height='800px'),
+                    width='100%', height='800px'
+                )
+            ]
+        ),
 
     ]), style={'margin-top': '5rem'}
 )
@@ -94,11 +102,19 @@ layout_speckle = dbc.Col(
                      multi=True,
                      # className='dropUp'
                      ),
-        html.Iframe(id="speckle-iframe",
+        dcc.Loading(
+            id="loading-speckle-iframe",
+            type="default",
+            children=[
+                html.Iframe(
+                    id="speckle-iframe",
                     src='https://app.speckle.systems/projects/013613abb4/models/cd91d7878f'
                         '&transparent=true&autoload'
                         '=true&hidesidebar=true&hidecontrols=true',
-                    width='100vw', height='820px'),
+                    width='100%', height='820px'
+                )
+            ]
+        ),
 
     ]), style={'margin-top': '5rem'}
 )
@@ -195,7 +211,7 @@ compute_parameters = dbc.Row(
                                 dbc.Col(
                                     dbc.Input(id='input_commit_message',
                                               type='text',
-                                              placeholder='Enter selected commit url',
+                                              placeholder='Enter a commit message',
                                               style={'width': '100%'}),
                                     # width=6,
                                     style={'margin': '10px'}
@@ -225,19 +241,14 @@ metadata_storage = html.Div([
     html.Div(id='dummy-output', style={'display': 'none'}),
 ])
 
-layout = dbc.Col([
-    dcc.Loading(
-        id="loading",
-        type="dot",
-        fullscreen=True,
-        children=[
-            default_modal,
-            metadata_storage,
-            default_header,
-            compute_parameters,
-            compute_speckle_layout,
-            content,
-            default_toast
-        ]
-    )
-])
+layout = dbc.Col(
+    children=[
+        default_modal,
+        metadata_storage,
+        default_header,
+        compute_parameters,
+        compute_speckle_layout,
+        content,
+        default_toast
+    ]
+)
