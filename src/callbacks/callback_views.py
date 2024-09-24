@@ -8,22 +8,22 @@ from static.style import sidebar_hidden_dict, content_style_dict, content_style1
 from utils.utils import openai_chat
 
 
-@dash_app.callback(
-    dash.dependencies.Output("positioned-toast", "is_open"),
-    [dash.dependencies.Input("update_speckle_iframe", "n_clicks")],
-)
-def toggle_toast(n):
-    """
-    Toggles the toast.
-
-    :param n: The number of times the button has been clicked.
-    :type n: int
-    :return: The toast.
-    """
-    time.sleep(3)
-    if n > 0:
-        return True
-    return False
+# @dash_app.callback(
+#     dash.dependencies.Output("positioned-toast", "is_open"),
+#     [dash.dependencies.Input("update_speckle_iframe", "n_clicks")],
+# )
+# def toggle_toast(n):
+#     """
+#     Toggles the toast.
+#
+#     :param n: The number of times the button has been clicked.
+#     :type n: int
+#     :return: The toast.
+#     """
+#     time.sleep(3)
+#     if n > 0:
+#         return True
+#     return False
 
 
 # Callback for the collapse
@@ -55,16 +55,16 @@ def toggle_collapse(n1, n2, n3, is_open):
     return is_open
 
 
-@dash_app.callback(
-    dash.dependencies.Output('input_commit_message', 'value'),
-    dash.dependencies.Input('update_speckle_iframe', 'n_clicks'),
-)
-def get_random_message(n_clicks):
-    if n_clicks is not None:
-        commit_message = (openai_chat(
-            "Create a random funny and short git commit message. (max 20 words)"))
-        return commit_message
-    return None
+# @dash_app.callback(
+#     dash.dependencies.Output('input_commit_message', 'value'),
+#     dash.dependencies.Input('update_speckle_iframe', 'n_clicks'),
+# )
+# def get_random_message(n_clicks):
+#     if n_clicks is not None:
+#         commit_message = (openai_chat(
+#             "Create a random funny and short git commit message. (max 20 words)"))
+#         return commit_message
+#     return None
 
 
 @dash_app.callback(

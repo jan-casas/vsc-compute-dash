@@ -11,6 +11,8 @@ from src.views.default_components import default_header, default_modal, default_
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
 
+compute_models_names = [name for name in models_names if name.startswith('compute/')]
+
 # Register this page
 dash.register_page(__name__, path="/", title='VSC - Compute',
                    image_url='/static/assets/icons/hoja.ico')
@@ -80,7 +82,7 @@ layout_compute = dbc.Col(
                     src='http://localhost:3000/examples/docString_panels/',
                     width='100%', height='800px'),
 
-    ])
+    ]), style={'margin-top': '5rem'}
 )
 
 layout_speckle = dbc.Col(
@@ -98,7 +100,7 @@ layout_speckle = dbc.Col(
                         '=true&hidesidebar=true&hidecontrols=true',
                     width='100vw', height='820px'),
 
-    ])
+    ]), style={'margin-top': '5rem'}
 )
 
 # Define the app landing layouts
@@ -171,8 +173,9 @@ compute_parameters = dbc.Row(
                                 dbc.Col(
                                     dcc.Dropdown(
                                         id='dropdown-compute-data',
-                                        options=[{'label': i, 'value': i} for i in models_names],
-                                        value=models_names[3],
+                                        options=[{'label': i, 'value': i} for i in
+                                                 compute_models_names],
+                                        value=compute_models_names[0],
                                         placeholder="Selecciona un commit sobre el que realizar el "
                                                     "procesamiento"),
                                     # width=6,
@@ -223,11 +226,18 @@ metadata_storage = html.Div([
 ])
 
 layout = dbc.Col([
-    default_modal,
-    metadata_storage,
-    default_header,
-    compute_parameters,
-    dbc.Row(compute_speckle_layout, style={'margin-top': '60px'}),
-    content,
-    default_toast
+    dcc.Loading(
+        id="loading",
+        type="dot",
+        fullscreen=True,
+        children=[
+            default_modal,
+            metadata_storage,
+            default_header,
+            compute_parameters,
+            compute_speckle_layout,
+            content,
+            default_toast
+        ]
+    )
 ])
