@@ -17,7 +17,7 @@ store_dict_attributes: dict = {}
 
 
 # Initialize Speckle clients and obtain initial data
-def initialize_client(host: str = 'https://app.speckle.systems/') -> SpeckleClient:
+def initialize_client(host: str = 'https://app.speckle.systems/') -> SpeckleClient or None:
     """
     Initialize the client.
 
@@ -27,10 +27,15 @@ def initialize_client(host: str = 'https://app.speckle.systems/') -> SpeckleClie
     Returns:
         SpeckleClient: A Speckle client.
     """
-    client = SpeckleClient(host)
-    account = get_default_account()
-    client.authenticate_with_account(account)
-    return client
+    try:
+        client = SpeckleClient(host)
+        account = get_default_account()
+        client.authenticate_with_account(account)
+        return client
+
+    except Exception as e:
+        logging.exception(f"Error initializing Speckle client: {e}")
+        return None
 
 
 client: SpeckleClient = initialize_client()
@@ -49,10 +54,15 @@ def model_metadata() -> Tuple[str, List[str]]:
     Returns:
         Tuple[str, List[str]]: A tuple containing the initial branch and a list of branch names.
     """
-    models = client.branch.list(project_id)
-    models_names = [model.name for model in models]
-    initial_model = models_names[0] if models_names else None
-    return initial_model, models_names
+    try:
+        models = client.branch.list(project_id)
+        models_names = [model.name for model in models]
+        initial_model = models_names[0] if models_names else None
+        return initial_model, models_names
+
+    except Exception as e:
+        logging.exception(f"No models found in stream '{model_id}'")
+        return "", []
 
 
 default_model, models_names = model_metadata()
@@ -119,6 +129,7 @@ def commits_metadata(commits: list) -> list[dict]:
         commit_attributes = [{'authorName': commit['authorName'], 'commitId': commit['id'],
                               'message': commit['message']} for commit in commits]
         return commit_attributes
+
     except Exception as e:
         logging.exception(e)
         return []
@@ -164,6 +175,7 @@ def commits_data(commits: list) -> dict:
             # Get the metadata of the referenced object
             collection_data = operations.receive(commit['referencedObject'], transport)
             commit_values = extract_metadata(commit['id'], collection_data.Data)
+            # Aggregate the metadata
             avg_commit_values = aggregate_extracted_metadata(commit_values).to_dict()
             if avg_commit_values:
                 commits_attributes[i] = avg_commit_values
@@ -180,28 +192,33 @@ def update_commit(names_models):
     """
     Updates the branch commits.
     """
-    # Get commits from the models
-    names_models, _, _, model_commit_metadata = model_data(names_models)
-    new_commits: list = [commit for commit in model_commit_metadata if commit['id'] not in
-                         store_commits_names]
+    try:
+        # Get commits from the models
+        names_models, _, _, model_commit_metadata = model_data(names_models)
+        new_commits: list = [commit for commit in model_commit_metadata if commit['id'] not in
+                             store_commits_names]
 
-    # Capture only the attributes of the objects baked in Compute
-    filter_commit_metadata = commits_metadata(model_commit_metadata)
-    store_commits_names.extend(commit['commitId'] for commit in filter_commit_metadata)
-    selected_commit_metadata: pd.DataFrame = pd.DataFrame(filter_commit_metadata)
+        # Capture only the attributes of the objects baked in Compute
+        filter_commit_metadata = commits_metadata(model_commit_metadata)
+        store_commits_names.extend(commit['commitId'] for commit in filter_commit_metadata)
+        selected_commit_metadata: pd.DataFrame = pd.DataFrame(filter_commit_metadata)
 
-    # FIXME: Dale una vuelta a esto, es correcta la condición?
-    if not new_commits and store_commits_names:
+        # FIXME: Dale una vuelta a esto, es correcta la condición?
+        if not new_commits and store_commits_names:
+            selected_commit_data = pd.DataFrame.from_dict(store_dict_attributes).T
+            return selected_commit_metadata, selected_commit_data
+
+        commit_attributes = commits_data(model_commit_metadata)
+        store_dict_attributes.update(commit_attributes)
+
+        # Construct the df used in the parallel plot
         selected_commit_data = pd.DataFrame.from_dict(store_dict_attributes).T
+
         return selected_commit_metadata, selected_commit_data
 
-    commit_attributes = commits_data(model_commit_metadata)
-    store_dict_attributes.update(commit_attributes)
-
-    # Construct the df used in the parallel plot
-    selected_commit_data = pd.DataFrame.from_dict(store_dict_attributes).T
-
-    return selected_commit_metadata, selected_commit_data
+    except Exception as e:
+        logging.exception(e)
+        return pd.DataFrame(), pd.DataFrame()
 
 
 def merge_commits(selected_models: List[str]) -> str:
@@ -214,11 +231,16 @@ def merge_commits(selected_models: List[str]) -> str:
     Returns:
         str: The url of the iframe.
     """
-    # Get latest commits from the stream and the base one
-    names_branch, filter_branches_names, latest_commit, _ = model_data(selected_models)
-    base_commit_url = f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
-    embed_url = ','.join(filter_branches_names)
-    embed_url = (f"{base_commit_url}/"
-                 f"{embed_url}#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D")
+    try:
+        # Get latest commits from the stream and the base one
+        names_branch, filter_branches_names, latest_commit, _ = model_data(selected_models)
+        base_commit_url = f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
+        embed_url = ','.join(filter_branches_names)
+        embed_url = (f"{base_commit_url}/"
+                     f"{embed_url}#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D")
 
-    return embed_url
+        return embed_url
+
+    except Exception as e:
+        logging.exception(e)
+        return ""

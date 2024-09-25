@@ -15,6 +15,7 @@ compute_models_names = [name for name in models_names if name.startswith('comput
 compute_scripts = ['Corbalán/uglass_facade_tint', 'Garnica/wood_panel_wall',
                    'Garnica/wood_panel_floor',
                    'Garnica/wood_panel_ceiling']
+VIZ_HEIGHT = "780px"
 
 # Register this page
 dash.register_page(__name__, path="/", title='VSC - Compute',
@@ -85,7 +86,7 @@ layout_compute = dbc.Col(
                 html.Iframe(
                     id="compute-iframe",
                     src='http://localhost:3000/examples/docString_panels/',
-                    width='100%', height='800px'
+                    width='100%', height=VIZ_HEIGHT
                 )
             ]
         ),
@@ -111,7 +112,7 @@ layout_speckle = dbc.Col(
                     src='https://app.speckle.systems/projects/013613abb4/models/cd91d7878f'
                         '&transparent=true&autoload'
                         '=true&hidesidebar=true&hidecontrols=true',
-                    width='100%', height='820px'
+                    width='100%', height=VIZ_HEIGHT
                 )
             ]
         ),
