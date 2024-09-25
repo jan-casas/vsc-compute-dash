@@ -1,10 +1,12 @@
 import logging
+import json
 import sys
 from typing import List, Optional
 import dash
 import numpy as np
 import pandas as pd
 
+from config.settings import useless_fields
 from src.core_callbacks import dash_app
 from src.utils.utils_plotly import parallel_plot
 from src.utils.utils_speckle import merge_commits, update_commit
@@ -15,7 +17,7 @@ sys.path.insert(0, 'core_callbacks.py')
 sys.path.insert(0, 'callbacks/deprecated-utils_speckle.py')
 
 
-# Speckle callbacks
+# Merge the selected commits and update the iframe
 @dash_app.callback(
     dash.dependencies.Output("speckle-iframe", "src"),
     [dash.dependencies.Input("dropdown_commit", "value"),
@@ -27,6 +29,7 @@ def update_latest_commit(dropdown_commit: Optional[str] = None,
     return merged_url
 
 
+# Callback related with dropdown and sidebar interactions
 @dash_app.callback(
     [dash.dependencies.Output('store-branches', 'data'),
      dash.dependencies.Output('store-branches-attributes', 'data')],
@@ -54,31 +57,36 @@ def update_data(n_clicks, dropdown_models):
             return data_store_branches, data_store_branches_attributes
 
 
-# Plotly callbacks
+# Modify the parallel plot based on the selected data
 @dash_app.callback(
     dash.dependencies.Output('speckle_parallel_data', 'figure'),
     [dash.dependencies.Input('store-branches-attributes', 'data')],
-    [dash.dependencies.State('speckle_parallel_data', 'figure'),
-     ])
+    [dash.dependencies.State('speckle_parallel_data', 'figure')]
+)
 def update_parallel_plot(models_attributes_data, par_coord_data):
     """
     Updates the parallel plot based on the selected data in the parallel plot.
     """
-    if models_attributes_data is not None:
-        if par_coord_data is not None:
-            selected_attributes_df_branches = pd.read_json(models_attributes_data,
-                                                           orient='split').select_dtypes(
-                include=[np.number])
+    try:
+        original_models_attributes = json.loads(models_attributes_data)
+        models_attributes = pd.DataFrame(original_models_attributes['data'],
+                                         columns=original_models_attributes['columns'])
+        if models_attributes.empty:
+            raise ValueError('No model attributes available for the parallel plot')
+        selected_attributes_df_branches: pd.DataFrame = models_attributes
+        if len(par_coord_data) != 0:
+            selected_points: list = par_coord_data['data'][0].get('selectedpoints', [])
+            if len(selected_points) != 0:
+                selected_attributes_df_branches = models_attributes.iloc[selected_points]
 
-            fig_parallel = parallel_plot(selected_attributes_df_branches)
-        else:
-            fig_parallel = par_coord_data
-
+        fig_parallel = parallel_plot(selected_attributes_df_branches)
         return fig_parallel
-    else:
+    except Exception as e:
+        logging.error('No model attributes available for the parallel plot')
         return {}
 
 
+# Update the table data based on the selected data in the parallel plot
 @dash_app.callback(
     [dash.dependencies.Output('table_data', 'data'),
      dash.dependencies.Output('dropdown_commit', 'options')],
@@ -95,19 +103,20 @@ def update_table(fig_parallel, selected_commit_metadata, selected_commit_data):
         selected_commit_metadata:
     """
     try:
-        useless_field = ['id', 'totalChildrenCount', 'applicationId']
         if not fig_parallel:
             return [], []
 
         # Get the selected commit data
-        df_obj_data, df_commit_metadata = None, None
-        if selected_commit_metadata is not None and selected_commit_data is not None:
-            df_commit_metadata = pd.read_json(selected_commit_metadata, orient='split')
-            df_obj_data = pd.read_json(selected_commit_data, orient='split').drop(
-                columns=useless_field)
+        df_commit_metadata = pd.read_json(selected_commit_metadata, orient='split')
+        df_obj_data = pd.read_json(selected_commit_data, orient='split')
+        if df_commit_metadata.empty or df_obj_data.empty:
+            return [], []
 
+        # Clean the dataframe
+        df_obj_data = df_obj_data.drop(columns=useless_fields)
+
+        # Get the current dimensions of the parallel plot
         curr_dims = fig_parallel['data'][0].get('dimensions', None)
-
         # If there is no fig selection
         if 'data' not in fig_parallel or curr_dims is None:
             table_data_original = df_obj_data.to_dict('records')
@@ -125,17 +134,21 @@ def update_table(fig_parallel, selected_commit_metadata, selected_commit_data):
         # Filter the dataframe based on the given ranges in each column
         df = df_obj_data.copy()
         if curr_dims is not None:
-            for i, col in enumerate(curr_dims):
+            for col in curr_dims:
                 dim = col['label']
-                if dim in useless_field or dim == 'commitId':
+                # Skip if the column is in useless_fields or is 'commitId'
+                if dim in useless_fields or dim == 'commitId':
                     continue
+                # Apply range constraints if present
                 if dim in constraint_range_dict:
-                    constraint_range = constraint_range_dict[dim]
-                    df = df[(df[dim] >= constraint_range[0]) & (df[dim] <= constraint_range[1])]
+                    min_val, max_val = constraint_range_dict[dim]
+                    # Discard rows where values are outside the range
+                    df = df.loc[df[dim].between(min_val, max_val)]
 
-        table_data = df_commit_metadata.to_dict('records')
-        dropdown_commits = [{'label': i, 'value': i} for i in
-                            df_commit_metadata['commitId'].unique()]
+        # Get the filtered commit metadata
+        table_data = df_commit_metadata[
+            df_commit_metadata['commitId'].isin(df['commitId'])].to_dict('records')
+        dropdown_commits = [{'label': i, 'value': i} for i in df['commitId'].unique()]
         return table_data, dropdown_commits
 
     except Exception as e:

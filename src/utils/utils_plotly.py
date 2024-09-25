@@ -4,6 +4,8 @@ import warnings
 import pandas as pd
 import plotly.graph_objects as go
 
+from config.settings import useless_fields
+
 sys.path.insert(0, 'core_callbacks.py')
 pd.options.mode.chained_assignment = None
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -45,7 +47,7 @@ def create_table(df_branches):
     return fig_commits, fig_branches
 
 
-def parallel_plot(df_branches, selected_data=None, ui_revision=None):
+def parallel_plot(df_branches: pd.DataFrame, selected_data: list = None, ui_revision=None):
     """
     Creates a parallel plot with the branches data
 
@@ -57,6 +59,8 @@ def parallel_plot(df_branches, selected_data=None, ui_revision=None):
     Returns:
         fig: figure with the parallel plot
     """
+    df_branches_selected = df_branches.drop(columns=useless_fields, errors='ignore')
+
     if selected_data is not None:
         df_selected = pd.DataFrame(selected_data)
         df_branches = df_branches[df_branches.index.isin(df_selected.index)]
@@ -69,9 +73,9 @@ def parallel_plot(df_branches, selected_data=None, ui_revision=None):
             dict(range=[0, 1],
                  constraintrange=[0.2, 0.8],
                  label=col,
-                 values=df_branches[col]) for col in df_branches.columns
+                 values=df_branches_selected[col]) for col in df_branches_selected.columns
         ]),
-        customdata=df_branches.index,
+        customdata=df_branches_selected.index,
         uirevision=ui_revision
     ))
 

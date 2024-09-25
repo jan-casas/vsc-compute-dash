@@ -34,6 +34,7 @@ SPECKLE_INITIAL_COMMIT_ID = os.getenv("SPECKLE_INITIAL_COMMIT_ID", "@a33f2acd4c"
 MODEL_TESTING = os.getenv("MODEL_TESTING",
                           "https://app.speckle.systems/projects/013613abb4/models/c6734eae44"
                           "@a33f2acd4c")
+useless_fields = ['id', 'totalChildrenCount', 'applicationId']
 
 # Logging
 # logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
