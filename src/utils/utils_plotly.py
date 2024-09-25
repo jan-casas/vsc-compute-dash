@@ -59,12 +59,11 @@ def parallel_plot(df_branches: pd.DataFrame, selected_data: list = None, ui_revi
     Returns:
         fig: figure with the parallel plot
     """
-    df_branches_selected = df_branches.drop(columns=useless_fields, errors='ignore')
+    df_branches_selected = df_branches.drop(columns=useless_fields + ['commitId'], errors='ignore')
 
     if selected_data is not None:
         df_selected = pd.DataFrame(selected_data)
-        df_branches = df_branches[df_branches.index.isin(df_selected.index)]
-        selected_points = df_branches.index.tolist()
+        selected_points = df_selected.index.tolist()
     else:
         selected_points = []
 
@@ -75,7 +74,7 @@ def parallel_plot(df_branches: pd.DataFrame, selected_data: list = None, ui_revi
                  label=col,
                  values=df_branches_selected[col]) for col in df_branches_selected.columns
         ]),
-        customdata=df_branches_selected.index,
+        customdata=df_branches['commitId'],
         uirevision=ui_revision
     ))
 

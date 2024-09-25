@@ -72,7 +72,7 @@ def update_parallel_plot(models_attributes_data, par_coord_data):
         models_attributes = pd.DataFrame(original_models_attributes['data'],
                                          columns=original_models_attributes['columns'])
         if models_attributes.empty:
-            raise ValueError('No model attributes available for the parallel plot')
+            raise ValueError("The models_attributes DataFrame is empty.")
         selected_attributes_df_branches: pd.DataFrame = models_attributes
         if len(par_coord_data) != 0:
             selected_points: list = par_coord_data['data'][0].get('selectedpoints', [])
@@ -82,7 +82,7 @@ def update_parallel_plot(models_attributes_data, par_coord_data):
         fig_parallel = parallel_plot(selected_attributes_df_branches)
         return fig_parallel
     except Exception as e:
-        logging.error('No model attributes available for the parallel plot')
+        logging.error(e)
         return {}
 
 
@@ -92,9 +92,10 @@ def update_parallel_plot(models_attributes_data, par_coord_data):
      dash.dependencies.Output('dropdown_commit', 'options')],
     [dash.dependencies.Input('speckle_parallel_data', 'figure'),
      dash.dependencies.Input('store-branches', 'data'),
-     dash.dependencies.Input('store-branches-attributes', 'data')]
+     dash.dependencies.Input('store-branches-attributes', 'data')],
+    [dash.dependencies.State('speckle_parallel_data', 'figure')]
 )
-def update_table(fig_parallel, selected_commit_metadata, selected_commit_data):
+def update_table(fig_parallel, selected_commit_metadata, selected_commit_data, fig_state):
     """
     Updates the table data based on the selected data in the parallel plot.
     Args:
