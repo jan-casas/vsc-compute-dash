@@ -68,6 +68,7 @@ layout_compute = dbc.Col(
                 value='Corbalán/uglass_facade_tint',
                 placeholder="Selecciona un fabricante y el sistema constructivo",
                 # className='dropUp'
+                style={'z-index': 10}
             ),
         ),
         dbc.Col(
@@ -77,6 +78,7 @@ layout_compute = dbc.Col(
                 value=compute_models_names[0],
                 placeholder="Selecciona un commit sobre el que realizar el procesamiento",
                 # className='dropUp'
+                style={'z-index': 10}
             ),
         ),
         dcc.Loading(
