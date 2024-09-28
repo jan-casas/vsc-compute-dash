@@ -36,4 +36,5 @@ def start_appserver(node_path=r'C:\Program Files\nodejs\node.exe',
 if __name__ == '__main__':
     # start_compute()
     # start_appserver()
-    app.run(debug=False, host='0.0.0.0', port=80)
+    dash_app.run_server(debug=True, use_reloader=False)
+# , host='0.0.0.0', port=80)
