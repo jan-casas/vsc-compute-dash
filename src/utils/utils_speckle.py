@@ -66,6 +66,7 @@ def model_metadata() -> Tuple[str, List[str]]:
 
 
 default_model, models_names = model_metadata()
+compute_models_names = [name for name in models_names if name.startswith('compute/')]
 
 
 def model_data(names_models: List[str]):

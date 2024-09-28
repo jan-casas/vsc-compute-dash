@@ -1,6 +1,8 @@
 import subprocess
+import logging
 from src.core_callbacks import *
 from src.callbacks import (callback_views, callback_speckle, callback_compute)
+import src.config.logs
 
 """
 import subprocess
