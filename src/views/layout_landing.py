@@ -30,9 +30,6 @@ layout_sidebar_analysis = dbc.Col([
             that is currently 
             being displayed. This will give you the most likely commit that you want to use.        
         ''', style={'margin-top': '20px', 'font-size': '15px', 'font-family': 'Arial'}),
-    dcc.Dropdown(
-        id='dropdown-commit',
-    ),
     dcc.Graph(id='parcoords-plot'),
     dash_table.DataTable(
         id='filtered-table',
@@ -45,7 +42,11 @@ layout_sidebar_analysis = dbc.Col([
         },
         page_action='native',
         page_size=5,
-    )
+    ),
+    html.Span('Select the commits you want to visualize'),
+    dcc.Dropdown(
+        id='dropdown-commit',
+    ),
 ],
     id="sidebar-data",
     style=sidebar_hidden_dict,
@@ -54,26 +55,24 @@ layout_sidebar_analysis = dbc.Col([
 layout_compute = dbc.Col(
     dbc.Row([
         html.Span(children='Select the Compute Script you want to run'),
-        dbc.Col(
-            dcc.Dropdown(
-                id='dropdown-compute-manufacturers',
-                options=[{'label': i, 'value': i} for i in compute_scripts],
-                value='Corbalán/uglass_facade_tint',
-                placeholder="Selecciona un fabricante y el sistema constructivo",
-                # className='dropUp'
-                style={'z-index': 10}
-            ),
-        ),
-        dbc.Col(
-            dcc.Dropdown(
-                id='dropdown-compute-commit',
-                options=[{'label': i, 'value': i} for i in compute_models_names],
-                value=compute_models_names[0],
-                placeholder="Selecciona un commit sobre el que realizar el procesamiento",
-                # className='dropUp'
-                style={'z-index': 10}
-            ),
-        ),
+        # dbc.Col(
+        #     dcc.Dropdown(
+        #         id='dropdown-compute-manufacturers',
+        #         options=[{'label': i, 'value': i} for i in compute_scripts],
+        #         value='Corbalán/uglass_facade_tint',
+        #         placeholder="Selecciona un fabricante y el sistema constructivo",
+        #         className='my-dropdown'
+        #     ),
+        # ),
+        # dbc.Col(
+        #     dcc.Dropdown(
+        #         id='dropdown-compute-commit',
+        #         options=[{'label': i, 'value': i} for i in compute_models_names],
+        #         value=compute_models_names[0],
+        #         placeholder="Selecciona un commit sobre el que realizar el procesamiento",
+        #         className='my-dropdown'  # dropUp
+        #     ),
+        # ),
         dcc.Loading(
             id="loading-compute-iframe",
             type="default",
@@ -119,8 +118,7 @@ compute_speckle_layout = dbc.Row([
     layout_sidebar_analysis,
     layout_compute,
     layout_speckle
-],
-    style={'width': 'calc(100% - 12rem)', 'margin-left': '6rem', 'margin-right': '6rem'})
+], style={'width': 'calc(100% - 12rem)', 'margin-left': '6rem', 'margin-right': '6rem'})
 
 compute_parameters = dbc.Row(
     html.Div(
@@ -186,30 +184,32 @@ compute_parameters = dbc.Row(
                                         id='dropdown-compute-data',
                                         options=[{'label': i, 'value': i} for i in
                                                  compute_models_names],
-                                        value=compute_models_names[0],
-                                        placeholder="Selecciona un commit sobre el que realizar el "
-                                                    "procesamiento"),
-                                    # width=6,
-                                    style={'margin': '10px'}
+                                        # value=compute_models_names[0],
+                                        placeholder="Working Compute Model"),
+                                    class_name='compute-dropdown'
                                 ),
                                 dbc.Col(
-                                    dbc.Button('Bake it in Speckle! 🧑‍🍳🥖', id='bake-button',
-                                               className="mr-1",
-                                               color='warning',
-                                               style={'width': '100%'}),
-                                    width=4,
-                                    style={'justify-content': 'center', 'font-color': 'white',
-                                           'margin': '10px'}
-                                )
+                                    dcc.Dropdown(
+                                        id='dropdown-compute-manufacturers',
+                                        options=[{'label': i, 'value': i} for i in compute_scripts],
+                                        # value='Corbalán/uglass_facade_tint',
+                                        placeholder="Available Manufacturer Scripts",
+                                    ), class_name='compute-dropdown'
+                                ),
+
                             ]),
                             dbc.Row(
-                                dbc.Col(
-                                    dbc.Input(id='input_commit_message',
-                                              type='text',
-                                              placeholder='Enter a commit message',
-                                              style={'width': '100%'}),
-                                    # width=6,
-                                    style={'margin': '10px'}
+                                dbc.InputGroup(
+                                    [
+                                        dbc.Input(id='input_commit_message',
+                                                  placeholder='Enter a commit message like: '
+                                                              'Update facade with custom '
+                                                              'instructions',
+                                                  type='text'),
+                                        dbc.Button('Bake', id='bake-button', n_clicks=0)
+                                    ],
+                                    # size='md',
+                                    className='compute-dropdown',
                                 ),
                             ),
                         ]),

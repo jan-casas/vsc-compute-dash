@@ -79,6 +79,22 @@ span {
 }
 
 
+.my-dropdown .dropdown-menu {
+    z-index: 1000 !important;
+}
+
+.compute-dropdown {
+    margin: 5px;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .dropUp .Select-menu-outer {
     top: 0;
     -webkit-transform: translateY(3px) translateY(-100%);
