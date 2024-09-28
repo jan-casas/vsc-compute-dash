@@ -64,7 +64,6 @@ def healthcheck():
     return jsonify({'status': 'ok'})
 
 
-# Endpoints API compute.webapp
 dash_app.clientside_callback(
     """
     function(data) {

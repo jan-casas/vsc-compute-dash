@@ -47,10 +47,6 @@ def model_metadata() -> Tuple[str, List[str]]:
     """
     Get the names of the branches of a stream.
 
-    Args:
-        client (SpeckleClient): A Speckle client.
-        project_id (str, optional): The ID of the stream. Defaults to '0e5d383e76'.
-
     Returns:
         Tuple[str, List[str]]: A tuple containing the initial branch and a list of branch names.
     """
@@ -75,12 +71,7 @@ def model_data(names_models: List[str]):
     server transport.
 
     Args:
-        project_id:
-        names_models:
-        client (SpeckleClient): A Speckle client.
-        model_id (str): The ID of the stream.
-        names_models (str, optional): The name of the branch. Defaults to 'main'.
-
+        names_models: The names of the models.
     Returns:
         Tuple[Base, List[Dict[str, Any]], Base, ServerTransport]: A tuple containing the latest
         commit
@@ -118,8 +109,6 @@ def commits_metadata(commits: list) -> list[dict]:
     Processes commits, retrieves commit information, and filters based on provided keys.
 
     Args:
-        client (SpeckleClient): A Speckle client.
-        project_id (str): The ID of the stream.
         commits (List[Base]): A list of commit objects.
 
     Returns:
@@ -163,8 +152,6 @@ def commits_data(commits: list) -> dict:
     Processes commits, retrieves commit information, and filters based on provided keys.
 
     Args:
-        client (SpeckleClient): A Speckle client.
-        project_id (str): The ID of the stream.
         commits (List[Base]): A list of commit objects.
 
     Returns:
