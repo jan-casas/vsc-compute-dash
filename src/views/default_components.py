@@ -1,13 +1,13 @@
 import dash_bootstrap_components as dbc
 from dash import html, dcc
 
-# HEADER
+# Header
 default_header = dbc.NavbarSimple(
     children=[
-        dbc.Button("Speckle OP", id="speckle_data_sidebar", color="link", className="mr-1",
+        dbc.Button("Speckle OP", id="speckle-data-sidebar", color="link", className="mr-1",
                    n_clicks=0, outline=True,
                    style={"margin-right": "10px"}),
-        dbc.Button('Compute!', id='update_speckle_iframe', n_clicks=0,
+        dbc.Button('Compute!', id='update-speckle-iframe', n_clicks=0,
                    color='primary'),
     ],
     sticky="top",
@@ -15,7 +15,7 @@ default_header = dbc.NavbarSimple(
     style={'justifyContent': 'flex-start'}
 )
 
-# FOOTER
+# Footer
 default_footer = html.Footer([
     html.Div(id='grid-container_sub3', children=[
         html.Div([
@@ -60,6 +60,7 @@ default_footer = html.Footer([
 ], style={'width': '100%', 'margin-left': 'auto', 'margin-right': 'auto', 'margin-top': '50px',
           'background-color': '#f7f7f8', 'height': '200px'})
 
+# Modals and Toasts
 default_toast = html.Div(dbc.Toast(
     children="La petición se ha realizado correctamente, en breve aparecerá actualizado el "
              "modelo.",

@@ -4,23 +4,19 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import dash_table, dcc, html
 
-from src.static.style import (content_style_dict, sidebar_hidden_dict)
-from src.utils.utils_speckle import models_names
+from src.static.style import (content_style_dict, sidebar_hidden_dict, PANEL_HEIGHT)
+from src.utils.utils_speckle import models_names, compute_models_names
 from src.views.default_components import default_header, default_modal, default_toast
+from src.config.settings import compute_scripts
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
-
-compute_models_names = [name for name in models_names if name.startswith('compute/')]
-compute_scripts = ['Corbalán/uglass_facade_tint', 'Garnica/wood_panel_wall',
-                   'Garnica/wood_panel_floor',
-                   'Garnica/wood_panel_ceiling']
-VIZ_HEIGHT = "780px"
 
 # Register this page
 dash.register_page(__name__, path="/", title='VSC - Compute',
                    image_url='/static/assets/icons/hoja.ico')
 
+# Define the app landing layouts
 layout_sidebar_analysis = dbc.Col([
     dcc.Markdown('''
             ### Speckle Optimal Commit
@@ -35,14 +31,11 @@ layout_sidebar_analysis = dbc.Col([
             being displayed. This will give you the most likely commit that you want to use.        
         ''', style={'margin-top': '20px', 'font-size': '15px', 'font-family': 'Arial'}),
     dcc.Dropdown(
-        id='dropdown_commit',
+        id='dropdown-commit',
     ),
-    dcc.Graph(
-        id='speckle_parallel_data',
-        figure={}
-    ),
+    dcc.Graph(id='parcoords-plot'),
     dash_table.DataTable(
-        id='table_data',
+        id='filtered-table',
         columns=[{"name": i, "id": i}
                  for i in ['authorName', 'commitId', 'message']],
         data=[],
@@ -54,7 +47,7 @@ layout_sidebar_analysis = dbc.Col([
         page_size=5,
     )
 ],
-    id="sidebar_data",
+    id="sidebar-data",
     style=sidebar_hidden_dict,
 )
 
@@ -88,7 +81,7 @@ layout_compute = dbc.Col(
                 html.Iframe(
                     id="compute-iframe",
                     src='http://localhost:3000/examples/docString_panels/',
-                    width='100%', height=VIZ_HEIGHT
+                    width='100%', height=PANEL_HEIGHT
                 )
             ]
         ),
@@ -99,7 +92,7 @@ layout_compute = dbc.Col(
 layout_speckle = dbc.Col(
     dbc.Row([
         html.Span(children='Select the branches you want to visualize'),
-        dcc.Dropdown(id='dropdown_branches',
+        dcc.Dropdown(id='dropdown-branches',
                      options=[{'label': i, 'value': i} for i in models_names],
                      value=[models_names[0]],
                      multi=True,
@@ -114,7 +107,7 @@ layout_speckle = dbc.Col(
                     src='https://app.speckle.systems/projects/013613abb4/models/cd91d7878f'
                         '&transparent=true&autoload'
                         '=true&hidesidebar=true&hidecontrols=true',
-                    width='100%', height=VIZ_HEIGHT
+                    width='100%', height=PANEL_HEIGHT
                 )
             ]
         ),
@@ -122,7 +115,6 @@ layout_speckle = dbc.Col(
     ]), style={'margin-top': '5rem'}
 )
 
-# Define the app landing layouts
 compute_speckle_layout = dbc.Row([
     layout_sidebar_analysis,
     layout_compute,
@@ -227,8 +219,7 @@ compute_parameters = dbc.Row(
             id="collapse",
             style={'width': '100%', 'align-items': 'center', 'margin-top': '60px',
                    'justify-content': 'center'},
-        )
-        , className='collapse-container'
+        ), className='collapse-container'
     )
 )
 
@@ -237,7 +228,7 @@ content = html.Div(
     style=content_style_dict)
 
 metadata_storage = html.Div([
-    dcc.Store(id='side_click'),
+    dcc.Store(id='side-click'),
     dcc.Store(id='slider-values-store', storage_type='memory'),
     dcc.Store(id='store-branches-attributes', storage_type='memory'),
     dcc.Store(id='store-branches', storage_type='memory'),
