@@ -206,7 +206,11 @@ compute_parameters = dbc.Row(
                                                               'Update facade with custom '
                                                               'instructions',
                                                   type='text'),
-                                        dbc.Button('Bake', id='bake-button', n_clicks=0)
+                                        dbc.Button('Bake', id='bake-button', n_clicks=0,
+                                                   class_name='diagonal-pattern',
+                                                   outline=False, style={'color': 'black',
+                                                                         'border': '0px solid '
+                                                                                   'grey'}),
                                     ],
                                     # size='md',
                                     className='compute-dropdown',
