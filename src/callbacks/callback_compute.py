@@ -51,7 +51,8 @@ def update_slider_values(n_clicks, slider_data):
         None
     """
     if n_clicks is not None:
-        requests.post('http://127.0.0.1:80/api/slider_compute',
+        client_ip = f"http://{request.remote_addr}:5000"
+        requests.post(f'{client_ip}/api/slider_compute',
                       json={'slider-values-store': slider_data})
 
 

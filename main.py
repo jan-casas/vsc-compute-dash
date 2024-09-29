@@ -1,5 +1,6 @@
 import subprocess
 import logging
+
 from src.core_callbacks import *
 from src.callbacks import (callback_views, callback_speckle, callback_compute)
 import src.config.logs
@@ -12,13 +13,18 @@ from src.callbacks import (callback_layout, callback_response, callback_compute)
 
 
 def start_compute(
-        path=r'C:\Users\casas\AppData\Roaming\McNeel\Rhinoceros\packages\7.0\Hops\0.16.2\rhino'
-             r'.compute\rhino.compute.exe'):
+        path=r'C:\Users\casas\AppData\Roaming\McNeel\Rhinoceros\packages\7.0\Hops\0.16.2\compute'
+             r'.geometry\compute.geometry.exe'):
     """
-    Starts the compute project in a separate process.
+    Starts the compute.geometry project in a separate process.
     """
-    subprocess.Popen(path)
-    logging.info('Started compute')
+    try:
+        subprocess.Popen(path)
+        logging.info('Started compute.geometry')
+    except FileNotFoundError:
+        logging.error(f"Failed to start compute.geometry. File not found: {path}")
+    except Exception as e:
+        logging.error(f"Failed to start compute.geometry. Error: {str(e)}")
 
 
 def start_appserver(node_path=r'C:\Program Files\nodejs\node.exe',
@@ -36,5 +42,4 @@ def start_appserver(node_path=r'C:\Program Files\nodejs\node.exe',
 if __name__ == '__main__':
     # start_compute()
     # start_appserver()
-    dash_app.run_server(debug=True, use_reloader=False)
-# , host='0.0.0.0', port=80)
+    dash_app.run_server(debug=True, use_reloader=False, port=5000)

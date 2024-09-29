@@ -13,7 +13,7 @@ app = Flask(__name__)
 # Enable CORS for the specified origins and HTTP methods
 CORS(app, resources={r"/api/*": {"origins": [
     'http://localhost:3000',  # JS app (Rhino.compute)
-    'http://127.0.0.1:80'  # Python app (Dashboard)
+    'http://127.0.0.1:5000'  # Python app (Dashboard)
 ]}}, methods=['GET', 'POST', 'OPTIONS'])
 
 # Define Dash app
