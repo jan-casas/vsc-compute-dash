@@ -30,11 +30,13 @@ layout_sidebar_analysis = dbc.Col([
             that is currently 
             being displayed. This will give you the most likely commit that you want to use.        
         ''', style={'margin-top': '20px', 'font-size': '15px', 'font-family': 'Arial'}),
-    dcc.Graph(id='parcoords-plot'),
+    dcc.Loading(
+        dcc.Graph(id='parcoords-plot')
+    ),
     dash_table.DataTable(
         id='filtered-table',
         columns=[{"name": i, "id": i}
-                 for i in ['authorName', 'commitId', 'message']],
+                 for i in ['authorName', 'commitId', 'message', 'createdAt']],
         data=[],
         style_cell={
             'fontFamily': 'Arial',
@@ -42,6 +44,7 @@ layout_sidebar_analysis = dbc.Col([
         },
         page_action='native',
         page_size=5,
+        style_table={'overflowX': 'auto'},
     ),
     html.Span('Select the commits you want to visualize'),
     dcc.Dropdown(
