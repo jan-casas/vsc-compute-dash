@@ -97,7 +97,7 @@ def update_table(restyleData, selected_commit_metadata, selected_commit_data, fi
 
         # If no data is selected, return the original data
         if not restyleData or not figure or 'data' not in figure or len(figure['data']) == 0:
-            table_data_original = df_obj_data.to_dict('records')
+            table_data_original = df_commit_metadata.to_dict('records')
             dropdown_commits_original = [{'label': i, 'value': i} for i in
                                          df_obj_data['commitId'].unique()]
             return table_data_original, dropdown_commits_original
