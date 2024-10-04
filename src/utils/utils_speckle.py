@@ -1,5 +1,5 @@
 import logging
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional
 
 import pandas as pd
 from specklepy.api import operations
@@ -57,7 +57,7 @@ def model_metadata() -> Tuple[str, List[str]]:
         return initial_model, models_names
 
     except Exception as e:
-        logging.exception(f"No models found in stream '{model_id}'")
+        logging.exception(f"No models found in project '{project_id}': {e}")
         return "", []
 
 
@@ -65,42 +65,64 @@ default_model, models_names = model_metadata()
 compute_models_names = [name for name in models_names if name.startswith('compute/')]
 
 
-def model_data(names_models: List[str]):
+def model_data(names_models: List[str], selected_commits: Optional[List[str]] = None):
     """
     Returns the latest commit, all commit data, the latest commit object, and an authenticated
     server transport.
 
     Args:
         names_models: The names of the models.
+        selected_commits: The selected commits.
     Returns:
         Tuple[Base, List[Dict[str, Any]], Base, ServerTransport]: A tuple containing the latest
         commit
         object, a list of all commit data, the latest commit object, and an authenticated server
         transport.
     """
-    branches = client.branch.list(project_id)
-    filter_branches = []
-    for model in names_models:
-        filter_branches += [b for b in branches if b.name == model]
-    selected_model = [b.id for b in filter_branches]
+    models = client.branch.list(project_id)
 
+    # Filter the selected models
+    filter_model = []
+    if selected_commits:
+        names_models.extend(['compute/facade'])
+    for model in names_models:
+        filter_model += [b for b in models if b.name == model]
+    selected_models_ids = [b.id for b in filter_model]
+
+    # Get the commits of the selected models
     commits = []
-    for branch in filter_branches:
-        commits = branch.commits.items
-        break
+    for model in filter_model:
+        commits_per_model = model.commits.items
+        commits.append(commits_per_model)
+        # break
 
     if not commits:
         raise ValueError(f"No commits found for branch '{names_models}' in stream '{model_id}'")
 
-    latest_commit_per_model = commits[-1]
-
+    # Commits metadata for the commits
     model_commit_metadata = []
     for commit in commits:
-        commit_dict = commit.__dict__
-        commit_dict.pop('authorAvatar', None)
-        model_commit_metadata.append(commit_dict)
+        for c in commit:
+            commit_dict = c.__dict__
+            commit_dict.pop('authorAvatar', None)
+            model_commit_metadata.append(commit_dict)
 
-    return names_models, selected_model, latest_commit_per_model, model_commit_metadata
+    # Get the latest commit
+    latest_commits = []
+    for commit_per_model in commits:
+        commits_model = []
+        for commit in commit_per_model:
+            commit_dict = commit.__dict__
+            commit_dict.pop('authorAvatar', None)
+            commits_model.append(commit_dict)
+        latest_commits.append(commits_model[0]['id'])  # Get the latest commit
+
+    # Delete the latest item from the list (compute/facade) and add the selected commits
+    if selected_commits:
+        latest_commits.pop()
+        latest_commits.extend([selected_commits])
+
+    return names_models, selected_models_ids, model_commit_metadata, latest_commits
 
 
 # Data related to commits (this comes from compute)
@@ -117,7 +139,8 @@ def commits_metadata(commits: list) -> list[dict]:
     try:
         # Capture only the metadata attributes of the commit
         commit_attributes = [{'authorName': commit['authorName'], 'commitId': commit['id'],
-                              'message': commit['message']} for commit in commits]
+                              'message': commit['message'], 'createdAt': commit['createdAt']} for
+                             commit in commits]
         return commit_attributes
 
     except Exception as e:
@@ -175,6 +198,10 @@ def commits_data(commits: list) -> dict:
     return commits_attributes
 
 
+def commits_data_quantities(commits: list) -> dict:
+    pass
+
+
 # Operations related with commits
 def update_commit(names_models):
     """
@@ -182,7 +209,7 @@ def update_commit(names_models):
     """
     try:
         # Get commits from the models
-        names_models, _, _, model_commit_metadata = model_data(names_models)
+        names_models, _, model_commit_metadata, _ = model_data(names_models)
         new_commits: list = [commit for commit in model_commit_metadata if commit['id'] not in
                              store_commits_names]
 
@@ -209,24 +236,36 @@ def update_commit(names_models):
         return pd.DataFrame(), pd.DataFrame()
 
 
-def merge_commits(selected_models: List[str]) -> str:
+def merge_commits(selected_models: List[str], selected_commits: Optional[List[str]] = None) -> str:
     """
     Merge the base commit and the selected commits into a single dataframe.
 
     Args:
         selected_models (Optional[List[str]], optional): The selected commits. Defaults to None.
-
+        selected_commits (Optional[List[str]], optional): The selected commits. Defaults to None.
     Returns:
         str: The url of the iframe.
     """
     try:
         # Get latest commits from the stream and the base one
-        names_branch, filter_branches_names, latest_commit, _ = model_data(selected_models)
-        base_commit_url = f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
-        embed_url = ','.join(filter_branches_names)
-        embed_url = (f"{base_commit_url}/"
-                     f"{embed_url}#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D")
+        names_models, selected_models_ids, selected_commits_ids, latest_commits_ids = model_data(
+            selected_models,
+            selected_commits)
 
+        base_commit_url = f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
+
+        embed_url = ','.join(
+            [f"{name}@{model_id}" for name, model_id in
+             zip(selected_models_ids, latest_commits_ids)]
+        )
+        iframe_style = f"#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D"
+        embed_url = f"{base_commit_url}/{embed_url}/{iframe_style}"
+
+        """
+        https://app.speckle.systems/projects/013613abb4/
+        models/df7967e0d3@32fd4ff096,e1abc29f0c@a70a8826d4
+        modelId1@version, modelId2@version
+        """
         return embed_url
 
     except Exception as e:

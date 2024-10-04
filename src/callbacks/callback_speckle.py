@@ -7,7 +7,7 @@ import pandas as pd
 
 from config.settings import UNWANTED_FIELDS
 from src.core_callbacks import dash_app
-from src.utils.utils_speckle import merge_commits, update_commit
+from src.utils.utils_speckle import merge_commits, update_commit, models_names
 
 
 # Callback related with dropdown and sidebar interactions
@@ -20,31 +20,28 @@ from src.utils.utils_speckle import merge_commits, update_commit
 )
 def update_data(n_clicks, dropdown_models):
     selected_model = next(
-        (model for model in dropdown_models if model.startswith('compute/')), None)
+        (model for model in models_names if model.startswith('compute/')), None)
+    selected_model = [selected_model] if not isinstance(selected_model,
+                                                        list) else selected_model
+    selected_commit_metadata, selected_commit_data = update_commit(selected_model)
+    if selected_commit_metadata is not None and selected_commit_data is not None:
+        data_store_branches = selected_commit_metadata.to_json(
+            date_format='iso', orient='split')
+        data_store_branches_attributes = selected_commit_data.to_json(
+            date_format='iso', orient='split')
 
-    if n_clicks is None or selected_model is None:
-        return None, None
-
-    else:
-        selected_model = [selected_model] if not isinstance(selected_model,
-                                                            list) else selected_model
-        selected_commit_metadata, selected_commit_data = update_commit(selected_model)
-        if selected_commit_metadata is not None and selected_commit_data is not None:
-            data_store_branches = selected_commit_metadata.to_json(
-                date_format='iso', orient='split')
-            data_store_branches_attributes = selected_commit_data.to_json(
-                date_format='iso', orient='split')
-
-            return data_store_branches, data_store_branches_attributes
+        return data_store_branches, data_store_branches_attributes
 
 
 # Merge the selected commits and update the iframe
 @dash_app.callback(
     dash.dependencies.Output("speckle-iframe", "src"),
-    [dash.dependencies.Input("dropdown-branches", "value")],
+    [dash.dependencies.Input("dropdown-branches", "value"),
+     dash.dependencies.Input("dropdown-commit", "value")],
 )
-def update_latest_commit(dropdown_models: Optional[List[str]] = None) -> str:
-    merged_url = merge_commits(dropdown_models)
+def update_latest_commit(dropdown_models: Optional[List[str]] = None, dropdown_commit=None) -> str:
+    # Merge the latest commits given the model or the selected commits
+    merged_url = merge_commits(dropdown_models, dropdown_commit)
     return merged_url
 
 
