@@ -82,40 +82,27 @@ def model_data(names_models: List[str], selected_commits: Optional[List[str]] = 
     models = client.branch.list(project_id)
 
     # Filter the selected models
-    filter_model = []
     if selected_commits:
-        names_models.extend(['compute/facade'])
-    for model in names_models:
-        filter_model += [b for b in models if b.name == model]
+        names_models.append('compute/facade')
+    filter_model = [b for b in models if b.name in names_models]
+    # for model in names_models:
+    #     filter_model += [b for b in models if b.name == model]
     selected_models_ids = [b.id for b in filter_model]
 
     # Get the commits of the selected models
-    commits = []
-    for model in filter_model:
-        commits_per_model = model.commits.items
-        commits.append(commits_per_model)
-        # break
+    commits = [model.commits.items for model in filter_model]
 
     if not commits:
         raise ValueError(f"No commits found for branch '{names_models}' in stream '{model_id}'")
 
     # Commits metadata for the commits
-    model_commit_metadata = []
-    for commit in commits:
-        for c in commit:
-            commit_dict = c.__dict__
-            commit_dict.pop('authorAvatar', None)
-            model_commit_metadata.append(commit_dict)
+    model_commit_metadata = [
+        {k: v for k, v in c.__dict__.items() if k != 'authorAvatar'}
+        for commit in commits for c in commit
+    ]
 
     # Get the latest commit
-    latest_commits = []
-    for commit_per_model in commits:
-        commits_model = []
-        for commit in commit_per_model:
-            commit_dict = commit.__dict__
-            commit_dict.pop('authorAvatar', None)
-            commits_model.append(commit_dict)
-        latest_commits.append(commits_model[0]['id'])  # Get the latest commit
+    latest_commits = [commit[0].id for commit in commits]
 
     # Delete the latest item from the list (compute/facade) and add the selected commits
     if selected_commits:
@@ -253,12 +240,11 @@ def merge_commits(selected_models: List[str], selected_commits: Optional[List[st
             selected_commits)
 
         base_commit_url = f"{SPECKLE_HOST}/projects/{SPECKLE_PROJECT}/models"
-
+        iframe_style = f"#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D"
         embed_url = ','.join(
             [f"{name}@{model_id}" for name, model_id in
              zip(selected_models_ids, latest_commits_ids)]
         )
-        iframe_style = f"#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D"
         embed_url = f"{base_commit_url}/{embed_url}/{iframe_style}"
 
         """
