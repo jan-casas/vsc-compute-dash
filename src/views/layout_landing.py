@@ -3,18 +3,17 @@ import sys
 import dash
 import dash_bootstrap_components as dbc
 from dash import dash_table, dcc, html
+from src.config.settings import COMPUTE_SCRIPTS
 
 from src.static.style import (content_style_dict, sidebar_hidden_dict, PANEL_HEIGHT)
 from src.utils.utils_speckle import models_names, compute_models_names
-from src.views.default_components import default_header, default_modal, default_toast
-from src.config.settings import COMPUTE_SCRIPTS
-from static.static_docs import readme_body
+from src.views.default_components import default_header, default_modal, default_toast, readme_body
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
 
 # Register this page
-dash.register_page(__name__, path="/", title='Compute VSC',
+dash.register_page(__name__, path="/", title='VSC - Compute',
                    image_url='/static/assets/icons/hoja.ico')
 
 # Define the app landing layouts
@@ -56,26 +55,10 @@ layout_sidebar_analysis = dbc.Col([
     style=sidebar_hidden_dict,
 )
 
-layout_sidebar_components = dbc.Col([
-    html.Br,
+layout_sidebar_parts = dbc.Col([
+    html.Br(),
     html.H3(id="non-static-header"),
     readme_body,
-    dcc.Loading(
-        # dcc.Graph(id='parcoords-plot')
-    ),
-    dash_table.DataTable(
-        id='table-parts',
-        columns=[{"name": i, "id": i}
-                 for i in ['authorName', 'commitId', 'message', 'createdAt']],
-        data=[],
-        style_cell={
-            'fontFamily': 'Arial',
-            'fontSize': 14
-        },
-        page_action='native',
-        page_size=5,
-        style_table={'overflowX': 'auto'},
-    ),
 ],
     id="sidebar-parts",
     style=sidebar_hidden_dict,
@@ -84,24 +67,6 @@ layout_sidebar_components = dbc.Col([
 layout_compute = dbc.Col(
     dbc.Row([
         html.Span(children='Select the Compute Script you want to run'),
-        # dbc.Col(
-        #     dcc.Dropdown(
-        #         id='dropdown-compute-manufacturers',
-        #         options=[{'label': i, 'value': i} for i in compute_scripts],
-        #         value='Corbalán/uglass_facade_tint',
-        #         placeholder="Selecciona un fabricante y el sistema constructivo",
-        #         className='my-dropdown'
-        #     ),
-        # ),
-        # dbc.Col(
-        #     dcc.Dropdown(
-        #         id='dropdown-compute-commit',
-        #         options=[{'label': i, 'value': i} for i in compute_models_names],
-        #         value=compute_models_names[0],
-        #         placeholder="Selecciona un commit sobre el que realizar el procesamiento",
-        #         className='my-dropdown'  # dropUp
-        #     ),
-        # ),
         dcc.Loading(
             id="loading-compute-iframe",
             type="default",
@@ -145,7 +110,7 @@ layout_speckle = dbc.Col(
 
 compute_speckle_layout = dbc.Row([
     layout_sidebar_analysis,
-    layout_sidebar_components,
+    layout_sidebar_parts,
     layout_compute,
     layout_speckle
 ], style={'width': 'calc(100% - 12rem)', 'margin-left': '6rem', 'margin-right': '6rem'})
