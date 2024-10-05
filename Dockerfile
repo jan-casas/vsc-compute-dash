@@ -11,7 +11,7 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # Expone el puerto 5000 en el contenedor Docker
-EXPOSE 80
+EXPOSE 5000
 
 # app2.py is the name of the file that contains the code for the app
 CMD ["python", "main.py"]
