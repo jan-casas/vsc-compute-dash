@@ -127,16 +127,6 @@ In detail:
   managing construction model data, processing commits, and integrating version control features
   into project workflows.
 
-## Languages and Frameworks
-
-- **Python**: Main programming language used.
-- **Flask**: Web framework to create application endpoints.
-- **psycopg2**: PostgreSQL adapter for Python.
-- **Dash**: Framework for building analytical web applications.
-- **Docker**: Containerization platform for deployment.
-- **PostgreSQL**: Relational database management system.
-- **Speckle**: Data repository for baked geometry.
-
 ## Speckle Structure
 
 Speckle provides storage for all baked geometry and is useful for managing geometry IDs and their
@@ -197,104 +187,6 @@ Further Steps:
   variations.
 - **Storing Construction Project Data**: Manages construction project details, including ownership,
   timelines, and associated constructive systems.
-
-```mermaid
-erDiagram
-    USER {
-        int id
-        string name
-    }
-    PARAMETER_VARIATION {
-        int id
-        string parameter_name
-        string value
-        int user_id
-    }
-    MATERIAL {
-        int id
-        string name
-        string type
-    }
-    PROCESS {
-        int id
-        string name
-        string description
-    }
-    MANUFACTURER {
-        int id
-        string name
-        string location
-    }
-    CONSTRUCTION_PROJECT {
-        int id
-        string name
-        date start_date
-        date end_date
-        int user_id
-        int constructive_system_id
-    }
-    TIME_TRACKING {
-        int id
-        date start_time
-        date end_time
-        string phase
-    }
-    MATERIAL_METADATA {
-        int id
-        string property
-        string value
-    }
-    ENVIRONMENTAL_CONDITION {
-        int id
-        string condition
-        string value
-    }
-    CONSTRUCTIVE_SYSTEM {
-        int id
-        string name
-        string description
-    }
-    MATERIAL_USAGE {
-        int id
-        string part
-    }
-    USER ||--|| CONSTRUCTIVE_SYSTEM: "REQUESTS"
-    USER ||--|| PARAMETER_VARIATION: "MAKES"
-    USER ||--|| CONSTRUCTION_PROJECT: "OWNS"
-    CONSTRUCTIVE_SYSTEM ||--|| PARAMETER_VARIATION: "HAS"
-    CONSTRUCTIVE_SYSTEM ||--|| CONSTRUCTION_PROJECT: "USED_IN"
-    MATERIAL ||--|| PROCESS: "HAS"
-    MATERIAL ||--|| MANUFACTURER: "PRODUCED_BY"
-    MATERIAL ||--|| MATERIAL_METADATA: "HAS"
-    MATERIAL ||--|| MATERIAL_USAGE: "USED_IN"
-    PROCESS ||--|| TIME_TRACKING: "HAS"
-    PROCESS ||--|| ENVIRONMENTAL_CONDITION: "HAS"
-    CONSTRUCTIVE_SYSTEM ||--|| MATERIAL_USAGE: "USES"
-```
-
-In this diagram:
-
-- `MATERIAL` represents the materials used in construction, such as wood, concrete, and steel. Each
-  material has a
-  unique ID, a name, and a type.
-
-- `PROCESS` represents the processes involved in the lifecycle of the materials, such as processing,
-  manufacturing, and
-  construction. Each process has a unique ID, a name, and a description.
-
-- `MANUFACTURER` represents the manufacturers that produce the materials. Each manufacturer has a
-  unique ID, a name, and
-  a location.
-
-- `CONSTRUCTION_PROJECT` represents the construction projects that use the materials. Each project
-  has a unique ID, a
-  name, and start and end dates.
-
-The relationships between the entities are as follows:
-
-- Each `MATERIAL` has one or more `PROCESS`es.
-- Each `MATERIAL` is produced by one `MANUFACTURER`.
-- Each `MATERIAL` is used in one or more `CONSTRUCTION_PROJECT`s.
 
 ## Conclusion
 
