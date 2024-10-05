@@ -1,5 +1,10 @@
 # Compute Version Control
 
+<video width="600" controls>
+  <source src="src/static/assets/compute_vsc.mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## Overview
 
 Compute Version Control (VSC) aims to provide a comprehensive version control system that validates
