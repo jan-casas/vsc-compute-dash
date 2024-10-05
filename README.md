@@ -1,4 +1,4 @@
-# Compute Version Control
+# Unlocking Business Intelligence through Compute Version Control
 
 <video width="100%" controls>
   <source src="src/static/assets/compute_vsc.mp4" type="video/mp4">
@@ -7,7 +7,8 @@
 
 ## Overview
 
-Compute Version Control (VSC) aims to provide a comprehensive version control system that validates
+`Compute Version Control` (VSC) aims to provide a comprehensive version control system that
+validates
 design proposals based on design and constructive system constraints. These constraints are provided
 by manufacturers and return essential information about the lifecycle of materials and associated
 data. The solution is designed to streamline project management and enhance decision-making by
