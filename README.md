@@ -191,8 +191,6 @@ with the Python container connected to the Speckle server https://speckle.system
 
 Further Steps:
 
-- Deploy Speckle in a separate container (Windows VM).
-- Update the IP address of `compute.rhino3d.appserver` to match that of the Flask application.
 - Resolve the Speckle read component failure in Grasshopper and add the ability to select branches.
 
 ```mermaid
@@ -236,8 +234,6 @@ Further Steps:
   lifecycle data, enabling material tracking throughout the project lifecycle.
 - **Storing User Data**: Stores user information, tracking project ownership and parameter
   variations.
-- **Storing Construction Project Data**: Manages construction project details, including ownership,
-  timelines, and associated constructive systems.
 
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
@@ -249,4 +245,4 @@ Further Steps:
 Compute Version Control offers a powerful solution for managing and validating design proposals,
 enhancing the efficiency and accuracy of the design process. By leveraging the combined capabilities
 of Rhino Compute, Speckle, and PostgreSQL, the system provides a comprehensive approach to version
-control and lifecycle data on testing iteration project designs.
+control and lifecycle data on testing iteration project designs. 
