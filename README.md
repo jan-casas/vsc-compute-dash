@@ -1,7 +1,7 @@
 # Compute Version Control
 
-<video width="600" controls>
-  <source src="src/static/assets/compute_vsc.mp4">
+<video width="100%" controls>
+  <source src="src/static/assets/compute_vsc.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
