@@ -55,6 +55,33 @@ layout_sidebar_analysis = dbc.Col([
     style=sidebar_hidden_dict,
 )
 
+layout_sidebar_components = dbc.Col([
+    dcc.Markdown('''
+            ### Speckle Count Components
+
+            This is a plot of the attributes of the objects in the stream.   
+        ''', style={'margin-top': '20px', 'font-size': '15px', 'font-family': 'Arial'}),
+    dcc.Loading(
+        # dcc.Graph(id='parcoords-plot')
+    ),
+    dash_table.DataTable(
+        id='table-components',
+        columns=[{"name": i, "id": i}
+                 for i in ['authorName', 'commitId', 'message', 'createdAt']],
+        data=[],
+        style_cell={
+            'fontFamily': 'Arial',
+            'fontSize': 14
+        },
+        page_action='native',
+        page_size=5,
+        style_table={'overflowX': 'auto'},
+    ),
+],
+    id="sidebar-components",
+    style=sidebar_hidden_dict,
+)
+
 layout_compute = dbc.Col(
     dbc.Row([
         html.Span(children='Select the Compute Script you want to run'),
