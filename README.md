@@ -1,5 +1,12 @@
 # Unlocking Business Intelligence through Compute Version Control
 
+_En el sector de Arquitectura, Ingeniería y Construcción (AEC) falta la flexibilidad presente en
+disciplinas como el desarrollo de software, donde se pueden importar y usar librerías específicas
+fácilmente.
+Este proyecto busca desarrollar una herramienta que permita a arquitectos y diseñadores probar
+rápidamente las soluciones constructivas de los fabricantes. Además, los fabricantes podrán obtener
+información sobre el uso de sus productos y las necesidades de los clientes._
+
 <video width="100%" controls>
   <source src="src/static/assets/compute_vsc.mp4" type="video/mp4">
   Your browser does not support the video tag.
