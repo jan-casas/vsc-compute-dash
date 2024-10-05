@@ -90,6 +90,7 @@ layout_sidebar_parts = dbc.Col([
 layout_compute = dbc.Col(
     dbc.Row([
         html.Span(children='Select the Compute Script you want to run'),
+        html.Br(),
         dcc.Loading(
             id="loading-compute-iframe",
             type="default",
@@ -97,7 +98,7 @@ layout_compute = dbc.Col(
                 html.Iframe(
                     id="compute-iframe",
                     src='http://localhost:3000/examples/docString_panels/',
-                    width='100%', height=PANEL_HEIGHT
+                    width='100%', height=PANEL_HEIGHT, style={'margin-top': '30px'}
                 )
             ]
         ),
