@@ -7,7 +7,7 @@ from dash import dash_table, dcc, html
 from src.static.style import (content_style_dict, sidebar_hidden_dict, PANEL_HEIGHT)
 from src.utils.utils_speckle import models_names, compute_models_names
 from src.views.default_components import default_header, default_modal, default_toast
-from src.config.settings import compute_scripts
+from src.config.settings import COMPUTE_SCRIPTS
 from views.components.readme import readme_header, readme_body
 
 sys.path.insert(0, '/static/style.py')
@@ -221,7 +221,7 @@ compute_parameters = dbc.Row(
                                 dbc.Col(
                                     dcc.Dropdown(
                                         id='dropdown-compute-manufacturers',
-                                        options=[{'label': i, 'value': i} for i in compute_scripts],
+                                        options=[{'label': i, 'value': i} for i in COMPUTE_SCRIPTS],
                                         # value='Corbalán/uglass_facade_tint',
                                         placeholder="Available Manufacturer Scripts",
                                     ), class_name='compute-dropdown'
