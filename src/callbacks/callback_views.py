@@ -40,17 +40,15 @@ def toggle_collapse(n1, n2, n3, is_open):
         dash.dependencies.Output("page-content", "style"),
         dash.dependencies.Output("side-click", "data"),
         dash.dependencies.Output("sidebar-parts", "style"),
-        dash.dependencies.Output("non-static-header", "children")
     ],
     [
-        dash.dependencies.Input("dropdown-commit", "value"),
         dash.dependencies.Input("speckle-data-sidebar", "n_clicks"),
         dash.dependencies.Input("speckle-data-count", "n_clicks"),
         dash.dependencies.Input("update-speckle-iframe", "n_clicks")
     ],
     [dash.dependencies.State("side-click", "data")]
 )
-def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
+def toggle_sidebar(n1, n2, n3, sidebar_states):
     """
     Toggles the sidebars such that activating one hides the other.
     """
@@ -64,10 +62,9 @@ def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
     sidebar_style = sidebar_hidden_dict
     new_sidebar_style = sidebar_hidden_dict
     content_style = content_style_dict
-    title = "Quantitative Analysis for the commitId None"
 
     if not ctx.triggered:
-        return sidebar_style, content_style, sidebar_states, new_sidebar_style, title
+        return sidebar_style, content_style, sidebar_states, new_sidebar_style
 
     button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
@@ -93,7 +90,6 @@ def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
             new_sidebar_style = sidebar_hidden_dict
             content_style = content_style1_dict
             sidebar_states['sidebar_components'] = 'HIDDEN'
-            title = f'Quantitative Analysis for the commitId {commit_id}'
         else:
             # Show sidebar-components and hide sidebar-data
             new_sidebar_style = sidebar_style_dict
@@ -110,4 +106,4 @@ def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
         sidebar_states['sidebar_data'] = 'HIDDEN'
         sidebar_states['sidebar_components'] = 'HIDDEN'
 
-    return sidebar_style, content_style, sidebar_states, new_sidebar_style, title
+    return sidebar_style, content_style, sidebar_states, new_sidebar_style

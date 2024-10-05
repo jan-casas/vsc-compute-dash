@@ -135,7 +135,7 @@ def commits_metadata(commits: list) -> list[dict]:
         return []
 
 
-def extract_metadata(commit_id, base_obj):
+def extract_metadata(commit_id, base_obj, field: str = 'metadata'):
     # Extract individual data from each piece
     brep_values = []
     if isinstance(base_obj, Base):
@@ -143,7 +143,7 @@ def extract_metadata(commit_id, base_obj):
             if key.startswith('@') and isinstance(value, list):
                 for item in value:
                     if isinstance(item, Base):
-                        brep_values.append(item.metadata.__dict__)
+                        brep_values.append(item[field].__dict__)
                         brep_values[-1]['commitId'] = commit_id
 
     return brep_values
@@ -185,8 +185,29 @@ def commits_data(commits: list) -> dict:
     return commits_attributes
 
 
-def commits_data_quantities(commits: list) -> dict:
-    pass
+def commit_data_quantities(selected_commit: str):
+    if selected_commit:
+        try:
+            # Get the commit data
+            models = client.branch.list(project_id)
+            filter_model = next((b for b in models if b.name == 'compute/facade'), None)
+            if not filter_model:
+                raise ValueError(f"No model found with name 'compute/facade'")
+
+            commits = filter_model.commits.items
+            filtered_commit = next((commit for commit in commits if commit.id == selected_commit),
+                                   None)
+            if not filtered_commit:
+                raise ValueError(f"No commit found with id '{selected_commit}'")
+
+            # Get the metadata of the referenced object
+            collection_data = operations.receive(filtered_commit.referencedObject, transport)
+            commit_values = extract_metadata(selected_commit, collection_data.Data,
+                                             'metadata')
+            return commit_values
+
+        except Exception as e:
+            raise ValueError(f"Error in commit_info for commit {selected_commit}")
 
 
 # Operations related with commits

@@ -7,7 +7,8 @@ import pandas as pd
 
 from config.settings import UNWANTED_FIELDS
 from src.core_callbacks import dash_app
-from src.utils.utils_speckle import merge_commits, update_commit, models_names
+from src.utils.utils_speckle import merge_commits, update_commit, models_names, \
+    commit_data_quantities
 
 
 # Callback related with dropdown and sidebar interactions
@@ -134,13 +135,33 @@ def update_table(restyleData, selected_commit_metadata, selected_commit_data, fi
         return [], []
 
 
-# # Callback to extract quantities data about the selected commit
-# @dash_app.callback(
-#     [dash.dependencies.Output("quantities-graph", "src"),
-#      dash.dependencies.Output("quantities-table", "data")],
-#     [dash.dependencies.Input("speckle-data-count", "value"),
-#      dash.dependencies.Input("dropdown-commit", "value")],
-# )
-# def update_latest_commit(quantities_graph, quantities_table):
-#     # Given a commitId extract the number of elements by type
-#     pass
+# Callback to extract quantities data about the selected commit
+@dash_app.callback(
+    [dash.dependencies.Output("parts-graph", "figure"),
+     dash.dependencies.Output("parts-table", "data")],
+    [dash.dependencies.Input("speckle-data-count", "value"),
+     dash.dependencies.Input("dropdown-commit", "value")],
+)
+def update_latest_commit(speckle_data_count: Optional[int],
+                         dropdown_commit: Optional[str]) -> tuple:
+    try:
+        if not dropdown_commit or not speckle_data_count:
+            return {}, []
+
+        # Group by family and type and count the number of elements
+        commit_values = commit_data_quantities(dropdown_commit)
+        commit_values = commit_values.groupby(['family', 'type']).size().reset_index(name='count')
+        commit_values = commit_values.sort_values(by='count', ascending=False)
+
+        # Create a bar plot with the number of elements by family and type
+        fig = px.bar(commit_values, x='family', y='count', color='type', barmode='group')
+
+        # Create a table with all the quantities
+        parts_table = commit_values.to_dict('records')
+        return fig, parts_table
+
+    except ValueError as ve:
+        logging.exception(f"Value error: {ve}")
+    except Exception as e:
+        logging.exception(f"Unexpected error: {e}")
+    return {}, []

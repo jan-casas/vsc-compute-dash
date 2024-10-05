@@ -57,8 +57,31 @@ layout_sidebar_analysis = dbc.Col([
 
 layout_sidebar_parts = dbc.Col([
     html.Br(),
-    html.H3(id="non-static-header"),
-    readme_body,
+    dcc.Markdown('''
+        ### Parts Analysis
+
+        This section provides an overview of the parts in the selected commit.
+        Below, you will find the total number of parts, their types, and a detailed table with 
+        additional information.
+
+        The table below displays the details of each part, including its ID, type, and other 
+        relevant attributes.
+    '''),
+    dcc.Loading(
+        dcc.Graph(id='parts-graph')
+    ),
+    dash_table.DataTable(
+        id='parts-table',
+        columns=[{"name": i, "id": i} for i in ['partId', 'partType', 'attribute1', 'attribute2']],
+        data=[],
+        style_cell={
+            'fontFamily': 'Arial',
+            'fontSize': 14
+        },
+        page_action='native',
+        page_size=5,
+        style_table={'overflowX': 'auto'},
+    ),
 ],
     id="sidebar-parts",
     style=sidebar_hidden_dict,
