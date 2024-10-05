@@ -58,7 +58,7 @@ graph LR
     SPECKLE -->|updates| SPECKLE_CLIENT
 ```
 
-### Components Explained:
+In this diagram:
 
 - `RHINO_COMPUTE`: Represents the component responsible for generating geometry.
 - `GEOMETRY`: Represents the output geometry from Rhino Compute.
@@ -112,6 +112,21 @@ vsc-compute-dash
 └── requirements.txt
 ```
 
+In detail:
+
+- `src/callbacks/callback_compute.py`: Defines callbacks and API endpoints for a Dash and Flask app
+  to manage slider interactions, update stores, send data to a compute server, and manage SQLite
+  database operations.
+- `src/callbacks/callback_speckle.py`: Defines callbacks for a Dash app interacting with Speckle
+  data, handling user inputs, updating data stores, merging commits, and updating UI components to
+  reflect user selections.
+- `src/callbacks/callback_views.py`: Defines callbacks for managing the interactive UI elements in a
+  Dash app, such as toggling visibility of sidebars and collapsible sections based on user
+  interactions.
+- `src/utils/utils_speckle.py`: Contains utility functions for interacting with the Speckle API,
+  managing construction model data, processing commits, and integrating version control features
+  into project workflows.
+
 ## Languages and Frameworks
 
 - **Python**: Main programming language used.
@@ -127,8 +142,6 @@ vsc-compute-dash
 Speckle provides storage for all baked geometry and is useful for managing geometry IDs and their
 variations. The Speckle iframe is used to display geometry and its variations in the Python project,
 with the Python container connected to the Speckle server.
-
-### Speckle Components:
 
 - **Geometry**: Created by Grasshopper and Rhino Compute.
 - **System Parts**: Components associated with the geometry.
@@ -168,8 +181,6 @@ In this diagram:
 
 This project uses SQLite3 (local) and PostgreSQL as the primary database systems to store and manage
 construction project data.
-
-### Key Roles:
 
 - **Storing Geometry Data**: PostgreSQL stores geometry created by Rhino Compute, with each geometry
   piece assigned a unique ID managed by Speckle.
