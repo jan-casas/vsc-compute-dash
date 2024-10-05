@@ -96,7 +96,6 @@ network.
 
 ```plaintext
 vsc-compute-dash
-├── files
 └── src
     ├── callbacks
     │   ├── callback_compute.py
@@ -202,5 +201,3 @@ Compute Version Control offers a powerful solution for managing and validating d
 enhancing the efficiency and accuracy of the design process. By leveraging the combined capabilities
 of Rhino Compute, Speckle, and PostgreSQL, the system provides a comprehensive approach to version
 control and lifecycle management in construction projects.
-
-For more information, refer to the documentation or contact the project maintainers.
