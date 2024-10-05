@@ -79,7 +79,7 @@ def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
             content_style = content_style1_dict
             sidebar_states['sidebar_data'] = 'HIDDEN'
         else:
-            # Show sidebar-data and hide sidebar-parts
+            # Show sidebar-data and hide sidebar-components
             sidebar_style = sidebar_style_dict
             new_sidebar_style = sidebar_hidden_dict
             content_style = content_style_dict
@@ -87,15 +87,15 @@ def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
             sidebar_states['sidebar_components'] = 'HIDDEN'
 
     elif button_id == 'speckle-data-count' and n2:
-        # Toggle sidebar-parts
+        # Toggle sidebar-components
         if sidebar_states.get('sidebar_components') == 'SHOW':
-            # Hide sidebar-parts
+            # Hide sidebar-components
             new_sidebar_style = sidebar_hidden_dict
             content_style = content_style1_dict
             sidebar_states['sidebar_components'] = 'HIDDEN'
             title = f'Quantitative Analysis for the commitId {commit_id}'
         else:
-            # Show sidebar-parts and hide sidebar-data
+            # Show sidebar-components and hide sidebar-data
             new_sidebar_style = sidebar_style_dict
             sidebar_style = sidebar_hidden_dict
             content_style = content_style_dict

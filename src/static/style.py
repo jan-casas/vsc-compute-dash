@@ -1,6 +1,6 @@
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 WIDTH_COLLAPSED = "60rem"
-PANEL_HEIGHT = "800px   "
+PANEL_HEIGHT = "800px"
 sidebar_style_dict = {
     "position": "fixed",
     "top": "0rem",

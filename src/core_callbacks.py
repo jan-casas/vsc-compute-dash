@@ -2,7 +2,6 @@ import dash
 import dash_bootstrap_components as dbc
 from flask import Flask
 from flask_cors import CORS
-
 from config.settings import CORS_IPS
 
 # Define Flask app
@@ -14,6 +13,8 @@ CORS(app, resources={r"/api/*":
      methods=['GET', 'POST', 'OPTIONS'])
 
 # Define Dash app
-external_stylesheets = [dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP, '/static/styles.css']
-dash_app = dash.Dash(__name__, server=app, external_stylesheets=external_stylesheets,
-                     use_pages=True, pages_folder='views')
+external_stylesheets = [dbc.themes.BOOTSTRAP,
+                        dbc.icons.BOOTSTRAP, '/static/styles.css']
+dash_app = dash.Dash(__name__, server=app,
+                     external_stylesheets=external_stylesheets, use_pages=True,
+                     pages_folder='views')
