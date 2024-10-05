@@ -4,8 +4,8 @@ _In the Architecture, Engineering, and Construction (AEC) sector, there is a lac
 present in disciplines such as software development, where specific libraries can be easily imported
 and used.
 This project aims to develop a tool that allows architects and computational designers to quickly
-test
-manufacturers' constructive solutions, **from the web into any of their tools**. Additionally, 
+test **parametric
+manufacturers' constructive solutions, from the web into any of their tools**. Additionally, 
 manufacturers will be able to **obtain
 information** about the use of their products and customer needs._
 
