@@ -3,27 +3,42 @@
 _In the Architecture, Engineering, and Construction (AEC) sector, there is a lack of flexibility
 present in disciplines such as software development, where specific libraries can be easily imported
 and used.
-This project aims to develop a tool that allows architects and designers to quickly test
+This project aims to develop a tool that allows architects and computational designers to quickly
+test
 manufacturers' constructive solutions. Additionally, manufacturers will be able to obtain
 information about the use of their products and customer needs._
 
-<video width="100%" controls>
-  <source src="src/static/assets/compute_vsc.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[//]: # (<video width="100%" controls>)
+
+[//]: # (  <source src="src/static/assets/compute_vsc.mp4" type="video/mp4">)
+
+[//]: # (  Your browser does not support the video tag.)
+
+[//]: # (</video>)
 
 ![Compute Version Control](src/static/assets/readme.png)
+
+### Table of Contents
+
+- [Overview](#overview): Summary of the project's objectives and benefits.
+- [Project Structure](#project-structure): Organization of the project, including main files,
+  languages, and frameworks.
+- [Rhino Compute](#rhino-compute): Explanation of the Rhino Compute service and its role in
+  generating geometry data.
+- [Speckle Systems](#speckle-systems): Explanation of the Speckle system and its role in managing
+  geometry data.
+- [Database Configuration](#database-configuration): Details on the database configuration and its
+  role in storing and managing construction project data.
 
 ## Overview
 
 `Compute Version Control` (VSC) aims to provide a comprehensive version control system that
 validates
 design proposals based on design and constructive system constraints. These constraints are provided
-by manufacturers and return essential information about the lifecycle of materials and associated
-data. The solution is designed to streamline project management and enhance decision-making by
-ensuring designs meet both technical and regulatory requirements.
+by manufacturers and return essential information about key indicators such as cost, material,
+geometrical constraints, and lifecycle data.
 
-## Benefits and Business Intelligence
+### Benefits and Business Intelligence
 
 This system offers several benefits and unlocks numerous possibilities from a business intelligence
 perspective:
@@ -43,7 +58,7 @@ perspective:
 - **Scalability**: The modular architecture allows for easy scalability to accommodate growing
   business needs.
 
-## System Components
+### Architecture Approach
 
 The application consists of three primary components:
 
@@ -57,8 +72,6 @@ The application consists of three primary components:
 
 This project delivers a robust solution for managing and validating design proposals, enhancing
 accuracy and efficiency by leveraging manufacturer-provided constraints.
-
-## Architecture Overview
 
 ```mermaid
 graph LR
@@ -82,18 +95,7 @@ In this diagram:
 - `POSTGRESQL_DATABASE`: Associates geometry with lifecycle data.
 - `MATERIAL_LIFECYCLE_DATA`: Represents the lifecycle information of each material.
 
-## Table of Contents
-
-- [Project Structure](#project-structure): Organization of the project, including main files,
-  languages, and frameworks.
-- [Compute Structure](#compute-structure): Overview of the Rhino Compute server and its role in
-  generating geometry data.
-- [Speckle Structure](#speckle-structure): Details of the Speckle data repository for managing
-  geometry.
-- [Database Structure](#database-structure): Explanation of the database's role in managing
-  construction project data.
-
-## Project Structure
+### Project Structure
 
 The project is composed of two Docker containers: one for the Node.js project (Rhino Compute server)
 and one for the Python project (Dash application). Both containers communicate within the same
@@ -144,7 +146,7 @@ In detail:
   managing construction model data, processing commits, and integrating version control features
   into project workflows.
 
-## Compute Structure
+## Rhino Compute
 
 This service provides a cloud-based, stateless REST API for performing geometry calculations on
 various objects like points, curves, surfaces, meshes, and solids. It offers extensive access to
@@ -166,7 +168,7 @@ Speckle components to read and send versions. https://github.com/mcneel/compute.
 > The Rhino Compute server is currently hosted locally. This should be deployed in a separate
 > Windows VM to ensure the system's scalability and reliability.
 
-## Speckle Structure
+## Speckle Systems
 
 Speckle provides storage for all baked geometry and is useful for managing geometry IDs and their
 variations. The Speckle iframe is used to display geometry and its variations in the Python project,
@@ -206,7 +208,7 @@ In this diagram:
 - `SPECKLE` represents the Speckle component that stores the transformed surface, the system parts,
   and the part data.
 
-## Database Structure
+## Database Configuration
 
 This project uses SQLite3 (local) and PostgreSQL as the primary database systems to store and manage
 construction project data.
