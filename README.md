@@ -103,13 +103,14 @@ In this diagram:
 ## Project Structure
 
 The project is composed of two Docker containers: one for the Node.js project (Rhino Compute server)
-and one for the Python project (Dash application) https://dash.plotly.com/. Both containers communicate within the same
+and one for the Python project (Dash application) https://dash.plotly.com/. Both containers
+communicate within the same
 network.
 
 - **Node.js Project**: Rhino Compute server, responsible for generating geometry
   data.
 - **Python Project**: Dash application that interacts with the Node.js project, providing a user
-  interface for visualization. 
+  interface for visualization.
 
 ```plaintext
 vsc-compute-dash
@@ -151,6 +152,12 @@ In detail:
   managing construction model data, processing commits, and integrating version control features
   into project workflows.
 
+> [!IMPORTANT]  
+> The project is only tested on a local machine and is not yet deployed to a production server.
+> The aim is to deploy the project (Speckle Server, Rhino Compute) to a
+> Windows VM
+> server in the future.
+
 ## Main Systems
 
 ### Rhino Compute
@@ -170,10 +177,6 @@ Speckle components to read and send versions. https://github.com/mcneel/compute.
 - Manufacturer Geometrical Logic: Generates geometry based on manufacturer constraints.
 - Send Component: Sends geometry to the Speckle server.
 - Visualize Component: Displays geometry in the appserver.
-
-> [!TIP]
-> The Rhino Compute server is currently hosted locally. This should be deployed in a separate
-> Windows VM to ensure the system's scalability and reliability.
 
 ### Speckle Systems
 
