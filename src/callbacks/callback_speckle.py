@@ -132,3 +132,15 @@ def update_table(restyleData, selected_commit_metadata, selected_commit_data, fi
     except Exception as e:
         logging.exception(e)
         return [], []
+
+
+# # Callback to extract quantities data about the selected commit
+# @dash_app.callback(
+#     [dash.dependencies.Output("quantities-graph", "src"),
+#      dash.dependencies.Output("quantities-table", "data")],
+#     [dash.dependencies.Input("speckle-data-count", "value"),
+#      dash.dependencies.Input("dropdown-commit", "value")],
+# )
+# def update_latest_commit(quantities_graph, quantities_table):
+#     # Given a commitId extract the number of elements by type
+#     pass

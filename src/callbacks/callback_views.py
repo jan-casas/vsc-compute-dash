@@ -38,37 +38,76 @@ def toggle_collapse(n1, n2, n3, is_open):
     [
         dash.dependencies.Output("sidebar-data", "style"),
         dash.dependencies.Output("page-content", "style"),
-        dash.dependencies.Output("side-click", "data")],
-    [dash.dependencies.Input("speckle-data-sidebar", "n_clicks"),
-     dash.dependencies.Input("update-speckle-iframe", "n_clicks")],  # Add this line
+        dash.dependencies.Output("side-click", "data"),
+        dash.dependencies.Output("sidebar-components", "style"),
+        dash.dependencies.Output("non-static-header", "children")
+    ],
+    [
+        dash.dependencies.Input("dropdown-commit", "value"),
+        dash.dependencies.Input("speckle-data-sidebar", "n_clicks"),
+        dash.dependencies.Input("speckle-data-count", "n_clicks"),
+        dash.dependencies.Input("update-speckle-iframe", "n_clicks")
+    ],
     [dash.dependencies.State("side-click", "data")]
 )
-def toggle_sidebar(n1, n2, nclick):  # Add n2 to the function parameters
+def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
     """
-    Toggles the sidebar.
+    Toggles the sidebars such that activating one hides the other.
     """
     ctx = dash.callback_context
 
-    sidebar_style, content_style, cur_nclick = None, None, None
-    if not ctx.triggered:
-        sidebar_style = sidebar_hidden_dict
-        content_style = content_style_dict
-        cur_nclick = 'HIDDEN'
-    else:
-        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+    # Initialize the sidebar states if None
+    if sidebar_states is None:
+        sidebar_states = {'sidebar_data': 'HIDDEN', 'sidebar_components': 'HIDDEN'}
 
-        if button_id == 'speckle-data-sidebar' and n1:
-            if nclick == "SHOW":
-                sidebar_style = sidebar_hidden_dict
-                content_style = content_style1_dict
-                cur_nclick = "HIDDEN"
-            else:
-                sidebar_style = sidebar_style_dict
-                content_style = content_style_dict
-                cur_nclick = "SHOW"
-        elif button_id == 'update-speckle-iframe' and n2:  # Add this condition
+    # Default styles (hidden)
+    sidebar_style = sidebar_hidden_dict
+    new_sidebar_style = sidebar_hidden_dict
+    content_style = content_style_dict
+    title = "Quantitative Analysis for the commitId None"
+
+    if not ctx.triggered:
+        return sidebar_style, content_style, sidebar_states, new_sidebar_style, title
+
+    button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+    if button_id == 'speckle-data-sidebar' and n1:
+        # Toggle sidebar-data
+        if sidebar_states.get('sidebar_data') == 'SHOW':
+            # Hide sidebar-data
+            sidebar_style = sidebar_hidden_dict
+            content_style = content_style1_dict
+            sidebar_states['sidebar_data'] = 'HIDDEN'
+        else:
+            # Show sidebar-data and hide sidebar-components
+            sidebar_style = sidebar_style_dict
+            new_sidebar_style = sidebar_hidden_dict
+            content_style = content_style_dict
+            sidebar_states['sidebar_data'] = 'SHOW'
+            sidebar_states['sidebar_components'] = 'HIDDEN'
+
+    elif button_id == 'speckle-data-count' and n2:
+        # Toggle sidebar-components
+        if sidebar_states.get('sidebar_components') == 'SHOW':
+            # Hide sidebar-components
+            new_sidebar_style = sidebar_hidden_dict
+            content_style = content_style1_dict
+            sidebar_states['sidebar_components'] = 'HIDDEN'
+            title = f'Quantitative Analysis for the commitId {commit_id}'
+        else:
+            # Show sidebar-components and hide sidebar-data
+            new_sidebar_style = sidebar_style_dict
             sidebar_style = sidebar_hidden_dict
             content_style = content_style_dict
-            cur_nclick = 'HIDDEN'
+            sidebar_states['sidebar_components'] = 'SHOW'
+            sidebar_states['sidebar_data'] = 'HIDDEN'
 
-    return sidebar_style, content_style, cur_nclick
+    elif button_id == 'update-speckle-iframe' and n3:
+        # Hide both sidebars
+        sidebar_style = sidebar_hidden_dict
+        new_sidebar_style = sidebar_hidden_dict
+        content_style = content_style_dict
+        sidebar_states['sidebar_data'] = 'HIDDEN'
+        sidebar_states['sidebar_components'] = 'HIDDEN'
+
+    return sidebar_style, content_style, sidebar_states, new_sidebar_style, title
