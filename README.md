@@ -1,11 +1,11 @@
 # Unlocking Business Intelligence through Compute Version Control
 
-_En el sector de Arquitectura, Ingeniería y Construcción (AEC) falta la flexibilidad presente en
-disciplinas como el desarrollo de software, donde se pueden importar y usar librerías específicas
-fácilmente.
-Este proyecto busca desarrollar una herramienta que permita a arquitectos y diseñadores probar
-rápidamente las soluciones constructivas de los fabricantes. Además, los fabricantes podrán obtener
-información sobre el uso de sus productos y las necesidades de los clientes._
+_In the Architecture, Engineering, and Construction (AEC) sector, there is a lack of flexibility
+present in disciplines such as software development, where specific libraries can be easily imported
+and used.
+This project aims to develop a tool that allows architects and designers to quickly test
+manufacturers' constructive solutions. Additionally, manufacturers will be able to obtain
+information about the use of their products and customer needs._
 
 <video width="100%" controls>
   <source src="src/static/assets/compute_vsc.mp4" type="video/mp4">
@@ -52,7 +52,7 @@ The application consists of three primary components:
 2. **Speckle**: A data repository model that provides storage for baked geometry. Speckle is
    particularly useful for managing geometry IDs, variations, and provides tools for filtering and
    differentiation.
-3. **PostgreSQL Database**: Associates geometry IDs with lifecycle data, providing efficient data
+3. **Database**: Associates geometry IDs with lifecycle data, providing efficient data
    tracking and retrieval.
 
 This project delivers a robust solution for managing and validating design proposals, enhancing
@@ -86,6 +86,8 @@ In this diagram:
 
 - [Project Structure](#project-structure): Organization of the project, including main files,
   languages, and frameworks.
+- [Compute Structure](#compute-structure): Overview of the Rhino Compute server and its role in
+  generating geometry data.
 - [Speckle Structure](#speckle-structure): Details of the Speckle data repository for managing
   geometry.
 - [Database Structure](#database-structure): Explanation of the database's role in managing
@@ -97,7 +99,8 @@ The project is composed of two Docker containers: one for the Node.js project (R
 and one for the Python project (Dash application). Both containers communicate within the same
 network.
 
-- **Node.js Project**: Rhino Compute server, responsible for generating geometry data.
+- **Node.js Project**: Rhino Compute server, responsible for generating geometry
+  data.
 - **Python Project**: Dash application that interacts with the Node.js project, providing a user
   interface for visualization.
 
@@ -141,11 +144,33 @@ In detail:
   managing construction model data, processing commits, and integrating version control features
   into project workflows.
 
+## Compute Structure
+
+This service provides a cloud-based, stateless REST API for performing geometry calculations on
+various objects like points, curves, surfaces, meshes, and solids. It offers extensive access to
+over 2400 RhinoCommon API calls, including unique functions like closest point and intersection
+calculations. The solution supports integration with Rhino/Grasshopper plugins and allows
+serialization of operations through Grasshopper or Python scripts. Additionally, client libraries
+are available for use in standalone applications built in C# (.NET), Python, and
+JavaScript. https://developer.rhino3d.com/guides/compute/features/
+
+The script hosted in the appserver repository has unique input and output characteristics. Both use
+Speckle components to read and send versions. https://github.com/mcneel/compute.rhino3d.appserver
+
+- Read Component: Retrieves geometry from the Speckle server.
+- Manufacturer Geometrical Logic: Generates geometry based on manufacturer constraints.
+- Send Component: Sends geometry to the Speckle server.
+- Visualize Component: Displays geometry in the appserver.
+
+> [!TIP]
+> The Rhino Compute server is currently hosted locally. This should be deployed in a separate
+> Windows VM to ensure the system's scalability and reliability.
+
 ## Speckle Structure
 
 Speckle provides storage for all baked geometry and is useful for managing geometry IDs and their
 variations. The Speckle iframe is used to display geometry and its variations in the Python project,
-with the Python container connected to the Speckle server.
+with the Python container connected to the Speckle server https://speckle.systems/.
 
 - **Geometry**: Created by Grasshopper and Rhino Compute.
 - **System Parts**: Components associated with the geometry.
@@ -202,9 +227,14 @@ Further Steps:
 - **Storing Construction Project Data**: Manages construction project details, including ownership,
   timelines, and associated constructive systems.
 
+> [!NOTE]
+> The database structure is currently in development and will be updated in future iterations.
+> The current local database is run locally in a SQLite3 file with only one table containing the
+> parameters iterations and the commit message.
+
 ## Conclusion
 
 Compute Version Control offers a powerful solution for managing and validating design proposals,
 enhancing the efficiency and accuracy of the design process. By leveraging the combined capabilities
 of Rhino Compute, Speckle, and PostgreSQL, the system provides a comprehensive approach to version
-control and lifecycle management in construction projects.
+control and lifecycle data on testing iteration project designs.
