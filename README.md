@@ -95,7 +95,7 @@ In this diagram:
 - `POSTGRESQL_DATABASE`: Associates geometry with lifecycle data.
 - `MATERIAL_LIFECYCLE_DATA`: Represents the lifecycle information of each material.
 
-### Project Structure
+## Project Structure
 
 The project is composed of two Docker containers: one for the Node.js project (Rhino Compute server)
 and one for the Python project (Dash application). Both containers communicate within the same
@@ -146,7 +146,9 @@ In detail:
   managing construction model data, processing commits, and integrating version control features
   into project workflows.
 
-## Rhino Compute
+## Main Systems
+
+### Rhino Compute
 
 This service provides a cloud-based, stateless REST API for performing geometry calculations on
 various objects like points, curves, surfaces, meshes, and solids. It offers extensive access to
@@ -168,7 +170,7 @@ Speckle components to read and send versions. https://github.com/mcneel/compute.
 > The Rhino Compute server is currently hosted locally. This should be deployed in a separate
 > Windows VM to ensure the system's scalability and reliability.
 
-## Speckle Systems
+### Speckle Systems
 
 Speckle provides storage for all baked geometry and is useful for managing geometry IDs and their
 variations. The Speckle iframe is used to display geometry and its variations in the Python project,
@@ -208,7 +210,7 @@ In this diagram:
 - `SPECKLE` represents the Speckle component that stores the transformed surface, the system parts,
   and the part data.
 
-## Database Configuration
+### Relational Database
 
 This project uses SQLite3 (local) and PostgreSQL as the primary database systems to store and manage
 construction project data.
