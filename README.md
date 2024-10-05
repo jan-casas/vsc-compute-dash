@@ -5,6 +5,8 @@
   Your browser does not support the video tag.
 </video>
 
+![Compute Version Control](src/static/assets/readme.png)
+
 ## Overview
 
 `Compute Version Control` (VSC) aims to provide a comprehensive version control system that
