@@ -5,8 +5,9 @@ present in disciplines such as software development, where specific libraries ca
 and used.
 This project aims to develop a tool that allows architects and computational designers to quickly
 test
-manufacturers' constructive solutions. Additionally, manufacturers will be able to obtain
-information about the use of their products and customer needs._
+manufacturers' constructive solutions, **from the web into any of their tools**. Additionally, 
+manufacturers will be able to **obtain
+information** about the use of their products and customer needs._
 
 [//]: # (<video width="100%" controls>)
 
