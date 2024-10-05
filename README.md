@@ -21,6 +21,10 @@ information about the use of their products and customer needs._
 ### Table of Contents
 
 - [Overview](#overview): Summary of the project's objectives and benefits.
+- [Benefits and Business Intelligence](#benefits-and-business-intelligence): Explanation of the
+  benefits and business intelligence insights provided by the system.
+- [Architecture Approach](#architecture-approach): Overview of the system's architecture and
+  components.
 - [Project Structure](#project-structure): Organization of the project, including main files,
   languages, and frameworks.
 - [Rhino Compute](#rhino-compute): Explanation of the Rhino Compute service and its role in
@@ -29,6 +33,7 @@ information about the use of their products and customer needs._
   geometry data.
 - [Database Configuration](#database-configuration): Details on the database configuration and its
   role in storing and managing construction project data.
+- [Conclusion](#conclusion): Summary of the project's objectives and benefits.
 
 ## Overview
 
@@ -98,13 +103,13 @@ In this diagram:
 ## Project Structure
 
 The project is composed of two Docker containers: one for the Node.js project (Rhino Compute server)
-and one for the Python project (Dash application). Both containers communicate within the same
+and one for the Python project (Dash application) https://dash.plotly.com/. Both containers communicate within the same
 network.
 
 - **Node.js Project**: Rhino Compute server, responsible for generating geometry
   data.
 - **Python Project**: Dash application that interacts with the Node.js project, providing a user
-  interface for visualization.
+  interface for visualization. 
 
 ```plaintext
 vsc-compute-dash
@@ -156,7 +161,7 @@ over 2400 RhinoCommon API calls, including unique functions like closest point a
 calculations. The solution supports integration with Rhino/Grasshopper plugins and allows
 serialization of operations through Grasshopper or Python scripts. Additionally, client libraries
 are available for use in standalone applications built in C# (.NET), Python, and
-JavaScript. https://developer.rhino3d.com/guides/compute/features/
+JavaScript.
 
 The script hosted in the appserver repository has unique input and output characteristics. Both use
 Speckle components to read and send versions. https://github.com/mcneel/compute.rhino3d.appserver
@@ -213,7 +218,7 @@ In this diagram:
 ### Relational Database
 
 This project uses SQLite3 (local) and PostgreSQL as the primary database systems to store and manage
-construction project data.
+construction project data and interactions.
 
 - **Storing Geometry Data**: PostgreSQL stores geometry created by Rhino Compute, with each geometry
   piece assigned a unique ID managed by Speckle.
