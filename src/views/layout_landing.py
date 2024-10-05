@@ -8,7 +8,7 @@ from src.static.style import (content_style_dict, sidebar_hidden_dict, PANEL_HEI
 from src.utils.utils_speckle import models_names, compute_models_names
 from src.views.default_components import default_header, default_modal, default_toast
 from src.config.settings import COMPUTE_SCRIPTS
-from views.components.readme import readme_header, readme_body
+from static.static_docs import readme_body
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
@@ -64,7 +64,7 @@ layout_sidebar_components = dbc.Col([
         # dcc.Graph(id='parcoords-plot')
     ),
     dash_table.DataTable(
-        id='table-components',
+        id='table-parts',
         columns=[{"name": i, "id": i}
                  for i in ['authorName', 'commitId', 'message', 'createdAt']],
         data=[],
@@ -77,7 +77,7 @@ layout_sidebar_components = dbc.Col([
         style_table={'overflowX': 'auto'},
     ),
 ],
-    id="sidebar-components",
+    id="sidebar-parts",
     style=sidebar_hidden_dict,
 )
 

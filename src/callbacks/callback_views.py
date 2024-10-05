@@ -39,7 +39,7 @@ def toggle_collapse(n1, n2, n3, is_open):
         dash.dependencies.Output("sidebar-data", "style"),
         dash.dependencies.Output("page-content", "style"),
         dash.dependencies.Output("side-click", "data"),
-        dash.dependencies.Output("sidebar-components", "style"),
+        dash.dependencies.Output("sidebar-parts", "style"),
         dash.dependencies.Output("non-static-header", "children")
     ],
     [
@@ -79,7 +79,7 @@ def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
             content_style = content_style1_dict
             sidebar_states['sidebar_data'] = 'HIDDEN'
         else:
-            # Show sidebar-data and hide sidebar-components
+            # Show sidebar-data and hide sidebar-parts
             sidebar_style = sidebar_style_dict
             new_sidebar_style = sidebar_hidden_dict
             content_style = content_style_dict
@@ -87,15 +87,15 @@ def toggle_sidebar(commit_id, n1, n2, n3, sidebar_states):
             sidebar_states['sidebar_components'] = 'HIDDEN'
 
     elif button_id == 'speckle-data-count' and n2:
-        # Toggle sidebar-components
+        # Toggle sidebar-parts
         if sidebar_states.get('sidebar_components') == 'SHOW':
-            # Hide sidebar-components
+            # Hide sidebar-parts
             new_sidebar_style = sidebar_hidden_dict
             content_style = content_style1_dict
             sidebar_states['sidebar_components'] = 'HIDDEN'
             title = f'Quantitative Analysis for the commitId {commit_id}'
         else:
-            # Show sidebar-components and hide sidebar-data
+            # Show sidebar-parts and hide sidebar-data
             new_sidebar_style = sidebar_style_dict
             sidebar_style = sidebar_hidden_dict
             content_style = content_style_dict

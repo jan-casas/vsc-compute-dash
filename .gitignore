@@ -13,8 +13,5 @@ venv/
 sql_tests/
 test
 .idea/
-/files/
-!/src/utils/deprecated-utils_speckle.py
-!/testing_speckle_methods.ipynb
+/files
 todo.md
-/compute.db

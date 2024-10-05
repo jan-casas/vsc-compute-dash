@@ -1,12 +1,12 @@
 import dash_bootstrap_components as dbc
-from dash import html, dcc
+from dash import html
 
-from views.components.readme import readme_body, readme_header
+from static.static_docs import readme_body, readme_header
 
 # Header
 default_header = dbc.NavbarSimple(
     children=[
-        dbc.Button("Components", id="speckle-data-count", color="link",
+        dbc.Button("Parts", id="speckle-data-count", color="link",
                    className="mr-1 header-button",
                    n_clicks=0, outline=True,
                    style={"margin-right": "10px"}),

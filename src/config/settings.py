@@ -28,6 +28,4 @@ COMPUTE_PATHS = {
     "npm": os.getenv("NPM_PATH"),
     "compute": os.getenv("COMPUTE_GEOMETRY_PATH"),
 }
-COMPUTE_SCRIPTS = ['Corbalán/uglass_facade_tint', 'Garnica/wood_panel_wall',
-                   'Garnica/wood_panel_floor',
-                   'Garnica/wood_panel_ceiling']
+COMPUTE_SCRIPTS = ['Dolcker/CeramicFacade']
