@@ -1,37 +1,49 @@
 # Compute Version Control
 
-[//]: # (![Header Image]&#40;static\readme_header.png&#41;)
+## Overview
 
-[//]: # ([![Build Status]&#40;https://travis-ci.org/your-username/project-name.svg?branch=master&#41;]&#40;https://travis-ci.org/your-username/project-name&#41;)
+Compute Version Control (VSC) aims to provide a comprehensive version control system that validates
+design proposals based on design and constructive system constraints. These constraints are provided
+by manufacturers and return essential information about the lifecycle of materials and associated
+data. The solution is designed to streamline project management and enhance decision-making by
+ensuring designs meet both technical and regulatory requirements.
 
-[//]: # ([![License]&#40;https://img.shields.io/badge/license-MIT-blue.svg&#41;]&#40;https://opensource.org/licenses/MIT&#41;)
+## Benefits and Business Intelligence
 
+This system offers several benefits and unlocks numerous possibilities from a business intelligence
+perspective:
 
-The primary aim of this project is to develop a comprehensive version control platform for Visual
-Studio Code (VSC) that
-validates proposals based on design and constructive system constraints. These constraints are
-provided by manufacturers
-and return information about the lifecycle of materials and their associated data.
+- **Enhanced Decision-Making**: Detailed insights into the lifecycle of materials and their
+  associated data allow businesses to make informed decisions regarding material selection and
+  project planning.
+- **Cost Efficiency**: Identifying cost-effective materials and construction processes can lead to
+  significant cost savings.
+- **Improved Compliance**: Ensures that all design proposals adhere to manufacturer-provided
+  constraints, improving compliance with industry standards and regulations.
+- **Data-Driven Insights**: Integration with PostgreSQL and Speckle provides robust data management
+  and retrieval, enabling businesses to gain valuable insights into project performance and material
+  usage.
+- **Streamlined Workflow**: Automates validation and management of design proposals, reducing manual
+  effort and increasing efficiency.
+- **Scalability**: The modular architecture allows for easy scalability to accommodate growing
+  business needs.
 
-The application is composed of three main parts:
+## System Components
 
-1. **Rhino Compute**: This part handles predefined manufactured systems. It creates constructive
-   systems from an input
-   provided (e.g., a glass facade type from an input surface).
+The application consists of three primary components:
 
-2. **Speckle**: This is the database repo model that provides storage where all the baked geometry
-   is stored. This is
-   particularly useful for managing geometry IDs and their variations. Additionally, it offers tools
-   for differentiating
-   and color filtering options.
+1. **Rhino Compute**: Handles predefined manufactured systems. It generates constructive solutions,
+   such as creating glass facades from provided input surfaces.
+2. **Speckle**: A data repository model that provides storage for baked geometry. Speckle is
+   particularly useful for managing geometry IDs, variations, and provides tools for filtering and
+   differentiation.
+3. **PostgreSQL Database**: Associates geometry IDs with lifecycle data, providing efficient data
+   tracking and retrieval.
 
-3. **PostgreSQL Database**: This is used to associate the geometry ID and the data provided during
-   the lifecycle
-   process.
+This project delivers a robust solution for managing and validating design proposals, enhancing
+accuracy and efficiency by leveraging manufacturer-provided constraints.
 
-This project provides a robust solution for managing and validating design proposals based on
-manufacturer-provided
-constraints, thereby enhancing the efficiency and accuracy of the design process.
+## Architecture Overview
 
 ```mermaid
 graph LR
@@ -46,113 +58,88 @@ graph LR
     SPECKLE -->|updates| SPECKLE_CLIENT
 ```
 
-In this diagram:
+### Components Explained:
 
-- `RHINO_COMPUTE` represents the Rhino Compute component that creates the geometry.
-- `GEOMETRY` represents the geometry created by Rhino Compute.
-- `SPECKLE` represents the Speckle component that stores the geometry.
-- `GEOMETRY_ID` represents the unique ID of each piece of geometry managed by Speckle.
-- `POSTGRESQL_DATABASE` represents the PostgreSQL Database that associates the Geometry ID with the
-  Material Lifecycle
-  Data.
-- `MATERIAL_LIFECYCLE_DATA` represents the lifecycle data of each material used in the system part.
+- `RHINO_COMPUTE`: Represents the component responsible for generating geometry.
+- `GEOMETRY`: Represents the output geometry from Rhino Compute.
+- `SPECKLE`: Stores and manages the created geometry.
+- `GEOMETRY_ID`: The unique ID of each piece of geometry managed by Speckle.
+- `POSTGRESQL_DATABASE`: Associates geometry with lifecycle data.
+- `MATERIAL_LIFECYCLE_DATA`: Represents the lifecycle information of each material.
 
-### Table of Contents
+## Table of Contents
 
-- [Project Structure:](#project-structure)
-  The project structure shows the organization of the project, including the main files, languages,
-  and frameworks used.
-- [Speckle Structure](#speckle-structure)
-  The Speckle structure is a database repo model that provides storage where all the baked geometry
-  is stored.
-- [Database Structure](#database-structure)
-  The database structure is crucial for managing and storing data related to the construction
-  project.
-
-### Features
-
-<figure>
-  <img src="src/static/docs/euskotren.jpeg" alt="Rhino-Revit model sync using Speckle">
-  <figcaption>Rhino-Revit model sync using Speckle</figcaption>
-</figure>
-
-<figure>
-  <img src="src/static/docs/compute.png" alt="Testing facade options using Rhino Compute">
-  <figcaption>Testing facade options using Rhino Compute</figcaption>
-</figure>
-
-<figure>
-  <img src="src/static/docs/soc.png" alt="Filtering options based on the Speckle database">
-  <figcaption>Filtering options based on the Speckle database</figcaption>
-</figure>
+- [Project Structure](#project-structure): Organization of the project, including main files,
+  languages, and frameworks.
+- [Speckle Structure](#speckle-structure): Details of the Speckle data repository for managing
+  geometry.
+- [Database Structure](#database-structure): Explanation of the database's role in managing
+  construction project data.
 
 ## Project Structure
 
-The project is going to have two docker containers, one for the Node.js project and the other for
-the Python project.
-Both will be connected to the same network to communicate with each other.
+The project is composed of two Docker containers: one for the Node.js project (Rhino Compute server)
+and one for the Python project (Dash application). Both containers communicate within the same
+network.
 
-- The Node.js project is a Rhino Compute server that computes the geometry and provides the data to
-  the Python project.
-- The Python project is a Dash application that interacts with the Node.js project (Rhino Compute
-  server) to provide
-  the interface for the user.
+- **Node.js Project**: Rhino Compute server, responsible for generating geometry data.
+- **Python Project**: Dash application that interacts with the Node.js project, providing a user
+  interface for visualization.
 
-### Main Files
+```plaintext
+vsc-compute-dash
+├── files
+└── src
+    ├── callbacks
+    │   ├── callback_compute.py
+    │   ├── callback_speckle.py
+    │   └── callback_views.py
+    ├── config
+    │   ├── logs.py
+    │   └── settings.py
+    ├── utils
+    │   ├── utils.py
+    │   └── utils_speckle.py
+    ├── views
+    │   ├── default_components.py
+    │   └── layout_landing.py
+    └── __init__.py
+    └── core_callbacks.py
+├── compute.db
+├── Dockerfile
+├── main.py
+├── README.md
+└── requirements.txt
+```
 
-- `main.py`: This is the entry point of your application. It starts the Node.js project (Rhino
-  Compute server) in a
-  separate process and then calls the `callback_core` for interactions.
+## Languages and Frameworks
 
-- `core_callbacks.py`: This file defines the Flask application (settings and logs) and enables
-  CORS (Cross-Origin
-  Resource Sharing), allowing endpoints from the Node.js project.
-
-- `core_api.py`: This file defines the endpoints that interact between the Dash application and the
-  Node.js application,
-  such as `update_slider_values`.
-
-- `utils/utils_database.py`: This file likely contains utility functions for interacting with the
-  database.
-
-- `readme.md`: This file provides an overview of the project, including its purpose, main features,
-  and functionalities.
-  It also includes badges for the build status and license, and sections for installation, usage,
-  documentation,
-  contributing, license, and acknowledgments.
-
-- `constants.py`: This file likely contains constant values used across the project, such as
-  database credentials and
-  host information. The exact content is not provided.
-
-- `utils/speckle.py`: This file contains functions for interacting with the Speckle API, such as
-  `get_commits` (get info
-  from commits - data from geometry), `access_commit_data` (returns a dictionary with
-  data), `access_branch_objects`, `process_commit(s)` (reads each commit sequentially),
-  `get_branch_names`.
-
-- `callback_hops.py`: This file contains functions like `insert_query_local`, `retrieve_data`.
-
-- `callback_compute.py`: The exact content is not provided.
-
-### Languages and Frameworks
-
-- Python: The main language used in the project.
-- Flask: A Python web framework used to create the application's endpoints.
-- psycopg2: A PostgreSQL database adapter for Python.
-- Node.js: Used to start another project in a separate process.
-- npm: A package manager for Node.js.
+- **Python**: Main programming language used.
+- **Flask**: Web framework to create application endpoints.
+- **psycopg2**: PostgreSQL adapter for Python.
+- **Dash**: Framework for building analytical web applications.
+- **Docker**: Containerization platform for deployment.
+- **PostgreSQL**: Relational database management system.
+- **Speckle**: Data repository for baked geometry.
 
 ## Speckle Structure
 
-The Speckle structure is a database repo model that provides storage where all the baked geometry is
-stored. This is
-particularly useful for managing geometry IDs and their variations. Additionally, it offers tools
-for differentiating
-and color filtering options.    
-The speckle iframe will be used in the python project to display the geometry and its variations.
-The python container
-will be connected to the speckle server to retrieve the geometry data.
+Speckle provides storage for all baked geometry and is useful for managing geometry IDs and their
+variations. The Speckle iframe is used to display geometry and its variations in the Python project,
+with the Python container connected to the Speckle server.
+
+### Speckle Components:
+
+- **Geometry**: Created by Grasshopper and Rhino Compute.
+- **System Parts**: Components associated with the geometry.
+- **Part Data**: Data linked with each system part.
+- **Metadata**: Additional data about geometry.
+
+Further Steps:
+
+- Deploy Speckle in a separate container (Windows VM).
+- Update the IP address of `compute.rhino3d.appserver` to match that of the Flask application.
+- Resolve the Speckle read component failure in Grasshopper and add the ability to select branches.
 
 ```mermaid
 graph LR
@@ -179,48 +166,26 @@ In this diagram:
 
 ## Database Structure
 
-In this project, PostgreSQL plays a crucial role as the primary database system. It is used to store
-and manage various
-types of data related to the construction project. Here are some of its key roles:
+This project uses SQLite3 (local) and PostgreSQL as the primary database systems to store and manage
+construction project data.
 
-1. **Storing Geometry Data**: PostgreSQL is used to store the geometry data created by Rhino
-   Compute. Each piece of
-   geometry is assigned a unique ID, which is managed by Speckle and stored in the PostgreSQL
-   database.
+### Key Roles:
 
-2. **Associating Geometry with Material Lifecycle Data**: The PostgreSQL database associates each
-   piece of geometry (
-   identified by its unique ID) with its corresponding material lifecycle data. This allows the
-   system to track the
-   lifecycle of each material used in the construction project.
+- **Storing Geometry Data**: PostgreSQL stores geometry created by Rhino Compute, with each geometry
+  piece assigned a unique ID managed by Speckle.
+- **Storing Parameter Variations**: Stores variations in parameters for constructive systems,
+  tracking user changes.
+- **Storing Constructive System Data**: Stores information about constructive systems, allowing
+  tracking of their usage in projects.
 
-3. **Storing User Data**: The database stores information about the users of the system, including
-   their IDs and names.
-   This allows the system to track which user is making requests, owns construction projects, and
-   makes parameter
-   variations.
+Further Steps:
 
-4. **Storing Parameter Variations**: The database stores the variations of parameters for the
-   constructive systems. Each
-   variation has a unique ID, a parameter name, and a value. It also stores the user ID to track
-   which user made which
-   parameter variations.
-
-5. **Storing Construction Project Data**: The database stores information about the construction
-   projects, including
-   their IDs, names, start and end dates, user IDs, and constructive system IDs. This allows the
-   system to track which
-   user owns which construction project and which constructive system is used in each project.
-
-6. **Storing Constructive System Data**: The database stores information about the constructive
-   systems, including their
-   IDs, names, and descriptions. This allows the system to track which constructive system is used
-   in each construction
-   project and which materials are used in each constructive system.
-
-In summary, PostgreSQL is used to store and manage all the data in the system, making it a crucial
-component of the
-project.
+- **Associating Geometry with Material Lifecycle Data**: PostgreSQL associates geometry with
+  lifecycle data, enabling material tracking throughout the project lifecycle.
+- **Storing User Data**: Stores user information, tracking project ownership and parameter
+  variations.
+- **Storing Construction Project Data**: Manages construction project details, including ownership,
+  timelines, and associated constructive systems.
 
 ```mermaid
 erDiagram
@@ -320,17 +285,11 @@ The relationships between the entities are as follows:
 - Each `MATERIAL` is produced by one `MANUFACTURER`.
 - Each `MATERIAL` is used in one or more `CONSTRUCTION_PROJECT`s.
 
-# TODO
+## Conclusion
 
-    # FIXME: Cambiar ip local del compute.rhino3d.appserver (archivo script.js and app.js)
+Compute Version Control offers a powerful solution for managing and validating design proposals,
+enhancing the efficiency and accuracy of the design process. By leveraging the combined capabilities
+of Rhino Compute, Speckle, and PostgreSQL, the system provides a comprehensive approach to version
+control and lifecycle management in construction projects.
 
-# TODO: This is a hack. It should be started in a separate container (Windows VM). You mus t
-
-    #  change the ip of the compute.rhino3d.appserver to the ip of the Flask application.
-
-
-            # Capture only the attributes of the objects baked in Compute
-            # object_data = [
-            #     {k: v for k, v in b.__dict__.items() if not isinstance(v, (list, dict))}
-            #     for b in brep_data
-            # ]
+For more information, refer to the documentation or contact the project maintainers.
