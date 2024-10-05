@@ -8,12 +8,13 @@ from src.static.style import (content_style_dict, sidebar_hidden_dict, PANEL_HEI
 from src.utils.utils_speckle import models_names, compute_models_names
 from src.views.default_components import default_header, default_modal, default_toast
 from src.config.settings import compute_scripts
+from views.components.readme import readme_header, readme_body
 
 sys.path.insert(0, '/static/style.py')
 sys.path.insert(0, '/utils/utils_plotly.py')
 
 # Register this page
-dash.register_page(__name__, path="/", title='VSC - Compute',
+dash.register_page(__name__, path="/", title='Compute VSC',
                    image_url='/static/assets/icons/hoja.ico')
 
 # Define the app landing layouts
@@ -56,11 +57,9 @@ layout_sidebar_analysis = dbc.Col([
 )
 
 layout_sidebar_components = dbc.Col([
-    dcc.Markdown('''
-            ### Speckle Count Components
-
-            This is a plot of the attributes of the objects in the stream.   
-        ''', style={'margin-top': '20px', 'font-size': '15px', 'font-family': 'Arial'}),
+    html.Br,
+    html.H3(id="non-static-header"),
+    readme_body,
     dcc.Loading(
         # dcc.Graph(id='parcoords-plot')
     ),
@@ -146,6 +145,7 @@ layout_speckle = dbc.Col(
 
 compute_speckle_layout = dbc.Row([
     layout_sidebar_analysis,
+    layout_sidebar_components,
     layout_compute,
     layout_speckle
 ], style={'width': 'calc(100% - 12rem)', 'margin-left': '6rem', 'margin-right': '6rem'})

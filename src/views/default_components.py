@@ -1,9 +1,15 @@
 import dash_bootstrap_components as dbc
 from dash import html, dcc
 
+from views.components.readme import readme_body, readme_header
+
 # Header
 default_header = dbc.NavbarSimple(
     children=[
+        dbc.Button("Components", id="speckle-data-count", color="link",
+                   className="mr-1 header-button",
+                   n_clicks=0, outline=True,
+                   style={"margin-right": "10px"}),
         dbc.Button("Speckle OP", id="speckle-data-sidebar", color="link",
                    className="mr-1 header-button",
                    n_clicks=0, outline=True,
@@ -84,59 +90,17 @@ default_modal = html.Div([
         dbc.ModalHeader(
             html.Div([
                 html.Div([
-                    html.H3(id='modal-title',
-                            children='Grasshopper Scripting in the Cloud'),
-                    dcc.Markdown('''`this` is a cutting-edge application that brings the power of 
-                    Grasshopper 
-                    scripting to the cloud, enabling you to design, analyze, and collaborate like 
-                    never before. As an 
-                    architect, designer, data scientist, or programmer with a thirst for 
-                    knowledge and discovery, 
-                    this tool is tailored to your needs.
-''')], id='grid-item-1', className='grid-item'),
+                    readme_header
+                ], id='grid-item-1', className='grid-item'),
             ], style={'display': 'flex', 'alignItems': 'center', 'margin-left': '40px',
                       'margin-right': '40px',
                       'margin-top': '40px', 'margin-bottom': '15px'})
         ),
         # Responsive information
         dbc.ModalBody(id='default-modal', children=[
-            dcc.Markdown(
-                '''
-                
-                ### Key Features:
-                
-                - **Cloud-Based Grasshopper Scripting:** Access Grasshopper from any device with 
-                an internet 
-                connection. Collaborate 
-                seamlessly with colleagues and clients in real-time, no matter where they are.
-                
-                - **Effortless Data Storage:**`this` seamlessly integrates with Speckle, 
-                a leading platform for 
-                storing and sharing 
-                design and construction data. Your projects and data are securely stored and 
-                accessible at all 
-                times.
-                
-                - **Smart Commit Filtering:** Make data-driven decisions with ease.`this` allows 
-                you to filter 
-                the best commits based 
-                on the data it generates. Whether you're optimizing designs, comparing versions, 
-                or conducting 
-                data analysis, 
-                you're in control.
-                
-                ### Get Started:
-                
-                If you're ready to unlock the full potential of Grasshopper scripting in the cloud, 
-                sign up for`this` today. Discover 
-                a world of new possibilities, make data-driven design decisions, and take your 
-                architecture, 
-                design, and data science 
-                projects to the next level.
-                            '''
-            ),
+            readme_body
         ], style={'margin-left': '40px', 'margin-right': '40px', 'margin-bottom': '16px',
                   'margin-top': '20px'})
-    ], id='modal', size='lg', scrollable=False, is_open=True,
+    ], id='modal', size='lg', scrollable=True, is_open=True,
         style={'width': '100%', 'height': '100%', 'padding': '0px', 'margin': '0px'}),
 ])
