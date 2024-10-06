@@ -268,7 +268,6 @@ Further Steps:
 - **Storing User Data**: Stores user information, tracking project ownership and parameter
   variations.
 
-
 ```mermaid
 erDiagram
 
@@ -279,22 +278,18 @@ erDiagram
     projects ||--o{ parameter_configurations: "has"
     projects ||--o{ speckle_projects: "linked to"
     projects ||--o{ user_interactions: "involves"
-
 %% Parameter Configurations and Products
     parameter_configurations ||--o{ parameter_configuration_products: "includes"
     parameter_configuration_products }o--|| product_variants: "configures"
     product_variants }o--|| products: "variant of"
     parameter_configuration_products ||--o{ parameter_configuration_attributes: "has attributes"
     parameter_configuration_attributes }o--|| product_attributes: "configures"
-
 %% Speckle Data
     speckle_projects ||--o{ speckle_branches: "contains"
     speckle_branches ||--o{ speckle_commits: "has"
-
 %% Commits
     parameter_configurations ||--o{ commits: "generates"
     commits ||--|| speckle_commits: "links to"
-
 %% Manufacturer Metadata
     manufacturers ||--o{ series: "offers"
     series ||--o{ products: "includes"
@@ -308,7 +303,6 @@ erDiagram
     product_variants }o--|| systems: "has system"
     products ||--o{ product_attributes: "has"
     project_elements ||--|| products: "uses"
-
 %% Entities
     users {
         int user_id PK
@@ -470,7 +464,10 @@ erDiagram
     }
 ```
 
-*Diagram 3: Database structure proposal for the project.*
+*Diagram 3: Proposed database structure for the project. The database must manage users, projects
+within Speckle (including models and commits), manufacturer data (linked to each construction
+system), and all user interactions within the platform. The goal of this schema is to generalize the
+tables to enable faster and more scalable data ingestion.*
 
 
 > [!NOTE]
