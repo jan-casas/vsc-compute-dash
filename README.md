@@ -351,6 +351,7 @@ erDiagram
 
 
 ```
+*Diagram 3: Database structure proposal for the project.*
 
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
