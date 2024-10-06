@@ -268,6 +268,7 @@ Further Steps:
 - **Storing User Data**: Stores user information, tracking project ownership and parameter
   variations.
 
+
 ```mermaid
 erDiagram
 
@@ -278,21 +279,37 @@ erDiagram
     projects ||--o{ parameter_configurations: "has"
     projects ||--o{ speckle_projects: "linked to"
     projects ||--o{ user_interactions: "involves"
+
 %% Parameter Configurations and Products
     parameter_configurations ||--o{ parameter_configuration_products: "includes"
-    parameter_configuration_products }o--|| products: "configures"
+    parameter_configuration_products }o--|| product_variants: "configures"
+    product_variants }o--|| products: "variant of"
     parameter_configuration_products ||--o{ parameter_configuration_attributes: "has attributes"
     parameter_configuration_attributes }o--|| product_attributes: "configures"
+
 %% Speckle Data
     speckle_projects ||--o{ speckle_branches: "contains"
     speckle_branches ||--o{ speckle_commits: "has"
+
 %% Commits
     parameter_configurations ||--o{ commits: "generates"
     commits ||--|| speckle_commits: "links to"
+
 %% Manufacturer Metadata
-    manufacturers ||--o{ products: "offers"
+    manufacturers ||--o{ series: "offers"
+    series ||--o{ products: "includes"
+    series ||--o{ colors: "has"
+    products ||--o{ product_variants: "has variants"
+    products }o--|| series: "belongs to"
+    product_variants }o--|| colors: "has color"
+    product_variants }o--|| finishes: "has finish"
+    product_variants }o--|| thicknesses: "has thickness"
+    product_variants }o--|| applications: "has application"
+    product_variants }o--|| systems: "has system"
     products ||--o{ product_attributes: "has"
-%% Existing Entities
+    project_elements ||--|| products: "uses"
+
+%% Entities
     users {
         int user_id PK
         varchar first_name
@@ -323,7 +340,7 @@ erDiagram
     parameter_configuration_products {
         int parameter_configuration_product_id PK
         int parameter_configuration_id FK
-        int product_id FK
+        int product_variant_id FK
     }
 
     parameter_configuration_attributes {
@@ -342,8 +359,53 @@ erDiagram
     products {
         int product_id PK
         int manufacturer_id FK
+        int series_id FK
         varchar product_name
         text product_description
+    }
+
+    product_variants {
+        int product_variant_id PK
+        int product_id FK
+        int color_id FK
+        int finish_id FK
+        int thickness_id FK
+        int application_id FK
+        int system_id FK
+    }
+
+    series {
+        int series_id PK
+        int manufacturer_id FK
+        varchar series_name
+    }
+
+    colors {
+        int color_id PK
+        int series_id FK
+        varchar color_name
+    }
+
+    finishes {
+        int finish_id PK
+        varchar finish_name
+    }
+
+    thicknesses {
+        int thickness_id PK
+        varchar thickness_name
+        decimal thickness_value
+    }
+
+    applications {
+        int application_id PK
+        varchar application_name
+    }
+
+    systems {
+        int system_id PK
+        varchar system_name
+        text description
     }
 
     commits {
@@ -395,9 +457,6 @@ erDiagram
         text description
     }
 
-%% Existing Relationships
-    products ||--o{ product_attributes: "has"
-    project_elements ||--|| products: "uses"
 %% Connecting Products to Project Elements
     project_elements {
         int element_id PK
@@ -409,7 +468,6 @@ erDiagram
         date created_at
         date updated_at
     }
-
 ```
 
 *Diagram 3: Database structure proposal for the project.*
