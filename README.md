@@ -18,6 +18,8 @@ information** about the use of their products and customer needs._
 [//]: # (</video>)
 
 ![Compute Version Control](src/static/assets/readme.png)
+*Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params 
+to interact with.*
 
 ### Table of Contents
 
@@ -89,6 +91,8 @@ graph LR
     POSTGRESQL_DATABASE -->|updates| SPECKLE
     SPECKLE -->|updates| SPECKLE_CLIENT
 ```
+*Diagram 1: General Architecture Proposal to interact with Compute and the clients BI using 
+Speckle.*
 
 In this diagram:
 
@@ -193,6 +197,10 @@ Speckle components to read and send working versions. The key components are:
 - Send Component: Sends geometry to the Speckle server.
 - Visualize Component: Displays geometry in the appserver.
 
+![Dolcker Constructive System](src/static/assets/viewport.png)
+*Figure 2: Visualization of the Dolcker Constructive System in the application.*
+
+
 ### Speckle Systems
 
 Speckle provides a `version control system` for all baked geometry and is useful for managing 
@@ -219,6 +227,7 @@ graph LR
     SYSTEM_PARTS -->|associates| SPECKLE
     PART_DATA -->|associates| SPECKLE
 ```
+*Diagram 2: Specific interaction login within Speckle service.*
 
 In this diagram:
 
