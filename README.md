@@ -208,7 +208,9 @@ Speckle components to read and send working versions. The key components are:
 *Figure 2: Visualization of the Dolcker Constructive System in the application (view from the
 wall to the outside -insulation, angular, t vertical profile, dolcker horizontal profile, panel-).*
 
-![Grasshopper Script](src/static/assets/gh_def2.png)
+
+<img src="src/static/assets/gh_def2.png" alt="Grasshopper Script" style="width: 100%;">
+
 *Figure 3: Grashopper Script used inside the Appserver repository (profile definition, input
 surface, tridimensional constructive system).*
 
