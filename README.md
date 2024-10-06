@@ -160,6 +160,8 @@ In detail:
 > [!IMPORTANT]
 > The aim of this project is developing a minimum viable product (MVP) to test the interaction
 > and the link with the Business Intelligence (BI) of the manufacturers.
+> Only the [Dolcker & Clip](https://dolcker.es/dolcker-system#descargas) system by Dolcker has been
+> implemented.
 > The project is only tested on a local machine and is not yet deployed to a production server
 > (Speckle Server, Rhino Compute).
 
