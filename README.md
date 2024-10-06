@@ -261,6 +261,100 @@ Further Steps:
 - **Storing User Data**: Stores user information, tracking project ownership and parameter
   variations.
 
+```mermaid
+erDiagram
+    
+    users {
+        int user_id PK
+        varchar first_name
+        varchar last_name
+        varchar email UNIQUE
+        datetime last_connection
+        datetime created_at
+        datetime updated_at
+    }
+
+    projects {
+        int project_id PK
+        varchar speckle_project_id UNIQUE
+        int user_id FK
+        varchar project_name
+        text project_description
+        datetime created_at
+        datetime updated_at
+    }
+
+    project_elements {
+        int element_id PK
+        int project_id FK
+        int series_id FK
+        int color_id FK
+        int finish_id FK
+        int thickness_id FK
+        int system_id FK
+        int application_id FK
+        int quantity
+        varchar element_name
+        text element_description
+        datetime created_at
+        datetime updated_at
+    }
+
+    series {
+        int series_id PK
+        varchar series_name
+        text description
+    }
+
+    colors {
+        int color_id PK
+        int series_id FK
+        varchar color_name
+    }
+
+    finishes {
+        int finish_id PK
+        varchar finish_name
+    }
+
+    thicknesses {
+        int thickness_id PK
+        varchar thickness_name
+        decimal thickness_value
+    }
+
+    applications {
+        int application_id PK
+        varchar application_name
+    }
+
+    systems {
+        int system_id PK
+        varchar system_name
+        text description
+    }
+
+    %% Relationships
+    users ||--o{ projects : "has"
+    projects ||--o{ project_elements : "contains"
+    project_elements ||..|| series : "uses"
+    project_elements ||..|| colors : "uses"
+    project_elements ||..|| finishes : "uses"
+    project_elements ||..|| thicknesses : "uses"
+    project_elements ||..|| systems : "uses"
+    project_elements ||..|| applications : "applies to"
+
+    series ||--o{ colors : "has"
+    series ||--o{ series_finishes : "has"
+    series_finishes }o--|| finishes : "includes"
+
+    thicknesses ||--o{ thickness_applications : "applies to"
+    thickness_applications }o--|| applications : "includes"
+
+    systems ||--o{ system_features : "has"
+
+```
+
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
 > The current local database is run locally in a SQLite3 file with only one table containing the
