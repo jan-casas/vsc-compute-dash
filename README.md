@@ -531,4 +531,11 @@ design
 proposals,
 enhancing the efficiency and accuracy of the design process. By leveraging the combined capabilities
 of Rhino Compute, Speckle, and PostgreSQL, the system provides a **comprehensive approach to version
-control and lifecycle data on testing iteration** project designs. 
+control and systems data on testing iteration** project designs. The main focus areas for the near
+future are:
+
+- **Ease of Use**: Improve the user interface for a more intuitive and user-friendly experience.
+  Users can simply select the manufacturer and system they wish to test, run the computation, and
+  load the results into their preferred tool.
+- **Business Intelligence**: Create advanced analytics and reporting features to provide
+  manufacturers with valuable insights.
