@@ -216,8 +216,14 @@ surface, tridimensional constructive system).*
 is useful for managing
 geometry, associated data and
 their
-variations. The Speckle iframe is used to display geometry and its variations in the Python
-project.
+variations. The Speckle iframe is used to display geometry and its variations in the web
+application.
+
+Speckle plays a crucial role in the project by managing client input geometry, building the
+infrastructure to store its data along with associated metadata, and providing an intuitive way to
+interact within its python integration. Additionally, Speckle facilitates storing the
+output geometry and metadata from the Rhino Compute service, allowing this updated information to be
+returned to the **original tool where the client is working**.
 
 - **Geometry**: Created by Grasshopper and Rhino Compute.
 - **System Parts**: Components associated with the geometry.
