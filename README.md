@@ -224,8 +224,6 @@ Further Steps:
 
 - Resolve the Speckle read component failure in Grasshopper and add the ability to select branches.
 
-<iframe title="Speckle" src="https://app.speckle.systems/projects/013613abb4/models/df7967e0d3#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D" width="600" height="400" frameborder="0"></iframe>
-
 ```mermaid
 graph LR
     CLIENT_INPUT_GEOMETRY -->|processed by| RHINO_COMPUTE
@@ -424,7 +422,10 @@ erDiagram
 
 ## Conclusion
 
-`Compute Version Control` offers a powerful solution for managing and validating design proposals,
+`Compute Version Control` is a **work in progress** that offers a powerful solution for managing and
+validating
+design
+proposals,
 enhancing the efficiency and accuracy of the design process. By leveraging the combined capabilities
-of Rhino Compute, Speckle, and PostgreSQL, the system provides a comprehensive approach to version
-control and lifecycle data on testing iteration project designs. 
+of Rhino Compute, Speckle, and PostgreSQL, the system provides a **comprehensive approach to version
+control and lifecycle data on testing iteration** project designs. 
