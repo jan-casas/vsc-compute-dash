@@ -333,22 +333,49 @@ erDiagram
         text description
     }
 
-%% Relationships
-    users ||--o{ projects: "has"
-    projects ||--o{ project_elements: "contains"
-    project_elements ||..|| series: "uses"
-    project_elements ||..|| colors: "uses"
-    project_elements ||..|| finishes: "uses"
-    project_elements ||..|| thicknesses: "uses"
-    project_elements ||..|| systems: "uses"
-    project_elements ||..|| applications: "applies to"
-    series ||--o{ colors: "has"
-    series ||--o{ series_finishes: "has"
-    series_finishes }o--|| finishes: "includes"
-    thicknesses ||--o{ thickness_applications: "applies to"
-    thickness_applications }o--|| applications: "includes"
-    systems ||--o{ system_features: "has"
+    %% New Entities for Iterations and Parameters
+    project_iterations {
+        int iteration_id PK
+        int project_id FK
+        int iteration_number
+        date start_date
+        date end_date
+        varchar status
+    }
 
+    parameters {
+        int parameter_id PK
+        varchar parameter_name
+        text parameter_description
+    }
+
+    iteration_parameters {
+        int iteration_parameter_id PK
+        int iteration_id FK
+        int parameter_id FK
+        decimal value
+    }
+
+    %% Relationships
+    users ||--o{ projects : "has"
+    projects ||--o{ project_elements : "contains"
+    project_elements ||..|| series : "uses"
+    project_elements ||..|| colors : "uses"
+    project_elements ||..|| finishes : "uses"
+    project_elements ||..|| thicknesses : "uses"
+    project_elements ||..|| systems : "uses"
+    project_elements ||..|| applications : "applies to"
+    series ||--o{ colors : "has"
+    series ||--o{ series_finishes : "has"
+    series_finishes }o--|| finishes : "includes"
+    thicknesses ||--o{ thickness_applications : "applies to"
+    thickness_applications }o--|| applications : "includes"
+    systems ||--o{ system_features : "has"
+
+    %% Relationships for Iterations and Parameters
+    projects ||--o{ project_iterations : "has iterations"
+    project_iterations ||--o{ iteration_parameters : "records"
+    iteration_parameters ||--|| parameters : "defines"
 
 ```
 *Diagram 3: Database structure proposal for the project.*
