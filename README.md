@@ -18,7 +18,7 @@ information** about the use of their products and customer needs._
 [//]: # (</video>)
 
 ![Compute Version Control](src/static/assets/readme.png)
-*Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params 
+*Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
 to interact with.*
 
 ### Table of Contents
@@ -48,7 +48,8 @@ geometrical constraints, and lifecycle data.
 
 ### Benefits and Business Intelligence
 
-This system offers several benefits and unlocks numerous possibilities from a `business intelligence`
+This system offers several benefits and unlocks numerous possibilities from a
+`business intelligence`
 perspective:
 
 - **Enhanced Decision-Making**: Detailed insights into the lifecycle of materials and their
@@ -91,7 +92,8 @@ graph LR
     POSTGRESQL_DATABASE -->|updates| SPECKLE
     SPECKLE -->|updates| SPECKLE_CLIENT
 ```
-*Diagram 1: General Architecture Proposal to interact with Compute and the clients BI using 
+
+*Diagram 1: General Architecture Proposal to interact with Compute and the clients BI using
 Speckle.*
 
 In this diagram:
@@ -200,11 +202,13 @@ Speckle components to read and send working versions. The key components are:
 ![Dolcker Constructive System](src/static/assets/viewport.png)
 *Figure 2: Visualization of the Dolcker Constructive System in the application.*
 
+![Grasshopper Script](src/static/assets/gh_def2.png)
+*Figure 3: Grashopper Script used inside the Appserver repository.*
 
 ### Speckle Systems
 
-Speckle provides a `version control system` for all baked geometry and is useful for managing 
-geometry, associated data and 
+Speckle provides a `version control system` for all baked geometry and is useful for managing
+geometry, associated data and
 their
 variations. The Speckle iframe is used to display geometry and its variations in the Python project,
 with the Python container connected to the Speckle server https://speckle.systems/.
@@ -227,6 +231,7 @@ graph LR
     SYSTEM_PARTS -->|associates| SPECKLE
     PART_DATA -->|associates| SPECKLE
 ```
+
 *Diagram 2: Specific interaction login within Speckle service.*
 
 In this diagram:
@@ -264,34 +269,28 @@ Further Steps:
 ```mermaid
 erDiagram
 
-    %% Users and Projects
-    users ||--o{ projects : "owns"
-    users ||--o{ parameter_configurations : "creates"
-    users ||--o{ user_interactions : "performs"
-
-    projects ||--o{ parameter_configurations : "has"
-    projects ||--o{ speckle_projects : "linked to"
-    projects ||--o{ user_interactions : "involves"
-
-    %% Parameter Configurations and Products
-    parameter_configurations ||--o{ parameter_configuration_products : "includes"
-    parameter_configuration_products }o--|| products : "configures"
-    parameter_configuration_products ||--o{ parameter_configuration_attributes : "has attributes"
-    parameter_configuration_attributes }o--|| product_attributes : "configures"
-
-    %% Speckle Data
-    speckle_projects ||--o{ speckle_branches : "contains"
-    speckle_branches ||--o{ speckle_commits : "has"
-
-    %% Commits
-    parameter_configurations ||--o{ commits : "generates"
-    commits ||--|| speckle_commits : "links to"
-
-    %% Manufacturer Metadata
-    manufacturers ||--o{ products : "offers"
-    products ||--o{ product_attributes : "has"
-
-    %% Existing Entities
+%% Users and Projects
+    users ||--o{ projects: "owns"
+    users ||--o{ parameter_configurations: "creates"
+    users ||--o{ user_interactions: "performs"
+    projects ||--o{ parameter_configurations: "has"
+    projects ||--o{ speckle_projects: "linked to"
+    projects ||--o{ user_interactions: "involves"
+%% Parameter Configurations and Products
+    parameter_configurations ||--o{ parameter_configuration_products: "includes"
+    parameter_configuration_products }o--|| products: "configures"
+    parameter_configuration_products ||--o{ parameter_configuration_attributes: "has attributes"
+    parameter_configuration_attributes }o--|| product_attributes: "configures"
+%% Speckle Data
+    speckle_projects ||--o{ speckle_branches: "contains"
+    speckle_branches ||--o{ speckle_commits: "has"
+%% Commits
+    parameter_configurations ||--o{ commits: "generates"
+    commits ||--|| speckle_commits: "links to"
+%% Manufacturer Metadata
+    manufacturers ||--o{ products: "offers"
+    products ||--o{ product_attributes: "has"
+%% Existing Entities
     users {
         int user_id PK
         varchar first_name
@@ -394,11 +393,10 @@ erDiagram
         text description
     }
 
-    %% Existing Relationships
-    products ||--o{ product_attributes : "has"
-    project_elements ||--|| products : "uses"
-
-    %% Connecting Products to Project Elements
+%% Existing Relationships
+    products ||--o{ product_attributes: "has"
+    project_elements ||--|| products: "uses"
+%% Connecting Products to Project Elements
     project_elements {
         int element_id PK
         int project_id FK
@@ -411,6 +409,7 @@ erDiagram
     }
 
 ```
+
 *Diagram 3: Database structure proposal for the project.*
 
 > [!NOTE]
