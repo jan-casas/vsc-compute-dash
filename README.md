@@ -108,7 +108,7 @@ In this diagram:
 ## Project Structure
 
 The project is composed of two Docker containers: one for the Node.js project (Rhino Compute server)
-and one for the Python project (Dash application) https://dash.plotly.com/. Both containers
+and one for the Python project [DASH](https://dash.plotly.com/) web application . Both containers
 communicate within the same
 network.
 
@@ -189,9 +189,12 @@ over 2400 RhinoCommon API calls, including unique functions like closest point a
 calculations. The solution supports integration with Rhino/Grasshopper plugins and allows
 serialization of operations through `Grasshopper or Python scripts`. Additionally, client libraries
 are available for use in standalone applications built in C# (.NET), Python, and
-JavaScript. https://github.com/mcneel/compute.rhino3d.appserver
+JavaScript.
 
-The script hosted in the appserver repository has unique input and output characteristics. Both use
+The script hosted in
+the [compute.rhino3d.appserver](https://github.com/mcneel/compute.rhino3d.appserver) repository has
+unique input and output
+characteristics. Both use
 Speckle components to read and send working versions. The key components are:
 
 - Read Component: Retrieves geometry from the Speckle server.
@@ -209,11 +212,12 @@ surface, tridimensional constructive system).*
 
 ### Speckle Systems
 
-Speckle provides a `version control system` for all baked geometry and is useful for managing
+[Speckle](https://speckle.systems/) provides a `version control system` for all baked geometry and
+is useful for managing
 geometry, associated data and
 their
-variations. The Speckle iframe is used to display geometry and its variations in the Python project,
-with the Python container connected to the Speckle server https://speckle.systems/.
+variations. The Speckle iframe is used to display geometry and its variations in the Python
+project.
 
 - **Geometry**: Created by Grasshopper and Rhino Compute.
 - **System Parts**: Components associated with the geometry.
@@ -222,7 +226,8 @@ with the Python container connected to the Speckle server https://speckle.system
 
 Further Steps:
 
-- Resolve the Speckle read component failure in Grasshopper and add the ability to select branches.
+- Resolve the Speckle read component failure in Grasshopper.
+- [Deploy the Speckle Server](https://speckle.guide/dev/server-manual-setup.html)
 
 ```mermaid
 graph LR
@@ -464,7 +469,7 @@ erDiagram
     }
 ```
 
-*Diagram 3: Proposed database structure for the project to enable faster and more scalable data 
+*Diagram 3: Proposed database structure for the project to enable faster and more scalable data
 ingestion.*
 
 In this diagram:
