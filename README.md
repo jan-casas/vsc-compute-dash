@@ -464,11 +464,45 @@ erDiagram
     }
 ```
 
-*Diagram 3: Proposed database structure for the project. The database must manage users, projects
-within Speckle (including models and commits), manufacturer data (linked to each construction
-system), and all user interactions within the platform. The goal of this schema is to generalize the
-tables to enable faster and more scalable data ingestion.*
+*Diagram 3: Proposed database structure for the project to enable faster and more scalable data 
+ingestion.*
 
+In this diagram:
+
+- **Users and Projects**:
+    - `users` represents platform users, storing personal and account-related information.
+    - `projects` represents user-created projects, including project details and descriptions.
+    - `user_interactions` records interactions between users and platform elements, such as projects
+      or parameter configurations.
+
+- **Parameter Configurations and Products**:
+    - `parameter_configurations` stores configurations of parameters for products within projects.
+    - `parameter_configuration_products` links parameter configurations to specific product
+      variants.
+    - `parameter_configuration_attributes` represents selected attributes for a product in a
+      configuration.
+    - `products` represents the catalog of products offered by manufacturers.
+    - `product_variants` represents different variants of a product, defined by attributes like
+      color, finish, etc.
+    - `product_attributes` defines specific attributes for products, such as features or
+      specifications.
+
+- **Product Metadata**:
+    - `series` represents a grouping of products under a specific manufacturer series.
+    - `colors`, `finishes`, `thicknesses`, `applications`, `systems` define different attributes,
+      capturing variations offered by manufacturers.
+
+- **Commits and Speckle Data**:
+    - `commits` tracks changes made to parameter configurations, linking them to Speckle commits.
+    - `speckle_projects` links internal projects to their representation in Speckle, containing
+      metadata.
+    - `speckle_branches` represents branches within a Speckle project.
+    - `speckle_commits` represents commits within a Speckle branch, tracking changes in data.
+
+- **Manufacturers and Elements**:
+    - `manufacturers` represents companies offering products within the platform.
+    - `project_elements` links specific elements of a project to products used, including quantities
+      and details.
 
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
