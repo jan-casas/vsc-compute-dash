@@ -262,7 +262,9 @@ In this diagram:
 
 ### Relational Database
 
-This project uses `PostgreSQL` as the primary database systems to store and manage
+This project uses `PostgreSQL` as the primary database systems to reflect the business logic
+of the project. It stores and
+manages
 construction related data, users and interactions.
 
 - **Storing Geometry Data**: PostgreSQL stores geometry created by Rhino Compute, with each geometry
