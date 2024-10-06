@@ -157,11 +157,11 @@ In detail:
   managing construction model data, processing commits, and integrating version control features
   into project workflows.
 
-> [!IMPORTANT]  
-> The project is only tested on a local machine and is not yet deployed to a production server.
-> The aim is to deploy the project (Speckle Server, Rhino Compute) to a
-> Windows VM
-> server in the future.
+> [!IMPORTANT]
+> The aim of this project is developing a minimum viable product (MVP) to test the interaction
+> and the link with the Business Intelligence (BI) of the manufacturers.
+> The project is only tested on a local machine and is not yet deployed to a production server
+> (Speckle Server, Rhino Compute).
 
 ### User Interface Overview
 
