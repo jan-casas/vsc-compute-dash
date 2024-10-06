@@ -263,6 +263,35 @@ Further Steps:
 
 ```mermaid
 erDiagram
+
+    %% Users and Projects
+    users ||--o{ projects : "owns"
+    users ||--o{ parameter_configurations : "creates"
+    users ||--o{ user_interactions : "performs"
+
+    projects ||--o{ parameter_configurations : "has"
+    projects ||--o{ speckle_projects : "linked to"
+    projects ||--o{ user_interactions : "involves"
+
+    %% Parameter Configurations and Products
+    parameter_configurations ||--o{ parameter_configuration_products : "includes"
+    parameter_configuration_products }o--|| products : "configures"
+    parameter_configuration_products ||--o{ parameter_configuration_attributes : "has attributes"
+    parameter_configuration_attributes }o--|| product_attributes : "configures"
+
+    %% Speckle Data
+    speckle_projects ||--o{ speckle_branches : "contains"
+    speckle_branches ||--o{ speckle_commits : "has"
+
+    %% Commits
+    parameter_configurations ||--o{ commits : "generates"
+    commits ||--|| speckle_commits : "links to"
+
+    %% Manufacturer Metadata
+    manufacturers ||--o{ products : "offers"
+    products ||--o{ product_attributes : "has"
+
+    %% Existing Entities
     users {
         int user_id PK
         varchar first_name
@@ -275,7 +304,6 @@ erDiagram
 
     projects {
         int project_id PK
-        varchar speckle_project_id
         int user_id FK
         varchar project_name
         text project_description
@@ -283,99 +311,104 @@ erDiagram
         date updated_at
     }
 
+    parameter_configurations {
+        int parameter_configuration_id PK
+        int user_id FK
+        int project_id FK
+        date created_at
+        date updated_at
+    }
+
+    parameter_configuration_products {
+        int parameter_configuration_product_id PK
+        int parameter_configuration_id FK
+        int product_id FK
+    }
+
+    parameter_configuration_attributes {
+        int parameter_configuration_attribute_id PK
+        int parameter_configuration_product_id FK
+        int product_attribute_id FK
+        varchar selected_value
+    }
+
+    product_attributes {
+        int product_attribute_id PK
+        int product_id FK
+        varchar attribute_name
+    }
+
+    products {
+        int product_id PK
+        int manufacturer_id FK
+        varchar product_name
+        text product_description
+    }
+
+    commits {
+        int commit_id PK
+        int parameter_configuration_id FK
+        int speckle_commit_id FK
+        varchar message
+        date created_at
+        date updated_at
+    }
+
+    user_interactions {
+        int interaction_id PK
+        int user_id FK
+        int project_id FK
+        int parameter_configuration_id FK
+        date interaction_time
+    }
+
+    speckle_projects {
+        int speckle_project_id PK
+        int project_id FK
+        varchar name
+        date created_at
+        date updated_at
+    }
+
+    speckle_branches {
+        int speckle_branch_id PK
+        int speckle_project_id FK
+        varchar name
+        text description
+        date created_at
+        date updated_at
+    }
+
+    speckle_commits {
+        int speckle_commit_id PK
+        int speckle_branch_id FK
+        varchar message
+        text data
+        date created_at
+        date updated_at
+    }
+
+    manufacturers {
+        int manufacturer_id PK
+        varchar name
+        text description
+    }
+
+    %% Existing Relationships
+    products ||--o{ product_attributes : "has"
+    project_elements ||--|| products : "uses"
+
+    %% Connecting Products to Project Elements
     project_elements {
         int element_id PK
         int project_id FK
-        int series_id FK
-        int color_id FK
-        int finish_id FK
-        int thickness_id FK
-        int system_id FK
-        int application_id FK
+        int product_id FK
         int quantity
         varchar element_name
         text element_description
         date created_at
         date updated_at
     }
-
-    series {
-        int series_id PK
-        varchar series_name
-        text description
-    }
-
-    colors {
-        int color_id PK
-        int series_id FK
-        varchar color_name
-    }
-
-    finishes {
-        int finish_id PK
-        varchar finish_name
-    }
-
-    thicknesses {
-        int thickness_id PK
-        varchar thickness_name
-        decimal thickness_value
-    }
-
-    applications {
-        int application_id PK
-        varchar application_name
-    }
-
-    systems {
-        int system_id PK
-        varchar system_name
-        text description
-    }
-
-    %% New Entities for Iterations and Parameters
-    project_iterations {
-        int iteration_id PK
-        int project_id FK
-        int iteration_number
-        date start_date
-        date end_date
-        varchar status
-    }
-
-    parameters {
-        int parameter_id PK
-        varchar parameter_name
-        text parameter_description
-    }
-
-    iteration_parameters {
-        int iteration_parameter_id PK
-        int iteration_id FK
-        int parameter_id FK
-        decimal value
-    }
-
-    %% Relationships
-    users ||--o{ projects : "has"
-    projects ||--o{ project_elements : "contains"
-    project_elements ||..|| series : "uses"
-    project_elements ||..|| colors : "uses"
-    project_elements ||..|| finishes : "uses"
-    project_elements ||..|| thicknesses : "uses"
-    project_elements ||..|| systems : "uses"
-    project_elements ||..|| applications : "applies to"
-    series ||--o{ colors : "has"
-    series ||--o{ series_finishes : "has"
-    series_finishes }o--|| finishes : "includes"
-    thicknesses ||--o{ thickness_applications : "applies to"
-    thickness_applications }o--|| applications : "includes"
-    systems ||--o{ system_features : "has"
-
-    %% Relationships for Iterations and Parameters
-    projects ||--o{ project_iterations : "has iterations"
-    project_iterations ||--o{ iteration_parameters : "records"
-    iteration_parameters ||--|| parameters : "defines"
 
 ```
 *Diagram 3: Database structure proposal for the project.*
