@@ -200,11 +200,11 @@ Speckle components to read and send working versions. The key components are:
 - Visualize Component: Displays geometry in the appserver.
 
 ![Dolcker Constructive System](src/static/assets/viewport2.png)
-*Figure 2: Visualization of the Dolcker Constructive System in the application (view from the 
+*Figure 2: Visualization of the Dolcker Constructive System in the application (view from the
 wall to the outside -insulation, angular, t vertical profile, dolcker horizontal profile, panel-).*
 
 ![Grasshopper Script](src/static/assets/gh_def2.png)
-*Figure 3: Grashopper Script used inside the Appserver repository (profile definition, input 
+*Figure 3: Grashopper Script used inside the Appserver repository (profile definition, input
 surface, tridimensional constructive system).*
 
 ### Speckle Systems
@@ -223,6 +223,8 @@ with the Python container connected to the Speckle server https://speckle.system
 Further Steps:
 
 - Resolve the Speckle read component failure in Grasshopper and add the ability to select branches.
+
+<iframe title="Speckle" src="https://app.speckle.systems/projects/013613abb4/models/df7967e0d3#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%7D" width="600" height="400" frameborder="0"></iframe>
 
 ```mermaid
 graph LR
@@ -413,6 +415,7 @@ erDiagram
 ```
 
 *Diagram 3: Database structure proposal for the project.*
+
 
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
