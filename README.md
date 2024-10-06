@@ -199,7 +199,7 @@ Speckle components to read and send working versions. The key components are:
 - Send Component: Sends geometry to the Speckle server.
 - Visualize Component: Displays geometry in the appserver.
 
-![Dolcker Constructive System](src/static/assets/viewport.png)
+![Dolcker Constructive System](src/static/assets/viewport2.png)
 *Figure 2: Visualization of the Dolcker Constructive System in the application.*
 
 ![Grasshopper Script](src/static/assets/gh_def2.png)
