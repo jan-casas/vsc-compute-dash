@@ -494,9 +494,8 @@ In this diagram:
 
 - **Commits and Speckle Data**:
     - `commits` tracks changes made to parameter configurations, linking them to Speckle commits.
-    - `speckle_projects` links internal projects to their representation in Speckle, containing
+    - `speckle_models` links internal projects to their representation in Speckle, containing
       metadata.
-    - `speckle_branches` represents branches within a Speckle project.
     - `speckle_commits` represents commits within a Speckle branch, tracking changes in data.
 
 - **Manufacturers and Elements**:
