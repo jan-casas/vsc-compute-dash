@@ -166,6 +166,16 @@ In detail:
 > The project is only tested on a local machine and is not yet deployed to a production server
 > (Speckle Server, Rhino Compute).
 
+
+### Input Data
+
+The input data for the project consists of a surface representing the facade of a building. This 
+is a black ceramic with vertical textures. I need to adapt the default Dolcker & Clip system to 
+mimic the facade's texture and color.
+
+![Seductive facade reference](src/static/assets/test1.png)
+*Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system.*
+
 ### User Interface Overview
 
 The user interface consists of three primary sections: the landing page and two side panels.
