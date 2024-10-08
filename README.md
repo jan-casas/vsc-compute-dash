@@ -167,11 +167,10 @@ In detail:
 > The project is only tested on a local machine and is not yet deployed to a production server
 > (Speckle Server, Rhino Compute).
 
-
 ### Input Data
 
-The input data for the project consists of a surface representing the facade of a building. This 
-is a black ceramic with vertical textures. I need to adapt the default Dolcker & Clip system to 
+The input data for the project consists of a surface representing the facade of a building. This
+is a black ceramic with vertical textures. I need to adapt the default Dolcker & Clip system to
 mimic the facade's texture and color.
 
 <div style="display: flex; justify-content: space-around;">
@@ -179,12 +178,12 @@ mimic the facade's texture and color.
   <img src="src/static/assets/test1.png" alt="Another facade reference" style="width: 49%;">
 </div>
 
-*Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the 
+*Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
 model image.*
 
 ### User Interface Overview
 
-The main focus of this repository is to provide a user-friendly interface for architects to 
+The main focus of this repository is to provide a user-friendly interface for architects to
 import their facade designs and test with the manufacturers' systems.
 The user interface consists of three primary sections: the landing page and two side panels.
 
@@ -291,8 +290,6 @@ the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d91
 ![Compute Version Control](src/static/assets/readme.png)
 *Figure 4: Input model from Grasshopper into the Speckle Server using the connectors.*
 
-
-
 ### Relational Database
 
 This project uses `PostgreSQL` as the primary database systems to reflect the business logic
@@ -313,6 +310,9 @@ Further Steps:
   lifecycle data, enabling material tracking throughout the project lifecycle.
 - **Storing User Data**: Stores user information, tracking project ownership and parameter
   variations.
+
+<details>
+<summary>WIP Database Proposal</summary>
 
 ```mermaid
 erDiagram
@@ -549,6 +549,7 @@ In this diagram:
     - `project_elements` links specific elements of a project to products used, including quantities
       and details.
 
+</details>
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
 > The current local database is run locally in a SQLite3 file with only one table containing the
