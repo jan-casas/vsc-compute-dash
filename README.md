@@ -12,7 +12,8 @@ information** about the use of their products and customer needs._
 
 
 
-<img src="src/static/assets/compute_vsc.gif" alt="Compute Version Control" style="width: 100%;">
+https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
+
 
 *Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
 to interact with.*
