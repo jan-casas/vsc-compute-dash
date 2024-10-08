@@ -208,13 +208,6 @@ various objects like points, curves, surfaces, meshes, and solids. The solution 
 with Rhino/Grasshopper plugins and allows
 serialization of operations through `Grasshopper or Python scripts`.
 
-> [!IMPORTANT]
-> **Parametric VS Block**: The definition of the geometrical logic of the systems allow us not just
-> place a
-> block of equal
-> characteristics in different positions but to generate the informate system based on the
-> input geometrical constraints.
-
 The script hosted in
 the [compute.rhino3d.appserver](https://github.com/mcneel/compute.rhino3d.appserver) repository has
 unique input and output
@@ -235,6 +228,13 @@ wall to the outside -insulation, angular, t vertical profile, dolcker horizontal
 
 *Figure 3: Grashopper Script used inside the Appserver repository (profile definition, input
 surface, tridimensional constructive system).*
+
+
+
+> [!NOTE]
+> **Parametric vs. Block**: Defining the geometrical logic of the systems allows not only the
+> placement of identical blocks in different positions, but also the creation of an informed system
+> based on input geometrical constraints.
 
 ### Speckle Systems
 
