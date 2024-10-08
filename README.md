@@ -209,8 +209,10 @@ with Rhino/Grasshopper plugins and allows
 serialization of operations through `Grasshopper or Python scripts`.
 
 > [!IMPORTANT]
-> The definition of the geometrical logic of the systems allow us not just place a block of equal
-> characteristics in the same position but to generate the informate system based on the
+> **Parametric VS Block**: The definition of the geometrical logic of the systems allow us not just
+> place a
+> block of equal
+> characteristics in different positions but to generate the informate system based on the
 > input geometrical constraints.
 
 The script hosted in
