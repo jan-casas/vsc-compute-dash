@@ -550,6 +550,7 @@ In this diagram:
       and details.
 
 </details>
+
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
 > The current local database is run locally in a SQLite3 file with only one table containing the
