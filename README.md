@@ -112,6 +112,7 @@ and one for the Python project [DASH](https://dash.plotly.com/) web application 
 communicate within the same
 network.
 
+- **Grasshopper Project**: The main tool for creating the geometry and the logic of the building.
 - **Node.js Project**: Rhino Compute server, responsible for generating geometry
   data.
 - **Python Project**: Dash application that interacts with the Node.js project, providing a user
@@ -173,11 +174,18 @@ The input data for the project consists of a surface representing the facade of 
 is a black ceramic with vertical textures. I need to adapt the default Dolcker & Clip system to 
 mimic the facade's texture and color.
 
-![Seductive facade reference](src/static/assets/test1.png)
-*Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system.*
+<div style="display: flex; justify-content: space-around;">
+  <img src="src/static/assets/test1.png" alt="Seductive facade reference" style="width: 49%;">
+  <img src="src/static/assets/test1.png" alt="Another facade reference" style="width: 49%;">
+</div>
+
+*Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the 
+model image.*
 
 ### User Interface Overview
 
+The main focus of this repository is to provide a user-friendly interface for architects to 
+import their facade designs and test with the manufacturers' systems.
 The user interface consists of three primary sections: the landing page and two side panels.
 
 - **Landing Page**: Features a split-screen view showcasing the model stored in Speckle alongside
