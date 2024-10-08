@@ -273,6 +273,10 @@ the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d91
 ![Compute Version Control](src/static/assets/readme.png)
 *Figure 4: Input model from Grasshopper into the Speckle Server using the connectors.*
 
+![Compute Version Control](src/static/assets/gh_def_tower.png)
+*Figure 5: Configuration of Speckle logic inside the script.*
+
+
 ### Relational Database
 
 This project uses `PostgreSQL` as the primary database systems to reflect the business logic
