@@ -204,12 +204,14 @@ The user interface consists of three primary sections: the landing page and two 
 ### Rhino Compute
 
 This service provides a cloud-based, `stateless REST API` for performing geometry calculations on
-various objects like points, curves, surfaces, meshes, and solids. It offers extensive access to
-over 2400 RhinoCommon API calls, including unique functions like closest point and intersection
-calculations. The solution supports integration with Rhino/Grasshopper plugins and allows
-serialization of operations through `Grasshopper or Python scripts`. Additionally, client libraries
-are available for use in standalone applications built in C# (.NET), Python, and
-JavaScript.
+various objects like points, curves, surfaces, meshes, and solids. The solution supports integration
+with Rhino/Grasshopper plugins and allows
+serialization of operations through `Grasshopper or Python scripts`.
+
+> [!IMPORTANT]
+> The definition of the geometrical logic of the systems allow us not just place a block of equal
+> characteristics in the same position but to generate the informate system based on the
+> input geometrical constraints.
 
 The script hosted in
 the [compute.rhino3d.appserver](https://github.com/mcneel/compute.rhino3d.appserver) repository has
