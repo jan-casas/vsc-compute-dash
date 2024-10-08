@@ -137,6 +137,7 @@ vsc-compute-dash
     └── core_callbacks.py
 ├── compute.db
 ├── Dockerfile
+├── building.gh
 ├── main.py
 ├── README.md
 └── requirements.txt
@@ -263,6 +264,14 @@ In this diagram:
 - `PART_DATA` represents the data associated with each part of the system.
 - `SPECKLE` represents the Speckle component that stores the transformed surface, the system parts,
   and the part data.
+
+The input data is a surface that represents the facade of a building. The output data is a 3D
+model of the facade with the Dolcker & Clip system applied. The **Rhino/Grasshopper connectors** by
+Speckle are used to read and send the geometry data to
+the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d916b252e).
+
+![Compute Version Control](src/static/assets/readme.png)
+*Figure 4: Input model from Grasshopper into the Speckle Server using the connectors.*
 
 ### Relational Database
 
