@@ -175,7 +175,7 @@ mimic the facade's texture and color.
 
 <div style="display: flex; justify-content: space-around;">
   <img src="src/static/assets/test1.png" alt="Seductive facade reference" style="width: 49%;">
-  <img src="src/static/assets/test1.png" alt="Another facade reference" style="width: 49%;">
+  <img src="src/static/assets/front_gh2.jpg" alt="Another facade reference" style="width: 49%;">
 </div>
 
 *Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
