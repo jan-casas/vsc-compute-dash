@@ -9,15 +9,11 @@ manufacturers' constructive solutions, from the web into any of their tools**. A
 manufacturers will be able to **obtain
 information** about the use of their products and customer needs._
 
-[//]: # (<video width="100%" controls>)
 
-[//]: # (  <source src="src/static/assets/compute_vsc.mp4" type="video/mp4">)
 
-[//]: # (  Your browser does not support the video tag.)
 
-[//]: # (</video>)
+<img src="src/static/assets/compute_vsc.gif" alt="Compute Version Control" style="width: 100%;">
 
-![Compute Version Control](src/static/assets/readme.png)
 *Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
 to interact with.*
 
