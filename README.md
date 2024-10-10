@@ -9,11 +9,7 @@ manufacturers' constructive solutions, from the web into any of their tools**. A
 manufacturers will be able to **obtain
 information** about the use of their products and customer needs._
 
-
-
-
 https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
-
 
 *Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
 to interact with.*
@@ -171,8 +167,8 @@ is a black ceramic with vertical textures. I need to adapt the default Dolcker &
 mimic the facade's texture and color.
 
 <div style="display: flex; justify-content: space-around;">
-  <img src="src/static/assets/test1.png" alt="Seductive facade reference" style="width: 49%;">
-  <img src="src/static/assets/front_gh2.jpg" alt="Another facade reference" style="width: 49%;">
+  <img src="src/static/assets/facade.png" alt="Seductive facade reference" style="width: 49%;">
+  <img src="src/static/assets/facade.png" alt="Another facade reference" style="width: 49%;">
 </div>
 
 *Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
@@ -560,16 +556,24 @@ In this diagram:
 ## Conclusion
 
 `Compute Version Control` is a **work in progress** that offers a powerful solution for managing and
-validating
-design
-proposals,
-enhancing the efficiency and accuracy of the design process. By leveraging the combined capabilities
-of Rhino Compute, Speckle, and PostgreSQL, the system provides a **comprehensive approach to version
-control and systems data on testing iteration** project designs. The main focus areas for the near
-future are:
+validating design proposals, enhancing the efficiency and accuracy of the design process. By
+leveraging the combined capabilities of Rhino Compute, Speckle, and PostgreSQL, the system provides
+a **comprehensive approach to version control and data management for iterative project designs**.
+The main focus areas for the near future are:
 
-- **Ease of Use**: Improve the user interface for a more intuitive and user-friendly experience.
-  Users can simply select the manufacturer and system they wish to test, run the computation, and
-  load the results into their preferred tool.
-- **Business Intelligence**: Create advanced analytics and reporting features to provide
+### Next Steps
+
+- **Ease of Use**: Enhance the user interface to create a more intuitive and user-friendly
+  experience. Users will be able to select the manufacturer and system they wish to test, run
+  computations, and effortlessly load the results into their preferred tools.
+- **Business Intelligence**: Develop advanced analytics and reporting features to provide
   manufacturers with valuable insights.
+
+### Main Concerns
+
+- **Deployment**: Deploy the system to a production server to enable real-time testing and
+  collaboration.
+- **Performance**: Optimize the system for faster computation and data retrieval, ensuring a
+  seamless user experience.
+- **Scalability**: Improve the system's scalability to accommodate a growing user base and
+  increasing data volumes.
