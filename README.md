@@ -166,10 +166,11 @@ The input data for the project consists of a surface representing the facade of 
 is a black ceramic with vertical textures. I need to adapt the default Dolcker & Clip system to
 mimic the facade's texture and color.
 
-<div style="display: inline-block; justify-content: space-around;">
-  <img src="src/static/assets/facade2.png" alt="Seductive facade reference" style="width: 49%;">
-  <img src="src/static/assets/facade-test.gif" alt="Model facade" style="width: 49%;">
-</div>
+<p align="center">
+  <img src="src/static/assets/facade2.png" alt="Seductive facade reference" width="49%"/>
+  <img src="src/static/assets/facade-test.gif" alt="Model facade" width="49%"/>
+</p>
+
 
 
 *Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
