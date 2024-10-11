@@ -168,7 +168,7 @@ mimic the facade's texture and color.
 
 <div style="display: flex; justify-content: space-around;">
   <img src="src/static/assets/facade.png" alt="Seductive facade reference" style="width: 49%;">
-  <img src="src/static/assets/front_gh3.jpg" alt="Another facade reference" style="width: 49%;">
+  <img src="src/static/assets/speckle.png" alt="Another facade reference" style="width: 49%;">
 </div>
 
 TODO: ADD GIF TOP/BOTTOM 360 OF THE SURFACE MODEL
