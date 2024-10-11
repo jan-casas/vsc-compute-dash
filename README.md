@@ -171,7 +171,6 @@ mimic the facade's texture and color.
   <img src="src/static/assets/speckle.png" alt="Another facade reference" style="width: 49%;">
 </div>
 
-TODO: ADD GIF TOP/BOTTOM 360 OF THE SURFACE MODEL
 
 *Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
 model image.*
