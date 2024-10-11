@@ -1,4 +1,4 @@
-# Unlocking Business Intelligence for Manufacturers with Compute Version Control
+# Unlocking Business Intelligence for AEC Manufacturers with Compute Version Control
 
 _In the Architecture, Engineering, and Construction (AEC) sector, there is a lack of flexibility
 present in disciplines such as software development, where specific libraries can be easily imported
