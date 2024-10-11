@@ -171,6 +171,8 @@ mimic the facade's texture and color.
   <img src="src/static/assets/front_gh3.jpg" alt="Another facade reference" style="width: 49%;">
 </div>
 
+TODO: ADD GIF TOP/BOTTOM 360 OF THE SURFACE MODEL
+
 *Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
 model image.*
 
@@ -308,8 +310,9 @@ Further Steps:
 - **Storing User Data**: Stores user information, tracking project ownership and parameter
   variations.
 
-<details>
-<summary>WIP Database Proposal</summary>
+[//]: # (<details>)
+
+[//]: # (<summary>WIP Database Proposal</summary>)
 
 ```mermaid
 erDiagram
@@ -546,7 +549,7 @@ In this diagram:
     - `project_elements` links specific elements of a project to products used, including quantities
       and details.
 
-</details>
+[//]: # (</details>)
 
 > [!NOTE]
 > The database structure is currently in development and will be updated in future iterations.
