@@ -167,7 +167,7 @@ is a black ceramic with vertical textures. I need to adapt the default Dolcker &
 mimic the facade's texture and color.
 
 <div style="display: inline-block; justify-content: space-around;">
-  <img src="src/static/assets/facade.png" alt="Seductive facade reference" style="width: 49%;">
+  <img src="src/static/assets/facade2.png" alt="Seductive facade reference" style="width: 49%;">
   <img src="src/static/assets/facade-test.gif" alt="Model facade" style="width: 49%;">
 </div>
 
