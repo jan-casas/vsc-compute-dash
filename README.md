@@ -21,20 +21,32 @@ to interact with.*
 
 ### Table of Contents
 
-- [Overview](#overview): Summary of the project's objectives and benefits.
-- [Benefits and Business Intelligence](#benefits-and-business-intelligence): Explanation of the
-  benefits and business intelligence insights provided by the system.
-- [Architecture Approach](#architecture-approach): Overview of the system's architecture and
-  components.
-- [Project Structure](#project-structure): Organization of the project, including main files,
-  languages, and frameworks.
-- [Rhino Compute](#rhino-compute): Explanation of the Rhino Compute service and its role in
-  generating geometry data.
-- [Speckle Systems](#speckle-systems): Explanation of the Speckle system and its role in managing
-  geometry data.
-- [Database Configuration](#database-configuration): Details on the database configuration and its
-  role in storing and managing construction project data.
-- [Conclusion](#conclusion): Summary of the project's objectives and benefits.
+- [Overview](#overview): Provides an overview of the project, including the problem statement, key
+  features, and software architecture proposal.
+    - [Problem Statement](#problem-statement): Outlines the challenges faced by the AEC industry and
+      the need for enhanced design validation and collaboration.
+    - [Business Intelligence](#business-intelligence): Describes the benefits of the proposed
+      solution, including improved decision-making and data-driven insights.
+    - [Software Architecture Proposal](#software-architecture-proposal): Details the proposed
+      architecture leveraging Rhino Compute, Speckle, and a relational database.
+- [Project Structure](#project-structure): Describes the project structure, including the main
+  components and input data.
+    - [Input Data](#input-data): Explains the input data for the project, focusing on a surface
+      representing the facade of a building.
+    - [User Interface](#user-interface): Describes the user interface components, including the
+      landing page and side panels.
+- [Main Systems](#main-systems): Details the main systems used in the project, including Rhino
+  Compute, Speckle, and the relational database.
+    - [Rhino Compute](#rhino-compute): Explains the role of Rhino Compute in generating geometry
+      data based on manufacturer constraints.
+    - [Speckle Systems](#speckle-systems): Describes how Speckle manages geometry data, variations,
+      and metadata for version control.
+    - [Relational Database](#relational-database): Outlines the role of the relational database in
+      storing geometry data, parameter variations, and constructive system data.
+- [Conclusion](#conclusion): Summarizes the key features and benefits of Compute Version Control and
+  outlines the next steps for the project.
+    - [Next Steps](#next-steps): Highlights the future development areas for the project, including
+      ease of use, business intelligence, deployment, performance, and scalability.
 
 ## Overview
 
