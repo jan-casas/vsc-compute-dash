@@ -31,55 +31,42 @@ to interact with.*
 
 ## Overview
 
-`Compute Version Control` (VSC) is an innovative tool designed to enhance flexibility in the
-Architecture, Engineering, and Construction (AEC) sector by enabling architects and computational
-designers to quickly test parametric manufacturers' constructive solutions directly from the web
-into their preferred tools. By integrating manufacturer-provided constraints, VSC validates design
-proposals and provides essential information on key indicators such as cost, material
-specifications, geometrical constraints, and lifecycle data. This allows for informed
-decision-making and ensures compliance with industry standards and regulations.
+**Compute Version Control (VSC)** is an innovative tool that enhances flexibility in the
+Architecture, Engineering, and Construction (AEC) sector. It allows architects and designers to
+quickly test parametric manufacturer solutions directly within their preferred tools. By integrating
+manufacturer-provided constraints, VSC validates design proposals and delivers essential information
+on cost, material specifications, geometrical constraints, and lifecycle data. This enables informed
+decision-making and ensures compliance with industry standards.
 
-In addition to benefiting designers, VSC offers manufacturers valuable `business intelligence` by
-providing insights into the usage of their products and customer needs. The system leverages Rhino
-Compute for geometry generation, Speckle for version control and data management, and a relational
-database for storing and associating geometry with lifecycle data. This integrated approach
-streamlines workflows, reduces manual effort, and enhances the efficiency and accuracy of the design
-process, ultimately contributing to more sustainable and cost-effective construction solutions in
-the AEC industry.
+VSC also provides manufacturers with valuable business intelligence by offering insights into how
+their products are used and understanding customer needs. The system leverages Rhino Compute for
+geometry generation, Speckle for version control and data management, and a relational database for
+associating geometry with lifecycle data. This integrated approach streamlines workflows, enhances
+efficiency, and contributes to more sustainable and cost-effective construction solutions in the AEC
+industry.
 
 ### Benefits and Business Intelligence
 
-This system offers several benefits and unlocks numerous possibilities from a
-`business intelligence`
-perspective:
-
-- **Enhanced Decision-Making**: Detailed insights into the lifecycle of materials and their
-  associated data allow businesses to make informed decisions regarding material selection and
-  project planning.
-- **Improved Compliance**: Ensures that all design proposals adhere to manufacturer-provided
-  constraints, improving compliance with industry standards and regulations.
-- **Data-Driven Insights**: Integration with Relational Databases and Speckle provides robust data
-  management
-  and retrieval, enabling businesses to gain valuable insights from project interactions.
-- **Streamlined Workflow**: Automates validation and management of design proposals, reducing manual
-  effort and increasing efficiency.
-- **Scalability**: The modular architecture allows for easy scalability to accommodate growing
-  business needs.
+- **Enhanced Decision-Making**: Access to detailed material lifecycle data allows for better
+  material selection and project planning.
+- **Improved Compliance**: Ensures designs meet manufacturer constraints and industry regulations.
+- **Data-Driven Insights**: Robust data management enables valuable insights from project
+  interactions.
+- **Streamlined Workflow**: Automates design validation and management, reducing manual effort.
+- **Scalability**: Modular architecture easily scales with growing business needs.
 
 ### Architecture Approach
 
-The application consists of three primary components:
+The application comprises three main components:
 
-1. **Rhino Compute**: Handles predefined manufactured systems. It generates constructive solutions,
-   such as creating glass facades from provided input surfaces.
-2. **Speckle**: A data repository model that provides storage for baked geometry. Speckle is
-   particularly useful for managing geometry IDs, variations, and provides tools for filtering and
-   differentiation.
-3. **Relational Database**: Associates geometry IDs with lifecycle data, providing efficient data
-   tracking and retrieval.
+1. **Rhino Compute**: Generates constructive solutions by handling predefined manufactured systems.
+2. **Speckle**: Acts as a data repository for storing geometry, managing IDs, variations, and
+   providing filtering tools.
+3. **Relational Database**: Associates geometry IDs with lifecycle data for efficient tracking and
+   retrieval.
 
-This project delivers a robust solution for managing and validating design proposals, enhancing
-accuracy and efficiency by leveraging manufacturer-provided constraints.
+This robust solution enhances accuracy and efficiency in managing and validating design proposals by
+leveraging manufacturer-provided constraints.
 
 ```mermaid
 graph LR
