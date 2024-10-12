@@ -20,6 +20,25 @@ https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
 *Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
 to interact with.*
 
+### Table of Contents
+
+- [Overview](#overview): Summary of the project's objectives and benefits.
+- [Benefits and Business Intelligence](#benefits-and-business-intelligence): Explanation of the
+  benefits and business intelligence insights provided by the system.
+- [Architecture Approach](#architecture-approach): Overview of the system's architecture and
+  components.
+- [Project Structure](#project-structure): Organization of the project, including main files,
+  languages, and frameworks.
+- [Rhino Compute](#rhino-compute): Explanation of the Rhino Compute service and its role in
+  generating geometry data.
+- [Speckle Systems](#speckle-systems): Explanation of the Speckle system and its role in managing
+  geometry data.
+- [Database Configuration](#database-configuration): Details on the database configuration and its
+  role in storing and managing construction project data.
+- [Conclusion](#conclusion): Summary of the project's objectives and benefits.
+
+  
+## Overview
 ### Business Intelligence
 
 - **Enhanced Decision-Making**: Access to detailed material lifecycle data allows for better
@@ -68,22 +87,6 @@ In this diagram:
 - `POSTGRESQL_DATABASE`: Associates geometry with lifecycle data.
 - `MATERIAL_LIFECYCLE_DATA`: Represents the lifecycle information of each material.
 
-### Table of Contents
-
-- [Overview](#overview): Summary of the project's objectives and benefits.
-- [Benefits and Business Intelligence](#benefits-and-business-intelligence): Explanation of the
-  benefits and business intelligence insights provided by the system.
-- [Architecture Approach](#architecture-approach): Overview of the system's architecture and
-  components.
-- [Project Structure](#project-structure): Organization of the project, including main files,
-  languages, and frameworks.
-- [Rhino Compute](#rhino-compute): Explanation of the Rhino Compute service and its role in
-  generating geometry data.
-- [Speckle Systems](#speckle-systems): Explanation of the Speckle system and its role in managing
-  geometry data.
-- [Database Configuration](#database-configuration): Details on the database configuration and its
-  role in storing and managing construction project data.
-- [Conclusion](#conclusion): Summary of the project's objectives and benefits.
 
 ## Project Structure
 
