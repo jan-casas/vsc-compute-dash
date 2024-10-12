@@ -331,25 +331,25 @@ Speckle are used to read and send the geometry data to
 the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d916b252e).
 
 ![Speckle Web](src/static/assets/speckle-capture.png)
-*Figure 4: Capture of the speckle web model https://app.speckle.systems/projects/74e8bc79d7.*
+*Figure 4: Capture of the speckle webapp [model](https://app.speckle.systems/projects/74e8bc79d7)
+. This is baked inside the clients repo in another branch, including systems metadata and data
+tree information from the grasshopper script.*
 
 ```json5
 {
   "meshes": [
     {
       "id": "f6a86aca525106b0b5c6d7fe313cf47f",
-      "id_gh": "1-2-3-4",
-      // ID from Grasshopper (Floorplant-Section-Group-Item)
-      "system_params": "0-6-95"
-      // Parameters of the system from the Webapp
+      "id_gh": "1-2-3-4", // ID from Grasshopper (Floorplant-Section-Group-Item)
+      "system_params": "0-6-95" // Parameters of the system from the Webapp
     },
     // ...
   ]
 }
 ```
 
-*Figure 5: Conceptual example of the IDs contained (and not displayed) in each element baked into
-the Speckle Server*
+*Figure 5: Conceptual example of the IDs contained (and not displayed) in each element. These IDs
+are related within the database.*
 
 ### Relational Database
 
