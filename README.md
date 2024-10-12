@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
 *Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
 to interact with.*
 
-### Business Intelligence Approach
+### Business Intelligence
 
 - **Enhanced Decision-Making**: Access to detailed material lifecycle data allows for better
   material selection and project planning.
@@ -31,7 +31,7 @@ to interact with.*
 - **Streamlined Workflow**: Automates design validation and management, reducing manual effort.
 - **Scalability**: Modular architecture easily scales with growing business needs.
 
-### Architecture Approach
+### Architecture Proposal
 
 The application comprises three main components:
 
