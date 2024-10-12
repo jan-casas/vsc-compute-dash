@@ -74,29 +74,29 @@ offerings.
 - **Scalability**: Modular architecture easily scales with growing business needs.
 
 ```mermaid
-graph TD
-    A[Challenges in AEC Industry] -->|Leads to| B[Enhanced Design Validation]
-    A -->|Drives need for| C[Improved Collaboration]
-    A -->|Requires| D[Cost-Efficient Solutions]
-
-    %% Core Concepts
-    B -->|Integrates| E[Incorporate Manufacturer Constraints]
-    C -->|Facilitates| F[Bridge Architects and Manufacturers]
-    D -->|Optimizes| G[Material Selection & Costs]
-
-    %% Business Intelligence Links
-    E -->|Generates| H[Data-Driven Insights]
-    F -->|Produces| H
-    G -->|Feeds into| H
-
-    %% Business Intelligence Benefits
-    H -->|Supports| I[Better Decision-Making]
-    H -->|Ensures| J[Compliance with Standards]
-    H -->|Automates| K[Workflows]
-    H -->|Enables| L[Scalable Solutions]
+graph LR
+    A[Challenges in AEC Industry]
+%% Core Clusters
+    A -->|Needs| B[Design Validation & Collaboration]
+    A -->|Requires| C[Cost-Efficiency]
+    B -->|Integrates| D[Manufacturer Constraints]
+    B -->|Facilitates| E[Collaboration between Architects and Manufacturers]
+    C -->|Optimizes| F[Material Selection & Lifecycle Costs]
+%% Business Intelligence Cluster
+    D -->|Feeds| G[Business Intelligence]
+    E -->|Produces| G
+    F -->|Generates| G
+%% Business Intelligence Benefits
+    G -->|Enables| H[Better Decision-Making]
+    G -->|Ensures| I[Compliance]
+    G -->|Automates| J[Workflows]
+    G -->|Scales| K[Solution Growth]
 
 
 ```
+
+*Diagram 1: Conceptual diagram about the challenges and opportunities for manufacturers in the
+AEC industry.*
 
 ### Software Architecture Proposal
 
