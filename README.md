@@ -98,17 +98,17 @@ graph LR
 *Diagram 1: Conceptual diagram about the challenges and opportunities for manufacturers in the
 AEC industry.*
 
-### Software Architecture Proposal
+### Software Architecture
 
 The proposed architecture leverages Rhino Compute for geometry generation, Speckle for version
 control and data management, and a relational database for associating geometry with lifecycle data.
 The application comprises three main components:
 
-1. **Rhino Compute**: Generates constructive solutions by handling predefined manufactured systems.
-2. **Speckle**: Acts as a data repository for storing geometry, managing IDs, variations, and
-   providing filtering tools.
-3. **Relational Database**: Associates geometry IDs with lifecycle data for efficient tracking and
-   retrieval.
+- **Rhino Compute**: Generates constructive solutions by handling predefined manufactured systems.
+- **Speckle**: Acts as a data repository for storing geometry, managing IDs, variations, and
+  providing filtering tools.
+- **Relational Database**: Associates geometry IDs with lifecycle data for efficient tracking and
+  retrieval.
 
 This robust solution enhances accuracy and efficiency in managing and validating design proposals by
 leveraging manufacturer-provided constraints.
