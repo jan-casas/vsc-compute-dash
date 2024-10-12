@@ -1,5 +1,12 @@
 # Unlocking Business Intelligence for AEC Manufacturers with Compute Version Control
 
+**Compute Version Control (VSC)** is an innovative platform transforming the AEC industry by
+enabling architects and designers to instantly test parametric manufacturer solutions within their
+preferred tools, offering real-time insights on costs, materials, and lifecycle data. For investors,
+VSC presents a compelling opportunity to back a disruptive technology that streamlines workflows,
+enhances collaboration between designers and manufacturers, and unlocks valuable business
+intelligence—positioning it for significant impact and growth in the construction sector.
+
 https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
 
 *Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
