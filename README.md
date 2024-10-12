@@ -1,6 +1,5 @@
 # Unlocking Business Intelligence for AEC Manufacturers with Compute Version Control
 
-## Overview
 
 **Compute Version Control (VSC)** is an innovative tool that enhances flexibility in the
 Architecture, Engineering, and Construction (AEC) sector. It allows architects and designers to
