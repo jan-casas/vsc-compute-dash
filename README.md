@@ -275,7 +275,7 @@ Speckle are used to read and send the geometry data to
 the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d916b252e).
 
 ![Speckle Web](src/static/assets/speckle-capture.png)
-*Figure 4: Capture of the speckle web model.*
+*Figure 4: Capture of the speckle web model https://app.speckle.systems/projects/74e8bc79d7.*
 
 ### Relational Database
 
