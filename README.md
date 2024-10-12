@@ -216,7 +216,7 @@ mimic the facade's texture and color.
 *Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
 model image.*
 
-## Web Application
+### User Interface
 
 The main focus of this repository is to provide a user-friendly interface for architects to
 import their facade designs and test with the manufacturers' systems.
@@ -233,6 +233,9 @@ The user interface consists of three primary sections: the landing page and two 
 - **Speckle Parts Panel**: Lists individual model components, including part counts per group. It
   offers detailed information for each component, such as cost, material, and lifecycle data, giving
   users a comprehensive overview of the model's structure.
+
+![Web Application](src/static/assets/readme.png)
+*Figure 1: User interface of the web application, showcasing the landing page and side panels.*
 
 ## Core Systems
 
