@@ -333,25 +333,23 @@ the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d91
 ![Speckle Web](src/static/assets/speckle-capture.png)
 *Figure 4: Capture of the speckle web model https://app.speckle.systems/projects/74e8bc79d7.*
 
-```json
+```json5
 {
   "meshes": [
     {
       "id": "f6a86aca525106b0b5c6d7fe313cf47f",
-      "id_gh": "1-2-3-4", // ID from Grasshopper (Floorplant-Section-Group-Item)
-      "system_params": "0-6-95" // Parameters of the system from the Webapp
+      "id_gh": "1-2-3-4",
+      // ID from Grasshopper (Floorplant-Section-Group-Item)
+      "system_params": "0-6-95"
+      // Parameters of the system from the Webapp
     },
-    {
-      "id": "eb7f38ca9a662744ec0097e9fb9cabdc",
-      "id_gh": "5-6-7-8",
-      "system_params": "91-5-76"
-    }
     // ...
   ]
 }
 ```
 
-*Figure 5: Conceptual example of the IDs contained in each element baked into the Speckle Server*
+*Figure 5: Conceptual example of the IDs contained (and not displayed) in each element baked into
+the Speckle Server*
 
 ### Relational Database
 
