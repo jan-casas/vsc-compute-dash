@@ -21,32 +21,27 @@ to interact with.*
 
 ### Table of Contents
 
-- [Overview](#overview): Provides an overview of the project, including the problem statement, key
-  features, and software architecture proposal.
-    - [Problem Statement](#problem-statement): Outlines the challenges faced by the AEC industry and
-      the need for enhanced design validation and collaboration.
-    - [Business Intelligence](#business-intelligence): Describes the benefits of the proposed
-      solution, including improved decision-making and data-driven insights.
-    - [Software Architecture Proposal](#software-architecture-proposal): Details the proposed
-      architecture leveraging Rhino Compute, Speckle, and a relational database.
-- [Project Structure](#project-structure): Describes the project structure, including the main
-  components and input data.
-    - [Input Data](#input-data): Explains the input data for the project, focusing on a surface
-      representing the facade of a building.
-    - [User Interface](#user-interface): Describes the user interface components, including the
-      landing page and side panels.
-- [Main Systems](#main-systems): Details the main systems used in the project, including Rhino
-  Compute, Speckle, and the relational database.
-    - [Rhino Compute](#rhino-compute): Explains the role of Rhino Compute in generating geometry
-      data based on manufacturer constraints.
-    - [Speckle Systems](#speckle-systems): Describes how Speckle manages geometry data, variations,
-      and metadata for version control.
-    - [Relational Database](#relational-database): Outlines the role of the relational database in
-      storing geometry data, parameter variations, and constructive system data.
-- [Conclusion](#conclusion): Summarizes the key features and benefits of Compute Version Control and
-  outlines the next steps for the project.
-    - [Next Steps](#next-steps): Highlights the future development areas for the project, including
-      ease of use, business intelligence, deployment, performance, and scalability.
+- [Overview](#overview): Summary of the project, including the problem it addresses, key features,
+  and the proposed software architecture.
+    - [Problem Statement](#problem-statement): Challenges in the AEC industry and the need for
+      better design validation and collaboration.
+    - [Business Intelligence](#business-intelligence): Benefits of the solution, such as improved
+      decision-making and data-driven insights.
+    - [Software Architecture](#software-architecture): Proposed architecture using Rhino Compute,
+      Speckle, and a relational database.
+- [Project Structure](#project-structure): Overview of the project’s main components and input data.
+    - [Input Data](#input-data): Description of input data, specifically a building facade surface.
+    - [User Interface](#user-interface): Overview of the user interface, including the landing page
+      and side panels.
+- [Core Systems](#core-systems): Explanation of the key systems used in the project.
+    - [Rhino Compute](#rhino-compute): Role of Rhino Compute in generating geometry data based on
+      manufacturer constraints.
+    - [Speckle](#speckle): How Speckle handles geometry, variations, and version control.
+    - [Relational Database](#relational-database): Role of the database in storing geometry data,
+      parameters, and system data.
+- [Conclusion](#conclusion): Recap of key features and next steps for project development.
+    - [Next Steps](#next-steps): Future development focus on usability, business intelligence,
+      deployment, performance, and scalability.
 
 ## Overview
 
@@ -214,7 +209,7 @@ The user interface consists of three primary sections: the landing page and two 
   offers detailed information for each component, such as cost, material, and lifecycle data, giving
   users a comprehensive overview of the model's structure.
 
-## Main Systems
+## Core Systems
 
 ### Rhino Compute
 
