@@ -559,9 +559,6 @@ The main focus areas for the near future are:
   computations, and effortlessly load the results into their preferred tools.
 - **Business Intelligence**: Develop advanced analytics and reporting features to provide
   manufacturers with valuable insights.
-
-### Main Concerns
-
 - **Deployment**: Deploy the system to a production server to enable real-time testing and
   collaboration.
 - **Performance**: Optimize the system for faster computation and data retrieval, ensuring a
