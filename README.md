@@ -339,7 +339,7 @@ tree information from the grasshopper script.*
 {
   "meshes": [
     {
-      "id": "f6a86aca525106b0b5c6d7fe313cf47f",
+      "id": "f6a86aca525106b0b5c6d7fe313cf47f", // ID from Speckle (element)
       "id_gh": "1-2-3-4", // ID from Grasshopper (Floorplant-Section-Group-Item)
       "system_params": "0-6-95" // Parameters of the system from the Webapp
     },
