@@ -1,14 +1,5 @@
 # Unlocking Business Intelligence for AEC Manufacturers with Compute Version Control
 
-_In the Architecture, Engineering, and Construction (AEC) sector, there is a lack of flexibility
-present in disciplines such as software development, where specific libraries can be easily imported
-and used.
-This project aims to develop a tool that allows architects and computational designers to quickly
-test **parametric
-manufacturers' constructive solutions, from the web into any of their tools**. Additionally,
-manufacturers will be able to **obtain
-information** about the use of their products and customer needs._
-
 https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
 
 *Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
@@ -33,11 +24,21 @@ to interact with.*
 
 ## Overview
 
-`Compute Version Control` (VSC) aims to provide a comprehensive version control system that
-validates
-design proposals based on design and constructive system constraints. These constraints are provided
-by manufacturers and return essential information about key indicators such as cost, material,
-geometrical constraints, and lifecycle data.
+`Compute Version Control` (VSC) is an innovative tool designed to enhance flexibility in the
+Architecture, Engineering, and Construction (AEC) sector by enabling architects and computational
+designers to quickly test parametric manufacturers' constructive solutions directly from the web
+into their preferred tools. By integrating manufacturer-provided constraints, VSC validates design
+proposals and provides essential information on key indicators such as cost, material
+specifications, geometrical constraints, and lifecycle data. This allows for informed
+decision-making and ensures compliance with industry standards and regulations.
+
+In addition to benefiting designers, VSC offers manufacturers valuable `business intelligence` by
+providing insights into the usage of their products and customer needs. The system leverages Rhino
+Compute for geometry generation, Speckle for version control and data management, and a relational
+database for storing and associating geometry with lifecycle data. This integrated approach
+streamlines workflows, reduces manual effort, and enhances the efficiency and accuracy of the design
+process, ultimately contributing to more sustainable and cost-effective construction solutions in
+the AEC industry.
 
 ### Benefits and Business Intelligence
 
