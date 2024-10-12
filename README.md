@@ -250,9 +250,6 @@ The user interface consists of three primary sections: the landing page and two 
   offers detailed information for each component, such as cost, material, and lifecycle data, giving
   users a comprehensive overview of the model's structure.
 
-![Web Application](src/static/assets/readme.png)
-*Figure 1: User interface of the web application, showcasing the landing page and side panels.*
-
 ## Core Systems
 
 ### Rhino Compute
@@ -283,6 +280,9 @@ wall to the outside -insulation, angular, t vertical profile, dolcker horizontal
 *Figure 3: Grashopper Script used inside the Appserver repository (profile definition, input
 surface, tridimensional constructive system).*
 
+![Web Application](src/static/assets/readme.png)
+*Figure 4: Webapp landing page. Compute section where you can config the params of the
+grasshopper script and setup the branch and message to commit.*
 
 
 > [!NOTE]
@@ -350,6 +350,15 @@ the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d91
 *Figure 4: Capture of the speckle webapp [model](https://app.speckle.systems/projects/74e8bc79d7)
 . This is baked inside the clients repo in another branch, including systems metadata and data
 tree information from the grasshopper script.*
+
+![Web Application](src/static/assets/readme.png)
+*Figure 6: Speckle Optimal Commit section. Used the metadata of the commit and compute an
+aggregation of key values. This data is display in a parcoord graph to graphically filter your
+optimal commit to later display it.*
+
+![Web Application](src/static/assets/readme.png)
+*Figure 7: Speckle Parts. This section is a repertoire of graphs that showcase the elements
+present in the model an attributes.*
 
 ### Relational Database
 
