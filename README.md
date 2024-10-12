@@ -73,6 +73,31 @@ offerings.
 - **Streamlined Workflow**: Automates design validation and management, reducing manual effort.
 - **Scalability**: Modular architecture easily scales with growing business needs.
 
+```mermaid
+graph TD
+    A[Challenges in AEC Industry] -->|Leads to| B[Enhanced Design Validation]
+    A -->|Drives need for| C[Improved Collaboration]
+    A -->|Requires| D[Cost-Efficient Solutions]
+
+    %% Core Concepts
+    B -->|Integrates| E[Incorporate Manufacturer Constraints]
+    C -->|Facilitates| F[Bridge Architects and Manufacturers]
+    D -->|Optimizes| G[Material Selection & Costs]
+
+    %% Business Intelligence Links
+    E -->|Generates| H[Data-Driven Insights]
+    F -->|Produces| H
+    G -->|Feeds into| H
+
+    %% Business Intelligence Benefits
+    H -->|Supports| I[Better Decision-Making]
+    H -->|Ensures| J[Compliance with Standards]
+    H -->|Automates| K[Workflows]
+    H -->|Enables| L[Scalable Solutions]
+
+
+```
+
 ### Software Architecture Proposal
 
 The proposed architecture leverages Rhino Compute for geometry generation, Speckle for version
