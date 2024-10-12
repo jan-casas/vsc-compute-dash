@@ -281,8 +281,8 @@ model of the facade with the Dolcker & Clip system applied. The **Rhino/Grasshop
 Speckle are used to read and send the geometry data to
 the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d916b252e).
 
-![Compute Version Control](src/static/assets/readme.png)
-*Figure 4: Input model from Grasshopper into the Speckle Server using the connectors.*
+![Speckle Web](src/static/assets/speckle-capture.png)
+*Figure 4: Capture of the speckle web model.*
 
 ### Relational Database
 
