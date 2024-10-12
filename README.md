@@ -216,7 +216,7 @@ mimic the facade's texture and color.
 *Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
 model image.*
 
-### User Interface
+## Web Application
 
 The main focus of this repository is to provide a user-friendly interface for architects to
 import their facade designs and test with the manufacturers' systems.
