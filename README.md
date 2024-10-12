@@ -138,16 +138,32 @@ In this diagram:
 - `POSTGRESQL_DATABASE`: Associates geometry with lifecycle data.
 - `MATERIAL_LIFECYCLE_DATA`: Represents the lifecycle information of each material.
 
+### Scope of the Project
+
+The project aims to develop a **minimum viable product** (MVP) to test the interaction and the link
+with the Business Intelligence (BI) of the manufacturers. Only the Dolcker & Clip system by
+Dolcker is used and the project is only tested on a local machine and is not yet deployed to a
+Windows Virtual Machine (Speckle Server, Rhino Compute).
+
+This repository only develops the web application and the interaction with the Compute App Server
+and the Speckle server.
+For further information about the Compute App Server and Speckle, please refer to the
+[Compute App Server repository]() and the [Speckle Systems repository]().
+
 ## Project Structure
 
-The project is composed of two Docker containers: one for the Node.js project (Rhino Compute server)
-and one for the Python project [DASH](https://dash.plotly.com/) web application . Both containers
-communicate within the same
-network.
+The project needs **three running technologies in paralle**l: one for the Node.js project
+(Appserver),
+Rhino Compute and the Python project web application.
+There is needed a tool to generate the geometry and the logic of the building (in this
+case Grasshopper).
+In this repository only the python web application is showcase.
 
 - **Grasshopper Project**: The main tool for creating the geometry and the logic of the building.
-- **Node.js Project**: Rhino Compute server, responsible for generating geometry
-  data.
+- **Rhino Compute Project**: The server that generates the geometry data based on the manufacturer
+  constraints.
+- **Node.js Project**: App server, responsible for managing the geometry data and the user
+  interactions.
 - **Python Project**: Dash application that interacts with the Node.js project, providing a user
   interface for visualization.
 
@@ -334,22 +350,6 @@ the [Speckle server](https://app.speckle.systems/projects/013613abb4/models/8d91
 *Figure 4: Capture of the speckle webapp [model](https://app.speckle.systems/projects/74e8bc79d7)
 . This is baked inside the clients repo in another branch, including systems metadata and data
 tree information from the grasshopper script.*
-
-```json5
-{
-  "meshes": [
-    {
-      "id": "f6a86aca525106b0b5c6d7fe313cf47f", // ID from Speckle (element)
-      "id_gh": "1-2-3-4", // ID from Grasshopper (Floorplant-Section-Group-Item)
-      "system_params": "0-6-95" // Parameters of the system from the Webapp
-    },
-    // ...
-  ]
-}
-```
-
-*Figure 5: Conceptual example of the IDs contained (and not displayed) in each element. These IDs
-are related within the database.*
 
 ### Relational Database
 
