@@ -1,34 +1,5 @@
 # Unlocking Business Intelligence for AEC Manufacturers with Compute Version Control
 
-**Compute Version Control (VSC)** is an innovative platform transforming the AEC industry by
-enabling architects and designers to instantly test parametric manufacturer solutions within their
-preferred tools, offering real-time insights on costs, materials, and lifecycle data. For investors,
-VSC presents a compelling opportunity to back a disruptive technology that streamlines workflows,
-enhances collaboration between designers and manufacturers, and unlocks valuable business
-intelligence—positioning it for significant impact and growth in the construction sector.
-
-https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
-
-*Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
-to interact with.*
-
-### Table of Contents
-
-- [Overview](#overview): Summary of the project's objectives and benefits.
-- [Benefits and Business Intelligence](#benefits-and-business-intelligence): Explanation of the
-  benefits and business intelligence insights provided by the system.
-- [Architecture Approach](#architecture-approach): Overview of the system's architecture and
-  components.
-- [Project Structure](#project-structure): Organization of the project, including main files,
-  languages, and frameworks.
-- [Rhino Compute](#rhino-compute): Explanation of the Rhino Compute service and its role in
-  generating geometry data.
-- [Speckle Systems](#speckle-systems): Explanation of the Speckle system and its role in managing
-  geometry data.
-- [Database Configuration](#database-configuration): Details on the database configuration and its
-  role in storing and managing construction project data.
-- [Conclusion](#conclusion): Summary of the project's objectives and benefits.
-
 ## Overview
 
 **Compute Version Control (VSC)** is an innovative tool that enhances flexibility in the
@@ -44,6 +15,11 @@ geometry generation, Speckle for version control and data management, and a rela
 associating geometry with lifecycle data. This integrated approach streamlines workflows, enhances
 efficiency, and contributes to more sustainable and cost-effective construction solutions in the AEC
 industry.
+
+https://github.com/user-attachments/assets/80194026-07dd-47c5-b0f2-0c975b7fa086
+
+*Figure 1: Landing page of the Webapp. You can see the Compute and Speckle window and the params
+to interact with.*
 
 ### Benefits and Business Intelligence
 
@@ -92,6 +68,23 @@ In this diagram:
 - `GEOMETRY_ID`: The unique ID of each piece of geometry managed by Speckle.
 - `POSTGRESQL_DATABASE`: Associates geometry with lifecycle data.
 - `MATERIAL_LIFECYCLE_DATA`: Represents the lifecycle information of each material.
+
+### Table of Contents
+
+- [Overview](#overview): Summary of the project's objectives and benefits.
+- [Benefits and Business Intelligence](#benefits-and-business-intelligence): Explanation of the
+  benefits and business intelligence insights provided by the system.
+- [Architecture Approach](#architecture-approach): Overview of the system's architecture and
+  components.
+- [Project Structure](#project-structure): Organization of the project, including main files,
+  languages, and frameworks.
+- [Rhino Compute](#rhino-compute): Explanation of the Rhino Compute service and its role in
+  generating geometry data.
+- [Speckle Systems](#speckle-systems): Explanation of the Speckle system and its role in managing
+  geometry data.
+- [Database Configuration](#database-configuration): Details on the database configuration and its
+  role in storing and managing construction project data.
+- [Conclusion](#conclusion): Summary of the project's objectives and benefits.
 
 ## Project Structure
 
