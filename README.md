@@ -213,7 +213,7 @@ surface, tridimensional constructive system).*
 
 
 
-> [!TIP]
+> [!NOTE]
 > **Parametric vs. Block**: Defining the geometrical logic of the systems allows not only the
 > placement of identical blocks in different positions, but also the creation of an informed system
 > based on input geometrical constraints.
