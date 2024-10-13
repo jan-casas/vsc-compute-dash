@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -29,3 +30,14 @@ COMPUTE_PATHS = {
     "compute": os.getenv("COMPUTE_GEOMETRY_PATH"),
 }
 COMPUTE_SCRIPTS = ['Dolcker/CeramicFacade']
+
+# Database
+DDBB_INFO = {
+    "host": os.getenv("DB_HOST"),
+    "port": os.getenv("DB_PORT"),
+    "database": os.getenv("DB_DATABASE"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+}
+PATH_DB_MODEL = os.getenv("PATH_DB_MODEL")
+PATH_DATA_FOLDER = os.getenv("PATH_DATA_FOLDER")
