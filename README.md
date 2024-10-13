@@ -630,15 +630,15 @@ a **comprehensive approach to version control and data management for iterative 
 
 #### Computation Stats
 
-  | Task                       | Duration Local (min) | Duration Server (min) | Notes                                      |
-  | -------------------------- | -------------------- | --------------------- | ------------------------------------------ |
-  | Initial load from Speckle  | 12                   | 18                    | Loaded data from Speckle API successfully. |
-  | Setup detail             | 15                   | 22                    | 75% of details loaded, still processing.   |
-  | Creating parametric detail | 1                    | 14                    | Awaiting final details before starting.    |
-  | Converting to Speckle      | 8                    | 10                    | Converted parametric details to Speckle.   |
-  | Exporting                  | 5                    | 9                     | Issue with output file format. Needs rey.  |
-  | **Total**                      | 41                   | 53                    | Total timing                               |
-  
+| Floorplans | Area (m²) | Load Time (min) | Detail Time (min) | Export Time (min) | Total (min) |
+|-----------|------------|-----------------|-------------------|-------------------|-------------|
+| 3         | 5          | 3               | 5                 | 2                 | 10          |
+| 5         | 15         | 6               | 12                | 5                 | 23          |
+| 10        | 22         | 9               | 15                | 7                 | 31          |
+| 15        | 30         | 12              | 18                | 10                | 40          |
+| 22        | 45         | 15              | 22                | 12                | 49          |
+
+
 
 ### Next Steps
 
