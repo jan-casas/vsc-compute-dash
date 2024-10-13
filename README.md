@@ -98,7 +98,7 @@ graph LR
 *Diagram 1: Conceptual diagram about the challenges and opportunities for manufacturers in the
 AEC industry.*
 
-### Software Architecture
+### Project Architecture
 
 The proposed architecture leverages Rhino Compute for geometry generation, Speckle for version
 control and data management, and a relational database for associating geometry with lifecycle data.
