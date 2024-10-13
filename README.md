@@ -148,7 +148,7 @@ Windows Virtual Machine (Speckle Server, Rhino Compute).
 This repository only develops the web application and the interaction with the Compute App Server
 and the Speckle server.
 For further information about the Compute App Server and Speckle, please refer to the
-[Compute App Server repository]() and the [Speckle Systems repository]().
+[Compute App Server repository]() and the [Speckle Systems repository]() for more.
 
 ## Project Structure
 
@@ -208,14 +208,6 @@ In detail:
   managing construction model data, processing commits, and integrating version control features
   into project workflows.
 
-> [!IMPORTANT]
-> The aim of this project is developing a minimum viable product (MVP) to test the interaction
-> and the link with the Business Intelligence (BI) of the manufacturers.
-> Only the [Dolcker & Clip](https://dolcker.es/dolcker-system#descargas) system by Dolcker has been
-> implemented.
-> The project is only tested on a local machine and is not yet deployed to a production server
-> (Speckle Server, Rhino Compute).
-
 ### Input Data
 
 The input data for the project consists of a surface representing the facade of a building. This
@@ -229,7 +221,8 @@ mimic the facade's texture and color.
 
 
 
-*Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system and the
+*Figure 2: Reference image of the facade to be replicated in the Dolcker & Clip system
+and the
 model image.*
 
 ### User Interface
@@ -288,7 +281,8 @@ grasshopper script and setup the branch and message to commit.*
 > [!NOTE]
 > **Parametric vs. Block**: Defining the geometrical logic of the systems allows not only the
 > placement of identical blocks in different positions, but also the creation of an informed system
-> based on input geometrical constraints.
+> based on input geometrical constraints. This is a key feature for the manufacturers to test
+> their systems in different scenarios and expand their product possibilities.
 
 ### Speckle Systems
 
@@ -622,7 +616,7 @@ In this diagram:
 
 [//]: # (</details>)
 
-> [!NOTE]
+> [!IMPORTANT]
 > The database structure is currently in development and will be updated in future iterations.
 > The current local database is run locally in a SQLite3 file with only one table containing the
 > parameters iterations and the commit message.
