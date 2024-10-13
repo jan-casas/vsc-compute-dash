@@ -638,7 +638,7 @@ a **comprehensive approach to version control and data management for iterative 
 | 15        | 30         | 12              | 18                | 10                | 40          |
 | 22        | 45         | 15              | 22                | 12                | 49          |
 
-
+*Table 1: Computation time results. There is more room to improve the detail script. At the moment the load time and the export time depend of the connectors.*
 
 ### Next Steps
 
