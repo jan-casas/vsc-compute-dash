@@ -278,11 +278,6 @@ surface, tridimensional constructive system).*
 grasshopper script and setup the branch and message to commit.*
 
 
-> [!NOTE]
-> **Parametric vs. Block**: Defining the geometrical logic of the systems allows not only the
-> placement of identical blocks in different positions, but also the creation of an informed system
-> based on input geometrical constraints. This is a key feature for the manufacturers to test
-> their systems in different scenarios and expand their product possibilities.
 
 ### Speckle Systems
 
