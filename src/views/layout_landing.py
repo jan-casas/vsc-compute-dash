@@ -1,4 +1,5 @@
 import sys
+import dash_daq as daq
 
 import dash
 import dash_bootstrap_components as dbc
@@ -215,7 +216,6 @@ compute_parameters = dbc.Row(
                                         placeholder="Available Manufacturer Scripts",
                                     ), class_name='compute-dropdown'
                                 ),
-
                             ]),
                             dbc.Row(
                                 dbc.InputGroup(
@@ -225,7 +225,12 @@ compute_parameters = dbc.Row(
                                                               'Update facade with custom '
                                                               'instructions',
                                                   type='text'),
-                                        dbc.Button('Bake', id='bake-button', n_clicks=0,
+                                        dbc.Button('Preview', id='preview-button', n_clicks=0,
+                                                   class_name='diagonal-pattern',
+                                                   outline=False, style={'color': 'black',
+                                                                         'border': '0px solid '
+                                                                                   'grey'}),
+                                        dbc.Button('Commit', id='bake-button', n_clicks=0,
                                                    class_name='diagonal-pattern',
                                                    outline=False, style={'color': 'black',
                                                                          'border': '0px solid '

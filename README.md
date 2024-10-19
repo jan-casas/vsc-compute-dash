@@ -225,6 +225,11 @@ mimic the facade's texture and color.
 and the
 model image.*
 
+<img src="src/static/assets/gh_def2.png" alt="Grasshopper Script" style="width: 100%;">
+
+*Figure 3: Client Grashopper Script used to define a facade design. The output must be push into 
+the `client/input` Speckle Model.*
+
 ### User Interface
 
 The main focus of this repository is to provide a user-friendly interface for architects to
