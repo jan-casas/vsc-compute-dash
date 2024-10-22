@@ -225,6 +225,9 @@ mimic the facade's texture and color.
 and the
 model image.*
 
+![Grasshopper Script](src/static/assets/dolcker-facade-script.png)
+*Figure 3: Grasshopper script used to generate the facade surface. The Grasshopper Speckle Component is utilized to save both the facade surface and the floorplan polycurves.*
+
 ### User Interface
 
 The main focus of this repository is to provide a user-friendly interface for architects to
